@@ -12,7 +12,9 @@
     padding-right: 0%;
 }
 
-.header-text {}
+.header-text {
+    color: black;
+}
 
 .header-image-container{
     align-items: center;
