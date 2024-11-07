@@ -13,6 +13,14 @@
     color: white
 }
 
+.header-title {
+    margin-bottom: 1rem;
+}
+
+.header-subtitle {
+    margin-bottom: 0.5rem;
+}
+
 .header-text {
     color: white;
 }
@@ -104,13 +112,24 @@ section {
 }
 
 .experience-item:hover, .education-item:hover {
-    background-color: lightskyblue;
+    /* background-color: lightskyblue; */
     zoom: 110%;
     transition: 300ms;
+    background-size: cover;
+    background-position: center;
+}
+
+.experience-item-content, .education-item-content {
+    text-align: justify;
+}
+
+.experience-item-content, .education-item-content {
+    text-align: start;
 }
 
 .education-title {
     margin-bottom: 0.7rem;
+    color: black
 }
 
 .education-institution {
@@ -141,6 +160,11 @@ section {
 
 .education-item-description {
     text-align: justify;
+    margin-bottom: 0.3rem;
+}
+
+.education-item-description:hover {
+    text-align: start;
     margin-bottom: 0.3rem;
 }
 
@@ -199,6 +223,7 @@ section {
 .job-firm {
     margin-bottom: 0.7rem;
     text-decoration: none;
+    color: black
 }
 
 .job-duration {
@@ -228,13 +253,60 @@ section {
     color: white
 }
 
+.contact-item {
+    display: flex;
+    text-align: center;
+    align-items: center;  /* Aligns text and image vertically centered */
+    gap: 10px;            /* Adds space between the text and image */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
 .contact-container {
     display: flex;
     text-align: center;
     align-items: center;  /* Aligns text and image vertically centered */
     gap: 7%;            /* Adds space between the text and image */
-    margin-top: 1rem;
-    margin-bottom: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
+}
+
+/* Responsive layout for mobile screens */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;   /* Stacks items vertically */
+        padding-left: 1rem;       /* Reduces padding for smaller screens */
+        padding-right: 1rem;
+    }
+
+    .header-custom {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding-left: 5%;
+        padding-right: 0%;
+        color: white
+    }
+
+    .header-text {
+        padding-bottom: 1.5rem;
+    }
+
+    .header-image-container{
+        margin-bottom: 1.5rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        justify-content: center;
+        list-style-type: none;
+        background-color: #444444;
+        padding: 1rem;
+        /* margin-left: 1rem; */
+    }
+
+    nav ul li {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-left: 1rem;
+    }
 }

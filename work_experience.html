@@ -30,7 +30,7 @@
         <div class="header-image-container">
             <img 
                 class="header-image"
-                src="./profile_pic.jpg" 
+                src="./bg_images/profile_pic.jpg" 
                 alt="Punnoose Photo"
             >
         </div>
@@ -53,7 +53,12 @@
                 <!-- Dummy Images and Job Titles -->
                 
                 <!-- HODO Experience -->
-                <div class="experience-item" onclick="toggleExpand(this)">
+                <div 
+                    class="experience-item" 
+                    onclick="toggleExpand(this)"
+                    onmouseover="this.style.backgroundImage='url(./bg_images/hodo_system.jpg)';"
+                    onmouseout="this.style.backgroundImage='none';"
+                >
                     <img 
                     class="round-image"
                     src="https://media.licdn.com/dms/image/v2/C4E0BAQF38PK25neHsg/company-logo_200_200/company-logo_200_200/0/1630587781386/hodoteam_logo?e=2147483647&v=beta&t=VAGSj95px_oC1wKntFBeDGR8xr-8lwpQmhQjyDJPiIg" 
@@ -110,7 +115,12 @@
                 </div>
 
                 <!-- Dexlock Experience -->
-                <div class="experience-item" onclick="toggleExpand(this)">
+                <div 
+                    class="experience-item" 
+                    onclick="toggleExpand(this)"
+                    onmouseover="this.style.backgroundImage='url(./bg_images/dexlock_image.jpg)';"
+                    onmouseout="this.style.backgroundImage='none';"
+                >
                     <img 
                     class="round-image"
                     src="https://dexlock.com/wp-content/uploads/2021/12/190-01.png" 
@@ -146,6 +156,58 @@
                     <p><br /></p>
                 </div>
 
+                <!-- Dexlock Experience -->
+                <div 
+                    class="experience-item" 
+                    onclick="toggleExpand(this)"
+                    onmouseover="this.style.backgroundImage='url(./bg_images/bennett_image.jpg)';"
+                    onmouseout="this.style.backgroundImage='none';"
+                >
+                    <img 
+                    class="round-image"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNnCvWaTpFf3uOl-x24jusZ0sGkyfcTzqy4g&s" 
+                    alt="Bennett-Logo"
+                    >
+                    <p><br /></p>
+                    <h3 class="job-title">AI Intern</h3>
+
+                    <div class="horizontal-row">
+                        <p>    </p>
+                        <a href="https://maps.app.goo.gl/gBJPQmMfX19WD6ta7" target="_blank" rel="noopener noreferrer">
+                            <img 
+                            src="https://cdn-icons-png.flaticon.com/512/8259/8259448.png" 
+                            alt="Locate" 
+                            class="locate-icon"
+                            >
+                        </a>
+                        <h4><a class="job-firm" href="https://www.bennett.edu.in/">Bennett University</a></h4>
+                    </div>
+                    
+                    <h5 class="job-duration">June 2019 - July 2019 (1 month)</h5>
+
+                    <p><br /></p>
+                    <p class="experience-item-content"> 
+                        <br />
+                        1 month internship with 3 day workshop on Artificial Intelligence and DeepLearning as a part of National AI Initiative (<a href="https://leadingindia.ai/" class="disable-link-underscore">LeadingIndia.ai</a>)
+                    </p>
+
+                    <p class="experience-item-content"> 
+                        <br />
+                        NVIDIA Certification on Fundamentals of Deep Learning for Computer Vision
+                    </p>
+
+                    <p class="experience-item-content"> 
+                        <br />
+                        Project on Kidney Tumor Segmentation using Deep Learning
+                    </p>
+
+                    <p class="experience-item-content"> 
+                        <br />
+                        Paper : <a href="https://www.leadingindia.ai/projectdetails/116" class="disable-link-underscore">https://www.leadingindia.ai/projectdetails/116</a>
+                    </p>
+                    <p><br /></p>
+                </div>
+
                 <!-- Add more as needed -->
             </div>
         </section>
@@ -153,50 +215,50 @@
 
     <footer>
         <div class="contact-container">
-            <div class="horizontal-row">
+            <div class="contact-item">
                 <img 
                     class="contact-logo"
-                    src="./linkedin_logo.png" 
+                    src="./logo_images/linkedin_logo.png" 
                     alt="Linkedin :"
                 >
                 <p>    </p>
                 <a href="https://linkedin.com/in/punnoose-k-thomas" target="_blank" rel="noopener noreferrer" class="contact-link">linkedin.com/in/punnoose-k-thomas</a>
             </div>
 
-            <div class="horizontal-row">
+            <div class="contact-item">
                 <img 
                     class="contact-logo"
-                    src="./github_logo.png" 
+                    src="./logo_images/github_logo.png" 
                     alt="Github :"
                 >
                 <p>    </p>
                 <a href="https://github.com/punnoose-1620" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/punnoose-1620</a>
             </div>
 
-            <div class="horizontal-row">
+            <div class="contact-item">
                 <img 
                     class="contact-logo"
-                    src="./phone_logo.jpg" 
+                    src="./logo_images/phone_logo.jpg" 
                     alt="Phone :"
                 >
                 <p>    </p>
                 <a href="tel:+46727742495" target="_blank" rel="noopener noreferrer" class="contact-link">+46 72 774 2495</a>
             </div>
 
-            <div class="horizontal-row">
+            <div class="contact-item">
                 <img 
                     class="contact-logo"
-                    src="./office_mail_logo.png" 
+                    src="./logo_images/office_mail_logo.png" 
                     alt="Office :"
                 >
                 <p>    </p>
                 <a href="mailto:ktpu24fc@student.ju.se" target="_blank" rel="noopener noreferrer" class="contact-link">ktpu24fc@student.ju.se</a>
             </div>
 
-            <div class="horizontal-row">
+            <div class="contact-item">
                 <img 
                     class="contact-logo"
-                    src="./gmail_logo.jpg" 
+                    src="./logo_images/gmail_logo.jpg" 
                     alt="Home :"
                 >
                 <p>    </p>
