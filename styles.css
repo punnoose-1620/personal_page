@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.header-custom {
+    display: flex;
+    gap: 60%;
+    align-items: center;
+    padding-left: 5%;
+    padding-right: 0%;
+}
+
+.header-text {}
+
+.header-image-container{
+    align-items: center;
+    align-content: center;
+    border-radius: 50%;         /* Make the image circular */
+    border: 2px solid #2a2a2a;  /* 2px material-style border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    object-fit: cover;          /* Ensures the image fills the circular shape */
+}
+
+.header-image {
+    align-items: center;
+    align-content: center;
+    width: 160px !important;               /* Set fixed width */
+    height: 160px !important;              /* Set fixed height */
+    border-radius: 50%;         /* Make the image circular */
+    border: 2px solid #2a2a2a;  /* 2px material-style border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    object-fit: contain;          /* Ensures the image fills the circular shape */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header, footer {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    background-color: #444444;
+    padding: 1rem;
+}
+
+nav ul li {
+    margin: 0 5rem;
+}
+
+nav ul li:hover {
+    zoom: 120%;
+    transition: 300ms;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+main {
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+section {
+    max-width: 800px;
+    margin: auto;
+    padding: 1rem;
+}
+
+.experience-grid, .education-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(200px, 2.5fr));
+    /* grid-template-columns: 2rem; */
+}
+
+.experience-item, .education-item {
+    height: 500 !important;
+    width: 250 !important;
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.experience-item:hover, .education-item:hover {
+    background-color: lightskyblue;
+    zoom: 110%;
+    transition: 300ms;
+}
+
+.education-title {
+    margin-bottom: 0.7rem;
+}
+
+.education-institution {
+    margin-bottom: 0.5rem;
+}
+
+.project-item {
+    display: inline-block;
+    height: 250 !important;
+    width: 300 !important;
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.project-item:hover {
+    background-color: lightskyblue;
+    zoom: 110%;
+    transition: 400ms;
+}
+
+.education-item-title {
+    margin-bottom: 1rem;
+}
+
+.education-item-description {
+    text-align: justify;
+    margin-bottom: 0.3rem;
+}
+
+.experience-item.expanded, .education-item.expanded {
+    border: 1px solid #ddd;
+    border-radius: 2rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+
+.experience-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+
+.links a {
+    display: inline-block;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    text-decoration: none !important;
+    border-radius: 4px;
+}
+
+.horizontal-row {
+    display: flex;
+    text-align: center;
+    align-items: center;  /* Aligns text and image vertically centered */
+    gap: 10px;            /* Adds space between the text and image */
+}
+
+.locate-icon {
+    width: 30px !important;          /* Set a desired width for the image */
+    height: 30px !important;         /* Set a desired height for the image */
+    border-radius: 50%;   /* Makes the image circular */
+}
+
+.round-image {
+    width: 100px !important;               /* Set fixed width */
+    height: 100px !important;              /* Set fixed height */
+    border-radius: 50%;         /* Make the image circular */
+    border: 2px solid #424242;  /* 2px material-style border color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    object-fit: cover;          /* Ensures the image fills the circular shape */
+}
+
+.job-title {
+    margin-bottom: 1rem;
+    text-decoration: none;
+}
+
+.job-firm {
+    margin-bottom: 0.7rem;
+    text-decoration: none;
+}
+
+.job-duration {
+    margin-bottom: 0rem;
+    margin-top: 0.7rem;
+}
+
+.job-projects {
+    align-content: justify;
+}
+
+.disable-link-underscore {
+    text-decoration: none !important;
+    color: #2a2a2a;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Experience</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<script>
+    // Function to toggle the 'expanded' class
+    function toggleExpand(item) {
+        // Remove 'expanded' class from all items
+        document.querySelectorAll('.grid-item').forEach((el) => el.classList.remove('expanded'));
+        
+        // Add 'expanded' class to the clicked item if it wasn't expanded
+        if (!item.classList.contains('expanded')) {
+            item.classList.add('expanded');
+        }
+    }
+</script>
+
+<body>
+    <header class="header-custom">
+        <div class="header-text">
+            <h1>Punnoose K Thomas</h1>
+            <p>AI Engineering Masters Student</p>
+            <p>Jonkoping University</p>
+        </div>
+        <div class="header-image-container">
+            <img 
+                class="header-image"
+                src="./profile_pic.jpg" 
+                alt="Punnoose Photo"
+            >
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <!-- <li><a href="work_experience.html">Work Experience</a></li> -->
+            <li><a href="education.html">Education</a></li>
+            <li><a href="projects.html">Personal Projects</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Professional Experience </h2>
+            <br />
+            <div class="experience-grid">
+                <!-- Dummy Images and Job Titles -->
+                
+                <!-- HODO Experience -->
+                <div class="experience-item" onclick="toggleExpand(this)">
+                    <img 
+                    class="round-image"
+                    src="https://media.licdn.com/dms/image/v2/C4E0BAQF38PK25neHsg/company-logo_200_200/company-logo_200_200/0/1630587781386/hodoteam_logo?e=2147483647&v=beta&t=VAGSj95px_oC1wKntFBeDGR8xr-8lwpQmhQjyDJPiIg" 
+                    alt="Hodo-Logo"
+                    >
+                    <p><br /></p>
+                    <h3 class="job-title">Android Developer</h3>
+
+                    <div class="horizontal-row">
+                        <p>    </p>
+                        <a href="https://maps.app.goo.gl/gabgp3VqmBWExCux5" target="_blank" rel="noopener noreferrer">
+                            <img 
+                            src="https://cdn-icons-png.flaticon.com/512/8259/8259448.png" 
+                            alt="Locate" 
+                            class="locate-icon"
+                            >
+                        </a>
+                        <h4><a class="job-firm" href="https://hodo.io/">HODO Medical Informatics Pvt Ltd</a></h4>
+                    </div>
+                    
+                    <h5 class="job-duration">October 2022 - July 2024 (1 year, 10 months)</h5>
+
+                    <p><br /></p>
+                    <p align="justify"> 
+                        <br />
+                        Working on Android Native projects using Java/Kotlin and cross platformprojects using Flutter.
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Project A - Android native app using Java. Passive app to tracks all calls andsynchronize them to a server. User can exclude certain numbers from beingtracked and add notes to each call.
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Project B - Cross Platform App created in Flutter. Focused at all patient levelactivities of a hospital, including booking appointments, services,viewinghistories, and prescriptions, for self and family members.
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Project C - Cross Platform App created in Flutter. Performs all functionality forSuper Admin, Admin, Doctor/Nurse Role and Patient role for a traveling doctorarrangement similar to Uber.
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Project D - Cross Platform App created in Flutter. Used to manage EmergencyRooms in hospitals, designed for fast and efficient processing and transfer ofpatients, including, patient history, analysis, symptoms and so forth. Based onbar code identification rather than patient ID.
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Implemented usage of ABHA Cards (as part of our company tie up withNational Health Initiative) to previously launched hospital applications.
+                    </p>
+                    <p><br /></p>
+                </div>
+
+                <!-- Dexlock Experience -->
+                <div class="experience-item" onclick="toggleExpand(this)">
+                    <img 
+                    class="round-image"
+                    src="https://dexlock.com/wp-content/uploads/2021/12/190-01.png" 
+                    alt="Dexlock-Logo"
+                    >
+                    <p><br /></p>
+                    <h3 class="job-title">Software Engineer</h3>
+
+                    <div class="horizontal-row">
+                        <p>    </p>
+                        <a href="https://g.co/kgs/HyostCi" target="_blank" rel="noopener noreferrer">
+                            <img 
+                            src="https://cdn-icons-png.flaticon.com/512/8259/8259448.png" 
+                            alt="Locate" 
+                            class="locate-icon"
+                            >
+                        </a>
+                        <h4><a class="job-firm" href="https://dexlock.com/">Dexlock</a></h4>
+                    </div>
+                    
+                    <h5 class="job-duration">August 2021 - September 2022 (1 year, 1 month)</h5>
+
+                    <p><br /></p>
+                    <p align="justify"> 
+                        <br />
+                        Project A - Android Development using Kotlin - Health and fitness app foronline trainer-client interaction and classes
+                    </p>
+
+                    <p align="justify"> 
+                        <br />
+                        Project B - Web Development using ReactJS - Health and fitness site foronline trainer-client interaction and classes
+                    </p>
+                    <p><br /></p>
+                </div>
+
+                <!-- Add more as needed -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Phone: <a href="tel:+46727742495" target="_blank" rel="noopener noreferrer">+46 72 774 2495</a></p>
+        <p>GitHub: <a href="https://github.com/punnoose-1620" target="_blank" rel="noopener noreferrer">github.com/punnoose-1620</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/punnoose-k-thomas" target="_blank" rel="noopener noreferrer">linkedin.com/in/punnoose-k-thomas</a></p>
+        <p>Work Email: <a href="mailto:ktpu24fc@student.ju.se" target="_blank" rel="noopener noreferrer">ktpu24fc@student.ju.se</a></p>
+        <p>Email: <a href="mailto:punnoose1997@gmail.com" target="_blank" rel="noopener noreferrer">punnoose1997@gmail.com</a></p>
+    </footer>
+</body>
+</html>
