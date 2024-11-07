@@ -15,14 +15,17 @@
 
 .header-title {
     margin-bottom: 1rem;
+    text-decoration: none !important;
 }
 
 .header-subtitle {
     margin-bottom: 0.5rem;
+    text-decoration: none !important;
 }
 
 .header-text {
     color: white;
+    text-decoration: none !important;
 }
 
 .header-image-container{
@@ -146,6 +149,8 @@ section {
     text-align: center;
     cursor: pointer;
     text-decoration: none !important;
+    background-size: cover;
+    background-position: center;
 }
 
 .project-item:hover {
