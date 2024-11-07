@@ -115,7 +115,7 @@ section {
 }
 
 .experience-item:hover, .education-item:hover {
-    /* background-color: lightskyblue; */
+    background-color: white;
     zoom: 110%;
     transition: 300ms;
     background-size: cover;
@@ -154,7 +154,7 @@ section {
 }
 
 .project-item:hover {
-    background-color: lightskyblue;
+    background-color: white;
     zoom: 110%;
     transition: 400ms;
 }
