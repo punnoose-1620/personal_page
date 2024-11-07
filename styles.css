@@ -211,3 +211,27 @@ section {
     text-decoration: none !important;
     color: #2a2a2a;
 }
+
+.contact-logo {
+    height: 35px !important;
+    width: 35px !important;
+    border-radius: 5px;
+    object-fit: fill;
+    box-shadow: 0 2px 6px white;
+}
+
+.contact-link {
+    text-decoration: none;
+    color: white
+}
+
+.contact-container {
+    display: flex;
+    text-align: center;
+    align-items: center;  /* Aligns text and image vertically centered */
+    gap: 7%;            /* Adds space between the text and image */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
