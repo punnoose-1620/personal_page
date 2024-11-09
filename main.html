@@ -6,6 +6,68 @@
     <title>Introduction</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="logo_images/punnoose_logo.ico" type="image/x-icon">
+
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js"></script>
+
+    <script>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+
+        // Initialize Firebase (replace with your actual Firebase config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDynwMd0kGqmsMtyme6F16_hWIlJCDy6o4",
+            authDomain: "personal-page-a74af.firebaseapp.com",
+            projectId: "personal-page-a74af",
+            storageBucket: "personal-page-a74af.firebasestorage.app",
+            messagingSenderId: "102712351436",
+            appId: "1:102712351436:web:910815621d8d253b074069",
+            measurementId: "G-NK9DV3CTSX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = analytics();
+
+        // Function to capture and log user details
+        async function logUserDetails() {
+            // Capture browser details
+            const browserDetails = {
+                appName: navigator.appName,
+                appVersion: navigator.appVersion,
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language
+            };
+
+            // Fetch IP and location details using an external API
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const locationData = await response.json();
+
+                // Log data to Firebase Analytics (or console)
+                analytics.logEvent('home_page_initialized', {
+                    ...browserDetails,
+                    ip: locationData.ip,
+                    city: locationData.city,
+                    region: locationData.region,
+                    country: locationData.country_name,
+                    latitude: locationData.latitude,
+                    longitude: locationData.longitude
+                });
+
+                // For debugging
+                console.log("Logged user details from Home Page:", {
+                    ...browserDetails,
+                    ...locationData
+                });
+            } catch (error) {
+                console.error("Error fetching IP/location data:", error);
+            }
+        }
+
+        // Trigger logUserDetails on page load
+        window.addEventListener('load', logUserDetails);
+    </script>
+
 </head>
 <body>
     <header class="header-custom">
