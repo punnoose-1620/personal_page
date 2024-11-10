@@ -53,6 +53,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 header, footer {
@@ -149,7 +151,7 @@ section {
     text-align: center;
     cursor: pointer;
     text-decoration: none !important;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
 }
 
@@ -274,6 +276,53 @@ section {
     gap: 7%;            /* Adds space between the text and image */
     padding-left: 2rem;
     padding-right: 2rem;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem;
+}
+
+/* Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Card Style */
+.card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.profile-pic {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    border: 2px solid #333;
+    object-fit: cover;
+    margin-bottom: 2rem;
+}
+
+.reference-title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.reference-content {
+    margin-bottom: 1rem;
 }
 
 /* Responsive layout for mobile screens */
