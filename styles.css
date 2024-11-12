@@ -151,7 +151,7 @@ section {
     text-align: center;
     cursor: pointer;
     text-decoration: none !important;
-    background-size: contain;
+    background-size: cover;
     background-position: center;
 }
 
