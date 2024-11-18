@@ -114,6 +114,7 @@ section {
     text-align: center;
     cursor: pointer;
     text-decoration: none !important;
+    color: black !important;
 }
 
 .experience-item:hover, .education-item:hover {
@@ -122,15 +123,17 @@ section {
     transition: 300ms;
     background-size: cover;
     background-position: center;
-}
-
-.experience-item-content, .education-item-content {
-    text-align: justify;
+    /* color: transparent !important; */
 }
 
 .experience-item-content, .education-item-content {
     text-align: start;
 }
+
+/* .experience-item-content:hover, .education-item-content:hover {
+    text-align: start;
+    color: transparent
+} */
 
 .education-title {
     margin-bottom: 0.7rem;
@@ -159,6 +162,7 @@ section {
     background-color: white;
     zoom: 110%;
     transition: 400ms;
+    color: transparent
 }
 
 .education-item-title {
@@ -227,10 +231,19 @@ section {
     text-decoration: none;
 }
 
+.job-title:hover {
+    color: transparent
+}
+
 .job-firm {
     margin-bottom: 0.7rem;
     text-decoration: none;
     color: black
+}
+
+.job-firm:hover {
+    margin-bottom: 0.7rem;
+    color: transparent
 }
 
 .job-duration {
