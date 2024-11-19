@@ -6,16 +6,35 @@
 
 .header-custom {
     display: flex;
-    gap: 60%;
-    align-items: center;
-    padding-left: 5%;
-    padding-right: 0%;
+    flex-direction: row;
+    gap: 59%;
+    align-items: stretch;
+    align-content: stretch;
+    align-self: stretch;
+    padding-left: 3%;
+    padding-right: 2.5%;
     color: white
+}
+
+.header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: start;
+    gap: 1.7rem;
 }
 
 .header-title {
     margin-bottom: 1rem;
     text-decoration: none !important;
+    text-align: start;
 }
 
 .header-subtitle {
@@ -24,8 +43,11 @@
 }
 
 .header-text {
+    display: flex;
+    flex-direction: column;
     color: white;
     text-decoration: none !important;
+    align-items: start;
 }
 
 .header-image-container{
@@ -55,6 +77,14 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
+}
+
+.address-link {
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    color: black;
+    gap: 18px;
 }
 
 header, footer {
@@ -129,11 +159,6 @@ section {
 .experience-item-content, .education-item-content {
     text-align: start;
 }
-
-/* .experience-item-content:hover, .education-item-content:hover {
-    text-align: start;
-    color: transparent
-} */
 
 .education-title {
     margin-bottom: 0.7rem;
@@ -345,6 +370,32 @@ section {
     color: black;
 }
 
+.download-btn {
+    display: flex;
+    flex-direction: row;
+    background-color: #4b4b4b;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    gap: 20px;
+    box-shadow: 4px 7px 7px rgba(255, 255, 255, 0.1);
+}
+.download-btn:hover {
+    background-color: #787878;
+}
+
+.download-img {
+    height: 25px;
+    width: 25px;
+    border-radius: 3.9px;
+}
+
 /* Responsive layout for mobile screens */
 @media (max-width: 768px) {
     .contact-container {
@@ -354,7 +405,7 @@ section {
     }
 
     .header-custom {
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         padding-left: 5%;
         padding-right: 0%;

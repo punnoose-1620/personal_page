@@ -9,6 +9,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
@@ -71,19 +72,27 @@
 </head>
 <body>
     <header class="header-custom">
-        <a href="https://punnoose-1620.github.io/personal_page/main.html" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+        <div class="header-left">
+            <div class="header-image-container">
+                <img 
+                    class="header-image"
+                    src="./bg_images/profile_pic.jpg" 
+                    alt="Punnoose Photo"
+                >
+            </div>
             <div class="header-text">
                 <h1 class="header-title">Punnoose K Thomas</h1>
                 <p class="header-subtitle">AI Engineering Masters Student</p>
                 <p>Jonkoping University</p>
             </div>
-        </a>
-        <div class="header-image-container">
-            <img 
-                class="header-image"
-                src="./bg_images/profile_pic.jpg" 
-                alt="Punnoose Photo"
-            >
+        </div>
+        <div class="header-right">
+            <a href="https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs" 
+                class="download-btn" 
+                download="Punnoose_K_Thomas.pdf">
+                <p>Resume</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </a>
         </div>
     </header>
 
@@ -106,10 +115,15 @@
             <br/>
             <p>Throughout my studies, I am working on advancing my knowledge of machine learning, deep learning, and AI system design. My goal is to transition into AI-related roles post-graduation, where I can apply AI techniques to solve real-world problems and contribute to advancements in the field.</p>
             <br/>
-            <!-- <div class="links">
-                <a href="work_experience.html">Work Experience</a>
-                <a href="education.html">Education</a>
-            </div> -->
+            
+            <a 
+                href="https://maps.app.goo.gl/psE6GirmV2CJoT14A" 
+                class="address-link"
+                target="_blank" 
+                rel="noopener noreferrer"
+                >Address : 1401, Box 443, Kärrhöksgatan 88, 556 12 Jönköping, Sweden
+                <i class="fa fa-map-marker" aria-hidden="true" style="color: black;"></i>
+            </a>
         </section>
     </main>
 

@@ -9,6 +9,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
@@ -71,17 +72,27 @@
 </head>
 <body>
     <header class="header-custom">
-        <div class="header-text">
-            <h1 class="header-title">Punnoose K Thomas</h1>
-            <p class="header-subtitle">AI Engineering Masters Student</p>
-            <p>Jonkoping University</p>
+        <div class="header-left">
+            <div class="header-image-container">
+                <img 
+                    class="header-image"
+                    src="./bg_images/profile_pic.jpg" 
+                    alt="Punnoose Photo"
+                >
+            </div>
+            <div class="header-text">
+                <h1 class="header-title">Punnoose K Thomas</h1>
+                <p class="header-subtitle">AI Engineering Masters Student</p>
+                <p>Jonkoping University</p>
+            </div>
         </div>
-        <div class="header-image-container">
-            <img 
-                class="header-image"
-                src="./bg_images/profile_pic.jpg" 
-                alt="Punnoose Photo"
-            >
+        <div class="header-right">
+            <a href="https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs" 
+                class="download-btn" 
+                download="Punnoose_K_Thomas.pdf">
+                <p>Resume</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </a>
         </div>
     </header>
 
