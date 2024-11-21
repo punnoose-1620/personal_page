@@ -1,6 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDynwMd0kGqmsMtyme6F16_hWIlJCDy6o4",
+            authDomain: "personal-page-a74af.firebaseapp.com",
+            projectId: "personal-page-a74af",
+            storageBucket: "personal-page-a74af.firebasestorage.app",
+            messagingSenderId: "102712351436",
+            appId: "1:102712351436:web:910815621d8d253b074069",
+            measurementId: "G-NK9DV3CTSX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        // Get user IP (requires a 3rd-party API as Firebase doesn't log IPs)
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                const browser = navigator.userAgent;
+
+                fetch(`http://ip-api.com/json/${ipAddress}`)
+                .then(response => response.json())
+                .then(locationData => {
+                    var logData = {
+                        ip: ipAddress,
+                        latitude: locationData.lat,
+                        longitude: locationData.lon,
+                        serviceProvider: locationData.as,
+                        country: locationData.country,
+                        city: locationData.city,
+                        region: locationData.regionName,
+                        zipCode: locationData.zip,
+                        browser: browser,
+                        language: navigator.language,
+                        platform: navigator.platform,
+                    }
+                    // console.log("Console log data : ",logData)
+                    // Log custom event in Firebase
+                    firebase.analytics().logEvent('references_page', logData);
+                })
+            });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>References</title>
