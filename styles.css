@@ -179,8 +179,49 @@ section {
     color: black
 }
 
-.education-institution {
+.education-item .institution {
     margin-bottom: 0.5rem;
+}
+
+.education-item .institution {
+    margin-bottom: 0.5rem;
+}
+
+.education-item-title {
+    margin-bottom: 1rem;
+}
+
+.education-item-description {
+    text-align: justify;
+    margin-bottom: 0.3rem;
+}
+
+.education-item-description:hover {
+    text-align: start;
+    color: transparent !important;
+    margin-bottom: 0.3rem;
+}
+
+.education-projects {
+    padding-top: 1rem;
+    /* padding-bottom: 1rem; */
+    text-align: justify;
+}
+
+.education-projects .title {
+    font-size: large;
+    font-weight: 700;
+}
+
+.education-projects .content {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+
+.education-projects .skills {
+    font-style: oblique;
+    font-weight: 700;
 }
 
 .project-item {
@@ -204,20 +245,6 @@ section {
     color: transparent
 }
 
-.education-item-title {
-    margin-bottom: 1rem;
-}
-
-.education-item-description {
-    text-align: justify;
-    margin-bottom: 0.3rem;
-}
-
-.education-item-description:hover {
-    text-align: start;
-    margin-bottom: 0.3rem;
-}
-
 .experience-item.expanded, .education-item.expanded {
     border: 1px solid #ddd;
     border-radius: 2rem;
@@ -227,10 +254,26 @@ section {
     text-decoration: none !important;
 }
 
-.experience-item img {
+.experience-item .img {
     width: 100%;
     height: auto;
     margin-bottom: 0.5rem;
+}
+
+.experience-item .skills {
+    padding-top: 1rem;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.experience-item .project {
+    padding-top: 1rem;
+    text-align: justify;
+}
+
+.experience-item .paper {
+    padding-top: 1rem;
+    text-align: start;
 }
 
 .links a {
@@ -396,6 +439,7 @@ section {
     gap: 20px;
     box-shadow: 4px 7px 7px rgba(255, 255, 255, 0.1);
 }
+
 .download-btn:hover {
     background-color: #787878;
 }
