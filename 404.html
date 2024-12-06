@@ -41,6 +41,7 @@
                     // console.log("Console log data : ",logData)
                     // Log custom event in Firebase
                     firebase.analytics().logEvent('404_page', logData);
+                    window.location.href = "https://punnoose-k-thomas.com/main.html";
                 })
             });
     </script>
@@ -51,5 +52,105 @@
     <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<body>
+    <header class="header-custom">
+        <div class="header-left">
+            <div class="header-image-container">
+                <div class="header-image">
+                    <img class="header-front" src="./bg_images/profile_pic.jpg"></img>
+                    <img class="header-back" src="./bg_images/My_Life.webp"></img>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="header-title">Punnoose K Thomas</h1>
+                <p class="header-subtitle">AI Engineering Masters Student</p>
+                <p>Jonkoping University</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <!-- <a href="https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs" 
+                class="download-btn" 
+                download="Punnoose_K_Thomas.pdf">
+                <p>Resume</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </a> -->
+        </div>
+    </header>
 
+    <nav>
+        <ul>
+            <li><a href="main.html">Home</a></li>
+            <li><a href="work_experience.html">Work Experience</a></li>
+            <li><a href="education.html">Education</a></li>
+            <li><a href="projects.html">Personal Projects</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+            <li><a href="references.html">References</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>404 Error</h2>
+            <br/>
+            <p>Unfortunately you have the wrong URL.</p>
+            <!-- <br/> -->
+            <p>Please wait and you will be redirected to the home page.</p>
+            <br/>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contact-container">
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/linkedin_logo.png" 
+                    alt="Linkedin :"
+                >
+                <p>    </p>
+                <a href="https://linkedin.com/in/punnoose-k-thomas" target="_blank" rel="noopener noreferrer" class="contact-link">linkedin.com/in/punnoose-k-thomas</a>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/github_logo.png" 
+                    alt="Github :"
+                >
+                <p>    </p>
+                <a href="https://github.com/punnoose-1620" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/punnoose-1620</a>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/phone_logo.jpg" 
+                    alt="Phone :"
+                >
+                <p>    </p>
+                <a href="tel:+46727742495" target="_blank" rel="noopener noreferrer" class="contact-link">+46 72 774 2495</a>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/office_mail_logo.png" 
+                    alt="Office :"
+                >
+                <p>    </p>
+                <a href="mailto:ktpu24fc@student.ju.se" target="_blank" rel="noopener noreferrer" class="contact-link">ktpu24fc@student.ju.se</a>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/gmail_logo.jpg" 
+                    alt="Home :"
+                >
+                <p>    </p>
+                <a href="mailto:punnoose1997@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-link">punnoose1997@gmail.com</a>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>
