@@ -41,9 +41,11 @@
                     // console.log("Console log data : ",logData)
                     // Log custom event in Firebase
                     firebase.analytics().logEvent('404_page', logData);
-                    window.location.href = "https://punnoose-k-thomas.com/main.html";
                 })
             });
+            window.onload = function() {
+                window.location.href = "https://punnoose-k-thomas.com/main.html";
+            }
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,12 +70,6 @@
             </div>
         </div>
         <div class="header-right">
-            <!-- <a href="https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs" 
-                class="download-btn" 
-                download="Punnoose_K_Thomas.pdf">
-                <p>Resume</p>
-                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
-            </a> -->
         </div>
     </header>
 
@@ -93,7 +89,7 @@
             <h2>404 Error</h2>
             <br/>
             <p>Unfortunately you have the wrong URL.</p>
-            <!-- <br/> -->
+            <br/>
             <p>Please wait and you will be redirected to the home page.</p>
             <br/>
         </section>
