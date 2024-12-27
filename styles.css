@@ -94,6 +94,7 @@ body {
 }
 
 .address-link {
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     text-decoration: none;
@@ -161,13 +162,21 @@ section {
     color: black !important;
 }
 
-.experience-item:hover, .education-item:hover {
+.experience-item:hover {
     background-color: white;
     zoom: 110%;
     transition: 300ms;
     background-size: cover;
     background-position: center;
-    /* color: transparent !important; */
+}
+
+.education-item:hover {
+    background-color: white;
+    color: transparent !important;
+    zoom: 110%;
+    transition: 300ms;
+    background-size: cover;
+    background-position: center;
 }
 
 .experience-item-content, .education-item-content {
@@ -176,7 +185,7 @@ section {
 
 .education-title {
     margin-bottom: 0.7rem;
-    color: black
+    /* color: black */
 }
 
 .education-item .institution {
@@ -347,8 +356,15 @@ section {
 }
 
 .contact-link {
+    cursor: pointer;
     text-decoration: none;
     color: white
+}
+
+.contact-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bd9
 }
 
 .contact-item {

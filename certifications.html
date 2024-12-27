@@ -52,6 +52,77 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <script>
+        function navigateToLinkedIn() {
+            try {
+                firebase.analytics().logEvent('linkedInClick');   
+            } catch (error) {
+                console.log("Unable to log LinkedInClickEvent to firebase")
+            }
+            url = "https://linkedin.com/in/punnoose-k-thomas"
+            window.open(url, '_blank')
+        }
+        function navigateToGitHub() {
+            try {
+                firebase.analytics().logEvent('gitHubClick');
+            } catch (error) {
+                console.log("Unable to log GitHubClickEvent to firebase")
+            }
+            url = "https://github.com/punnoose-1620"
+            window.open(url, '_blank')
+        }
+        function callMe() {
+            try {
+                firebase.analytics().logEvent('phoneNumberClick');
+            } catch (error) {
+                console.log("Unable to log PhoneNumberClickEvent to firebase")
+            }
+            url = "tel:+46727742495"
+            window.open(url, '_blank')
+        }
+        function mailMeFormal() {
+            try {
+                firebase.analytics().logEvent('formalEmailClick');
+            } catch (error) {
+                console.log("Unable to log FormalEmailClickEvent to firebase")
+            }
+            url = "mailto:ktpu24fc@student.ju.se"
+            window.open(url, '_blank')
+        }
+        function mailMePersonal() {
+            try {
+                firebase.analytics().logEvent('personalEmailClick');
+            } catch (error) {
+                console.log("Unable to log PersonalEmailClickEvent to firebase")
+            }
+            url = "mailto:punnoose1997@gmail.com"
+            window.open(url, '_blank')
+        }
+        function downloadMyResume() {
+            try {
+                firebase.analytics().logEvent('resumeDownloadClick');
+            } catch (error) {
+                console.log("Unable to log ResumeDownload to firebase")
+            }
+            url = "https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs"
+            filename = "Punnoose_K_Thomas.pdf"
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        function verifyCertification(url, title) {
+            try {
+                firebase.analytics().logEvent(title+'Click');
+            } catch (error) {
+                console.log("Unable to log "+title+"ClickEvent to firebase")
+            }
+            window.open(url, '_blank')
+        }
+    </script>
+
     <header class="header-custom">
         <div class="header-left">
             <div class="header-image-container">
@@ -67,12 +138,10 @@
             </div>
         </div>
         <div class="header-right">
-            <a href="https://drive.google.com/uc?export=download&id=16Ij8jKb7vbtgsKke5mrwtUB7UFojnujs" 
-                class="download-btn" 
-                download="Punnoose_K_Thomas.pdf">
+            <div class="download-btn" download="Punnoose_K_Thomas.pdf" onclick="downloadMyResume()">
                 <p>Resume</p>
                 <i class="fa fa-download" style="font-size:23px;color:white;"></i>
-            </a>
+            </div>
         </div>
     </header>
 
@@ -91,7 +160,7 @@
         <h2>Certifications</h2>
         <div class="card-grid">
             <!-- Reference Card 1 -->
-            <a class="card" href="https://www.credly.com/badges/7a0109f3-760e-4a37-ae41-56aa784d55fe/public_url" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://www.credly.com/badges/7a0109f3-760e-4a37-ae41-56aa784d55fe/public_url','WES')">
                 <img src="certification_images/wes.jpg" alt="WES" class="profile-pic">
                 <h3 class="reference-title">International Academic Qualification</h3>
                 <h4 class="reference-title">World Education Services</h4>
@@ -99,7 +168,7 @@
                 <p class="reference-content">Reference No: <br />#7a0109f3-760e-4a37-ae41-56aa784d55fe</p>
             </a>
 
-            <a class="card" href="https://ielts.org/organisations/ielts-for-organisations/verifying-ielts-results" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://ielts.org/organisations/ielts-for-organisations/verifying-ielts-results','IELTS')">
                 <img src="certification_images/ielts.png" alt="IELTS" class="profile-pic" style="padding: 0.5rem;">
                 <h3 class="reference-title">IELTS</h3>
                 <h4 class="reference-title">Cambridge Assessment English</h4>
@@ -107,7 +176,7 @@
                 <p class="reference-content">Reference No: <br />#23IA518706KOZP008A</p>
             </a>
 
-            <a class="card" href="https://archive.nptel.ac.in/noc/Ecertificate/?q=NPTEL21CS27S21840057031040" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://archive.nptel.ac.in/noc/Ecertificate/?q=NPTEL21CS27S21840057031040','AI_Constraint_Satisfaction')">
                 <img src="certification_images/nptel.png" alt="AI Constraint Satisfaction" class="profile-pic" style="padding: 0.5rem;">
                 <h3 class="reference-title">AI - Constraint Satisfaction</h3>
                 <h4 class="reference-title">IIT, Madras</h4>
@@ -115,7 +184,7 @@
                 <p class="reference-content">Reference No: <br />#NPTEL21CS27S21840057</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/UL3F76JJAJVH" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/UL3F76JJAJVH', 'Dapps')">
                 <img src="certification_images/coursera.png" alt="Dapps" class="profile-pic">
                 <h3 class="reference-title">Decentralized Apps (Dapps)</h3>
                 <h4 class="reference-title">University at Buffalo & The State University of New York</h4>
@@ -123,7 +192,7 @@
                 <p class="reference-content">Reference No: <br />#UL3F76JJAJVH</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/specialization/GKCF8DL487LY" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/specialization/GKCF8DL487LY','Blockchain_Specialization')">
                 <img src="certification_images/coursera.png" alt="Blockchain Specialization" class="profile-pic">
                 <h3 class="reference-title">Blockchain</h3>
                 <h4 class="reference-title">University at Buffalo</h4>
@@ -131,7 +200,7 @@
                 <p class="reference-content">Reference No: <br />#GKCF8DL487LY</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/PXL8WF3QKE4D" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/PXL8WF3QKE4D','Blockchain_Platforms')">
                 <img src="certification_images/coursera.png" alt="Blockchain Platforms" class="profile-pic">
                 <h3 class="reference-title">Blockchain Platforms</h3>
                 <h4 class="reference-title">University at Buffalo & The State University of New York</h4>
@@ -139,7 +208,7 @@
                 <p class="reference-content">Reference No: <br />#PXL8WF3QKE4D</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/LU2TB38ZHJSG" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/LU2TB38ZHJSG','Iot_Coursera')">
                 <img src="certification_images/coursera.png" alt="IOT" class="profile-pic">
                 <h3 class="reference-title">Internet of Things: How did we get here?</h3>
                 <h4 class="reference-title">UC San Diego</h4>
@@ -147,7 +216,7 @@
                 <p class="reference-content">Reference No: <br />#LU2TB38ZHJSG</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/K7TVMHTQFJMR" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/K7TVMHTQFJMR','NodeJS_Express_MongoDB')">
                 <img src="certification_images/coursera.png" alt="NodeJS, Express & MongoDB" class="profile-pic">
                 <h3 class="reference-title">Server-side Development using NodeJS, Express and MongoDB</h3>
                 <h4 class="reference-title">The Hong Kong University of Science and Technology</h4>
@@ -155,7 +224,7 @@
                 <p class="reference-content">Reference No: <br />#K7TVMHTQFJMR</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/LP32SFR5TJZ6" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/LP32SFR5TJZ6','SmartContracts')">
                 <img src="certification_images/coursera.png" alt="Smart Contracts" class="profile-pic">
                 <h3 class="reference-title">Smart Contracts</h3>
                 <h4 class="reference-title">University at Buffalo & The State Univerisity of New York</h4>
@@ -163,7 +232,7 @@
                 <p class="reference-content">Reference No: <br />#LP32SFR5TJZ6</p>
             </a>
 
-            <a class="card" href="https://coursera.org/verify/AXYMXVFN3HA5" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://coursera.org/verify/AXYMXVFN3HA5','BlockchainBasic')">
                 <img src="certification_images/coursera.png" alt="Blockchain Basics" class="profile-pic">
                 <h3 class="reference-title">Blockchain Basics</h3>
                 <h4 class="reference-title">University at Buffalo & The State Univerisity of New York</h4>
@@ -171,7 +240,7 @@
                 <p class="reference-content">Reference No: <br />#AXYMXVFN3HA5</p>
             </a>
 
-            <a class="card" href="https://courses.nvidia.com/certificates/1e661dbb7ec64f8ba4e50b94b0ea6f3c" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://courses.nvidia.com/certificates/1e661dbb7ec64f8ba4e50b94b0ea6f3c','NVIDIA')">
                 <img src="certification_images/nvidia.png" alt="NVIDIA" class="profile-pic" style="padding: 0.5rem;">
                 <h3 class="reference-title">Fundamentals of Deep Learning for Computer Vision</h3>
                 <h4 class="reference-title">NVIDIA</h4>
@@ -179,7 +248,7 @@
                 <p class="reference-content">Reference No: <br />#1e661dbb7ec64f8ba<br/>4e50b94b0ea6f3c</p>
             </a>
 
-            <a class="card" href="https://nptel.ac.in/noc/E_Certificate/noc18-cs34/NPTEL18CS34S214901501810051904.jpg" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://nptel.ac.in/noc/E_Certificate/noc18-cs34/NPTEL18CS34S214901501810051904.jpg','DS_and_Algorithms')">
                 <img src="certification_images/nptel.png" alt="DS and Algorithms" class="profile-pic" style="padding: 0.5rem;">
                 <h3 class="reference-title">Programming, Data Structures and Algorithms using Python</h3>
                 <h4 class="reference-title">IIT, Madras</h4>
@@ -187,21 +256,13 @@
                 <p class="reference-content">Reference No: <br />#NPTEL18CS34S21490<br />1501810051904</p>
             </a>
 
-            <a class="card" href="https://trainings.internshala.com/verify-certificate/" target="_blank" rel="noopener noreferrer">
+            <a class="card" onclick="verifyCertification('https://trainings.internshala.com/verify-certificate/','IoT_Internshala')">
                 <img src="certification_images/internshala.jpg" alt="IOT" class="profile-pic">
                 <h3 class="reference-title">Internet of Things</h3>
                 <h4 class="reference-title">Internshala Trainings</h4>
                 <h5 class="reference-title">Internshala</h5>
                 <p class="reference-content">Reference No: <br />#AEE4161C-D5A4-7E4D-67D7-A339E54C7AF8</p>
             </a>
-
-            <!-- <a class="card" href="url1" target="_blank" rel="noopener noreferrer">
-                <img src="certification_images/" alt="Certification1" class="profile-pic">
-                <h3 class="reference-title">Topic</h3>
-                <h4 class="reference-title">From Establishment</h4>
-                <h5 class="reference-title">Through here</h5>
-                <p class="reference-content">Reference No: #</p>
-            </a> -->
 
             <!-- Add more cards as needed -->
         </div>
@@ -216,7 +277,7 @@
                     alt="Linkedin :"
                 >
                 <p>    </p>
-                <a href="https://linkedin.com/in/punnoose-k-thomas" target="_blank" rel="noopener noreferrer" class="contact-link">linkedin.com/in/punnoose-k-thomas</a>
+                <div class="contact-link" onclick="navigateToLinkedIn()">linkedin.com/in/punnoose-k-thomas</div>
             </div>
 
             <div class="contact-item">
@@ -226,7 +287,7 @@
                     alt="Github :"
                 >
                 <p>    </p>
-                <a href="https://github.com/punnoose-1620" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/punnoose-1620</a>
+                <div class="contact-link" onclick="navigateToGitHub()">github.com/punnoose-1620</div>
             </div>
 
             <div class="contact-item">
@@ -236,7 +297,7 @@
                     alt="Phone :"
                 >
                 <p>    </p>
-                <a href="tel:+46727742495" target="_blank" rel="noopener noreferrer" class="contact-link">+46 72 774 2495</a>
+                <div class="contact-link" onclick="callMe()">+46 72 774 2495</div>
             </div>
 
             <div class="contact-item">
@@ -246,7 +307,7 @@
                     alt="Office :"
                 >
                 <p>    </p>
-                <a href="mailto:ktpu24fc@student.ju.se" target="_blank" rel="noopener noreferrer" class="contact-link">ktpu24fc@student.ju.se</a>
+                <div class="contact-link" onclick="mailMeFormal()">ktpu24fc@student.ju.se</div>
             </div>
 
             <div class="contact-item">
@@ -256,7 +317,7 @@
                     alt="Home :"
                 >
                 <p>    </p>
-                <a href="mailto:punnoose1997@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-link">punnoose1997@gmail.com</a>
+                <div class="contact-link" onclick="mailMePersonal()">punnoose1997@gmail.com</div>
             </div>
         </div>
     </footer>

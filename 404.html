@@ -46,7 +46,7 @@
             window.onload = function() {
                 setTimeout(function() {
                     window.location.href = "https://punnoose-k-thomas.com/main.html";
-                }, 3000);
+                }, 300);
             }
     </script>
     <meta charset="UTF-8">
@@ -57,6 +57,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <script>
+        function navigateToLinkedIn() {
+            try {
+                firebase.analytics().logEvent('linkedInClick');   
+            } catch (error) {
+                console.log("Unable to log LinkedInClickEvent to firebase")
+            }
+            url = "https://linkedin.com/in/punnoose-k-thomas"
+            window.open(url, '_blank')
+        }
+        function navigateToGitHub() {
+            try {
+                firebase.analytics().logEvent('gitHubClick');
+            } catch (error) {
+                console.log("Unable to log GitHubClickEvent to firebase")
+            }
+            url = "https://github.com/punnoose-1620"
+            window.open(url, '_blank')
+        }
+        function callMe() {
+            try {
+                firebase.analytics().logEvent('phoneNumberClick');
+            } catch (error) {
+                console.log("Unable to log PhoneNumberClickEvent to firebase")
+            }
+            url = "tel:+46727742495"
+            window.open(url, '_blank')
+        }
+        function mailMeFormal() {
+            try {
+                firebase.analytics().logEvent('formalEmailClick');
+            } catch (error) {
+                console.log("Unable to log FormalEmailClickEvent to firebase")
+            }
+            url = "mailto:ktpu24fc@student.ju.se"
+            window.open(url, '_blank')
+        }
+        function mailMePersonal() {
+            try {
+                firebase.analytics().logEvent('personalEmailClick');
+            } catch (error) {
+                console.log("Unable to log PersonalEmailClickEvent to firebase")
+            }
+            url = "mailto:punnoose1997@gmail.com"
+            window.open(url, '_blank')
+        }
+    </script>
+
     <header class="header-custom">
         <div class="header-left">
             <div class="header-image-container">
@@ -106,7 +154,7 @@
                     alt="Linkedin :"
                 >
                 <p>    </p>
-                <a href="https://linkedin.com/in/punnoose-k-thomas" target="_blank" rel="noopener noreferrer" class="contact-link">linkedin.com/in/punnoose-k-thomas</a>
+                <div class="contact-link" onclick="navigateToLinkedIn()">linkedin.com/in/punnoose-k-thomas</div>
             </div>
 
             <div class="contact-item">
@@ -116,7 +164,7 @@
                     alt="Github :"
                 >
                 <p>    </p>
-                <a href="https://github.com/punnoose-1620" target="_blank" rel="noopener noreferrer" class="contact-link">github.com/punnoose-1620</a>
+                <div class="contact-link" onclick="navigateToGitHub()">github.com/punnoose-1620</div>
             </div>
 
             <div class="contact-item">
@@ -126,7 +174,7 @@
                     alt="Phone :"
                 >
                 <p>    </p>
-                <a href="tel:+46727742495" target="_blank" rel="noopener noreferrer" class="contact-link">+46 72 774 2495</a>
+                <div class="contact-link" onclick="callMe()">+46 72 774 2495</div>
             </div>
 
             <div class="contact-item">
@@ -136,7 +184,7 @@
                     alt="Office :"
                 >
                 <p>    </p>
-                <a href="mailto:ktpu24fc@student.ju.se" target="_blank" rel="noopener noreferrer" class="contact-link">ktpu24fc@student.ju.se</a>
+                <div class="contact-link" onclick="mailMeFormal()">ktpu24fc@student.ju.se</div>
             </div>
 
             <div class="contact-item">
@@ -146,7 +194,7 @@
                     alt="Home :"
                 >
                 <p>    </p>
-                <a href="mailto:punnoose1997@gmail.com" target="_blank" rel="noopener noreferrer" class="contact-link">punnoose1997@gmail.com</a>
+                <div class="contact-link" onclick="mailMePersonal()">punnoose1997@gmail.com</div>
             </div>
         </div>
     </footer>
