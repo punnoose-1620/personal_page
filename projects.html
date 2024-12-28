@@ -113,6 +113,15 @@
             link.click();
             document.body.removeChild(link);
         }
+        function viewGitHubRepo(repoName) {
+            try {
+                firebase.analytics().logEvent(repoName+'Click');
+            } catch (error) {
+                console.log("Unable to log "+repoName+" ClickEvent to firebase")
+            }
+            url = "https://github.com/punnoose-1620/"+repoName
+            window.open(url, '_blank')
+        }
     </script>
 
     <header class="header-custom">
@@ -155,7 +164,7 @@
             <div class="education-grid">
                 <!-- Add project details here -->
 
-                <a href="https://github.com/punnoose-1620/prescription-project" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('prescription-project')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/prescription_project_bg.webp)';"
@@ -166,7 +175,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/equipment-failure-prediction" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('equipment-failure-prediction')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/equipment_failure_bg.webp)';"
@@ -177,7 +186,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/Marine-Audio-Detection" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('Marine-Audio-Detection')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/marine_audio_detection_bg.webp)';"
@@ -188,7 +197,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/Sign-Language-Prediction-using-CNN/tree/main" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('Sign-Language-Prediction-using-CNN')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/sign_language_prediction_bg.webp)';"
@@ -199,7 +208,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/Crypto-Stock-Prediction/tree/main" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('Crypto-Stock-Prediction')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/crypto-stock-prediction_bg.webp)';"
@@ -210,7 +219,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/Covid-Hotspot-Prediction/tree/main" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('Covid-Hotspot-Prediction')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/covid-hotspot-prediction_bg.webp)';"
@@ -221,7 +230,7 @@
                     </div>
                 </a>
 
-                <a href="https://github.com/punnoose-1620/Stock-Price-Prediction" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">
+                <a onclick="viewGitHubRepo('Stock-Price-Prediction')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/stock-price-prediction_bg.webp)';"

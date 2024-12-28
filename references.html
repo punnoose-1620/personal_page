@@ -113,6 +113,24 @@
             link.click();
             document.body.removeChild(link);
         }
+        function getReferenceLinkedin(userid) {
+            try {
+                firebase.analytics().logEvent('referenceLinkedInClick',{'reference': userid});   
+            } catch (error) {
+                console.log("Unable to log ReferenceLinkedInClickEvent to firebase")
+            }
+            url = "https://www.linkedin.com/in/"+userid+"/"
+            window.open(url, '_blank')
+        }
+        function emailReference(email, userid) {
+            try {
+                firebase.analytics().logEvent('referenceEmailClick',{'reference': userid});   
+            } catch (error) {
+                console.log("Unable to log ReferenceEmailClickEvent to firebase")
+            }
+            url = "mailto:"+email
+            window.open(url, '_blank')
+        }
     </script>
 
     <header class="header-custom">
@@ -159,11 +177,11 @@
                 <h5 class="reference-title">Dexlock</h5>
                 <p class="reference-content">
                     Email: 
-                    <a href="mailto:dinotkappen@gmail.com" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">dinotkappen@gmail.com</a>
+                    <a onclick="emailReference('dinotkappen@gmail.com', 'dino-t-kappen-62339675')" class="disable-link-underscore">dinotkappen@gmail.com</a>
                 </p>
                 <p class="reference-content">
                     LinkedIn: 
-                    <a href="https://www.linkedin.com/in/dino-t-kappen-62339675/" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">View Profile</a>
+                    <a onclick="getReferenceLinkedin('dino-t-kappen-62339675')" class="disable-link-underscore">View Profile</a>
                 </p>
                 <!-- <p class="reference-content">Mobile: <a href="tel:+1234567890">+1 234 567 890</a></p> -->
             </div>
@@ -176,11 +194,11 @@
                 <h5 class="reference-title">HODO Medical Informatics Private Limited</h5>
                 <p class="reference-content">
                     Email: 
-                    <a href="mailto:salahudheen@hodo.in" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">salahudheen@hodo.in</a>
+                    <a onclick="emailReference('salahudheen@hodo.in','salahudheen-pa')" class="disable-link-underscore">salahudheen@hodo.in</a>
                 </p>
                 <p class="reference-content">
                     LinkedIn: 
-                    <a href="https://www.linkedin.com/in/salahudheen-pa/" target="_blank" rel="noopener noreferrer" class="disable-link-underscore">View Profile</a>
+                    <a onclick="getReferenceLinkedin('salahudheen-pa')" class="disable-link-underscore">View Profile</a>
                 </p>
                 <!-- <p class="reference-content">Mobile: <a href="tel:+1234567890">+1 234 567 890</a></p> -->
             </div>

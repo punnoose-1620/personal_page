@@ -128,6 +128,30 @@
             link.click();
             document.body.removeChild(link);
         }
+        function showOnMap(url, place) {
+            try {
+                firebase.analytics().logEvent('companyMapsClick',{'company':place});
+            } catch (error) {
+                console.log("Unable to log companyMapsClickEvent to firebase")
+            }
+            window.open(url, '_blank')
+        }
+        function showCompanyWebsite(url, place) {
+            try {
+                firebase.analytics().logEvent('companyWebSiteClick',{'company':place});
+            } catch (error) {
+                console.log("Unable to log companyWebsiteClickEvent to firebase")
+            }
+            window.open(url, '_blank')
+        }
+        function showProjectUrl(url, projectName) {
+            try {
+                firebase.analytics().logEvent('projectUrlClick',{'project':projectName});
+            } catch (error) {
+                console.log("Unable to log projectUrlClickEvent to firebase")
+            }
+            window.open(url, '_blank')
+        }
     </script>
 
     <header class="header-custom">
@@ -189,14 +213,14 @@
 
                     <div class="horizontal-row">
                         <p>    </p>
-                        <a href="https://maps.app.goo.gl/gabgp3VqmBWExCux5" target="_blank" rel="noopener noreferrer">
+                        <a onclick="showOnMap('https://maps.app.goo.gl/gabgp3VqmBWExCux5', 'HodoMedicalInformatics')">
                             <img 
                             src="./logo_images/locate.png" 
                             alt="Locate" 
                             class="locate-icon"
                             >
                         </a>
-                        <h4><a class="job-firm" href="https://hodo.io/">HODO Medical Informatics Pvt Ltd</a></h4>
+                        <h4 onclick="showCompanyWebsite('https://hodo.io/', 'HodoMedicalInformatics')"><a class="job-firm">HODO Medical Informatics Pvt Ltd</a></h4>
                     </div>
                     
                     <h5 class="job-duration">October 2022 - July 2024 (1 year, 10 months)</h5>
@@ -251,14 +275,14 @@
 
                     <div class="horizontal-row">
                         <p>    </p>
-                        <a href="https://g.co/kgs/HyostCi" target="_blank" rel="noopener noreferrer">
+                        <a onclick="showOnMap('https://g.co/kgs/HyostCi', 'Dexlock')">
                             <img 
                             src="./logo_images/locate.png" 
                             alt="Locate" 
                             class="locate-icon"
                             >
                         </a>
-                        <h4><a class="job-firm" href="https://dexlock.com/">Dexlock</a></h4>
+                        <h4 onclick="showCompanyWebsite('https://dexlock.com/', 'Dexlock')"><a class="job-firm">Dexlock</a></h4>
                     </div>
                     
                     <h5 class="job-duration">August 2021 - September 2022 (1 year, 1 month)</h5>
@@ -299,14 +323,14 @@
 
                     <div class="horizontal-row">
                         <p>    </p>
-                        <a href="https://maps.app.goo.gl/gBJPQmMfX19WD6ta7" target="_blank" rel="noopener noreferrer">
+                        <a onclick="showOnMap('https://maps.app.goo.gl/gBJPQmMfX19WD6ta7', 'BennettUniversity')">
                             <img 
                             src="./logo_images/locate.png"  
                             alt="Locate" 
                             class="locate-icon"
                             >
                         </a>
-                        <h4><a class="job-firm" href="https://www.bennett.edu.in/">Bennett University</a></h4>
+                        <h4 onclick="showCompanyWebsite('https://www.bennett.edu.in/', 'BennettUniversity')"><a class="job-firm">Bennett University</a></h4>
                     </div>
                     
                     <h5 class="job-duration">June 2019 - July 2019 (1 month)</h5>
@@ -326,10 +350,8 @@
 
                     <p class="paper"> 
                         Paper : <a 
-                            href="https://www.leadingindia.ai/projectdetails/116" 
-                            class="disable-link-underscore" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
+                            onclick="showProjectUrl('https://www.leadingindia.ai/projectdetails/116', 'KidneyTumorSegmentation')"
+                            class="disable-link-underscore"
                             >
                             https://www.leadingindia.ai/projectdetails/116
                         </a>

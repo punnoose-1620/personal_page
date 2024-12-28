@@ -306,6 +306,7 @@ section {
     width: 30px !important;          /* Set a desired width for the image */
     height: 30px !important;         /* Set a desired height for the image */
     border-radius: 50%;   /* Makes the image circular */
+    cursor: pointer;
 }
 
 .round-image {
@@ -325,7 +326,8 @@ section {
 .job-firm {
     margin-bottom: 0.7rem;
     text-decoration: none;
-    color: black
+    color: black;
+    cursor: pointer;
 }
 
 .job-firm:hover {
@@ -345,6 +347,7 @@ section {
 .disable-link-underscore {
     text-decoration: none !important;
     color: #2a2a2a;
+    cursor: pointer;
 }
 
 .contact-logo {
