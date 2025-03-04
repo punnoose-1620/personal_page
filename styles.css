@@ -16,6 +16,18 @@
     color: white
 }
 
+.header-pp {
+    display: flex;
+    flex-direction: row;
+    gap: 59%;
+    align-items: stretch;
+    align-content: stretch;
+    align-self: stretch;
+    padding-left: 3%;
+    padding-right: 2.5%;
+    color: white
+}
+
 .header-right {
     display: flex;
     flex-direction: row;
@@ -82,6 +94,15 @@
 
 .header-image-container:hover .header-image {
     transform: rotateY(180deg)
+}
+
+.pp-content li {
+    display: flex;
+    flex-direction: row;
+}
+
+.pp-content h5 {
+    margin-right: 5px;
 }
 
 body {
