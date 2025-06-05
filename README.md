@@ -34,7 +34,7 @@ Visit my personal website at: [https://punnoose-k-thomas.com/main.html](https://
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/punnoose-1620/personal-page.git
+git clone https://github.com/punnoose-1620/personal_page.git
 cd personal_page
 ```
 
