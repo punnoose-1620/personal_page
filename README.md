@@ -28,7 +28,6 @@ Visit my personal website at: [https://punnoose-k-thomas.com/main.html](https://
 - HTML5
 - CSS3
 - JavaScript
-- [Add any other technologies/frameworks used]
 
 ## Getting Started
 
