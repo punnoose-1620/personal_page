@@ -34,7 +34,7 @@ Visit my personal website at: [https://punnoose-k-thomas.com/main.html](https://
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/punnoose-1620/personal-page.git
 cd personal_page
 ```
 
@@ -70,4 +70,4 @@ Feel free to submit issues and enhancement requests!
 
 ## License
 
-[Add your license information here] 
+MIT License
