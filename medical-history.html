@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDynwMd0kGqmsMtyme6F16_hWIlJCDy6o4",
+            authDomain: "personal-page-a74af.firebaseapp.com",
+            projectId: "personal-page-a74af",
+            storageBucket: "personal-page-a74af.firebasestorage.app",
+            messagingSenderId: "102712351436",
+            appId: "1:102712351436:web:910815621d8d253b074069",
+            measurementId: "G-NK9DV3CTSX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        // Get user IP (requires a 3rd-party API as Firebase doesn't log IPs)
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                const browser = navigator.userAgent;
+
+                fetch(`http://ip-api.com/json/${ipAddress}`)
+                .then(response => response.json())
+                .then(locationData => {
+                    var logData = {
+                        ip: ipAddress,
+                        latitude: locationData.lat,
+                        longitude: locationData.lon,
+                        serviceProvider: locationData.as,
+                        country: locationData.country,
+                        city: locationData.city,
+                        region: locationData.regionName,
+                        zipCode: locationData.zip,
+                        browser: browser,
+                        language: navigator.language,
+                        platform: navigator.platform,
+                    }
+                    // console.log("Console log data : ",logData)
+                    // Log custom event in Firebase
+                    firebase.analytics().logEvent('medical_history_page', logData);
+                })
+            });
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical History</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .medical-card {
+            border: 1px solid #ddd;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            cursor: pointer;
+            text-decoration: none !important;
+            color: black !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .medical-card:hover {
+            background-color: white;
+            zoom: 110%;
+            transition: 300ms;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .medical-card h3 {
+            color: #2a2a2a;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .medical-card p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .medical-card strong {
+            color: #2a2a2a;
+            font-weight: bold;
+        }
+
+        .emergency-contact {
+            background-color: #444444;
+            color: #ffffff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .emergency-contact h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .emergency-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .emergency-item {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-item:hover {
+            zoom: 120%;
+            transition: 300ms;
+        }
+
+        @media (max-width: 768px) {
+            .emergency-grid {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // TODO: Update Medical history data
+        const medicalHistory = [
+            {
+                id: 1,
+                hospitalName: "Jönköping Hospital",
+                hospitalLocation: "Jönköping, Sweden",
+                date: "2024-01-15",
+                diagnosis: "Seasonal Allergies",
+                clinicalNote: "Patient presented with symptoms of seasonal allergies including sneezing, runny nose, and itchy eyes. Symptoms began 2 weeks ago and have been persistent.",
+                investigations: ["Blood test for IgE levels", "Skin prick test for common allergens"],
+                plan: "Prescribed antihistamines and nasal spray. Recommended avoiding known allergens and follow-up in 3 months if symptoms persist.",
+                medications: ["Cetirizine 10mg daily", "Fluticasone nasal spray"],
+                doctorName: "Dr. Anna Lindberg",
+                doctorPosition: "General Practitioner"
+            },
+            {
+                id: 2,
+                hospitalName: "Karolinska University Hospital",
+                hospitalLocation: "Stockholm, Sweden",
+                date: "2023-11-20",
+                diagnosis: "Minor Sports Injury",
+                clinicalNote: "Patient sustained a minor ankle sprain during physical activity. No severe pain or swelling observed.",
+                investigations: ["X-ray of left ankle", "Physical examination"],
+                plan: "RICE protocol recommended. Rest, ice, compression, and elevation. Follow-up in 1 week.",
+                medications: ["Ibuprofen 400mg as needed for pain"],
+                doctorName: "Dr. Erik Johansson",
+                doctorPosition: "Sports Medicine Specialist"
+            },
+            {
+                id: 3,
+                hospitalName: "Sahlgrenska University Hospital",
+                hospitalLocation: "Gothenburg, Sweden",
+                date: "2023-08-10",
+                diagnosis: "Routine Health Check",
+                clinicalNote: "Annual routine health check. Patient reports feeling healthy with no specific complaints.",
+                investigations: ["Complete blood count", "Blood pressure measurement", "BMI calculation", "Vision test"],
+                plan: "All results within normal range. Continue healthy lifestyle habits. Next check-up in 1 year.",
+                medications: ["None"],
+                doctorName: "Dr. Maria Andersson",
+                doctorPosition: "Family Medicine Physician"
+            }
+        ];
+
+        function downloadMedicalHistory() {
+            try {
+                firebase.analytics().logEvent('medicalHistoryDownloadClick');
+            } catch (error) {
+                console.log("Unable to log MedicalHistoryDownload to firebase")
+            }
+            url = "https://drive.google.com/uc?export=download&id=YOUR_MEDICAL_HISTORY_FILE_ID"
+            filename = "Medical_History_Punnoose_K_Thomas.pdf"
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function navigateToLinkedIn() {
+            try {
+                firebase.analytics().logEvent('linkedInClick');   
+            } catch (error) {
+                console.log("Unable to log LinkedInClickEvent to firebase")
+            }
+            url = "https://linkedin.com/in/punnoose-k-thomas"
+            window.open(url, '_blank')
+        }
+
+        function navigateToGitHub() {
+            try {
+                firebase.analytics().logEvent('gitHubClick');
+            } catch (error) {
+                console.log("Unable to log GitHubClickEvent to firebase")
+            }
+            url = "https://github.com/punnoose-1620"
+            window.open(url, '_blank')
+        }
+
+        function callMe() {
+            try {
+                firebase.analytics().logEvent('phoneNumberClick');
+            } catch (error) {
+                console.log("Unable to log PhoneNumberClickEvent to firebase")
+            }
+            url = "tel:+46727742495"
+            window.open(url, '_blank')
+        }
+
+        function mailMeFormal() {
+            try {
+                firebase.analytics().logEvent('formalEmailClick');
+            } catch (error) {
+                console.log("Unable to log FormalEmailClickEvent to firebase")
+            }
+            url = "mailto:ktpu24fc@student.ju.se"
+            window.open(url, '_blank')
+        }
+
+        function mailMePersonal() {
+            try {
+                firebase.analytics().logEvent('personalEmailClick');
+            } catch (error) {
+                console.log("Unable to log PersonalEmailClickEvent to firebase")
+            }
+            url = "mailto:punnoose1997@gmail.com"
+            window.open(url, '_blank')
+        }
+
+        function seeWhereILive() {
+            try {
+                firebase.analytics().logEvent('addressViewClick');
+            } catch (error) {
+                console.log("Unable to log AddressView to firebase")
+            }
+            url = "https://maps.app.goo.gl/psE6GirmV2CJoT14A"
+            window.open(url, '_blank')
+        }
+        
+        function renderMedicalHistory() {
+            const section = document.querySelector('section');
+            section.innerHTML = '<h2>Medical History</h2><br/>';
+
+            medicalHistory.forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'medical-card';
+                card.innerHTML = `
+                    <h3>${entry.diagnosis}</h3>
+                    <p><strong>Date:</strong> ${new Date(entry.date).toLocaleDateString()}</p>
+                    <p><strong>Hospital:</strong> ${entry.hospitalName}, ${entry.hospitalLocation}</p>
+                    <p><strong>Clinical Notes:</strong> ${entry.clinicalNote}</p>
+                    <p><strong>Treatment Plan:</strong> ${entry.plan}</p>
+                    <p><strong>Doctor:</strong> ${entry.doctorName} (${entry.doctorPosition})</p>
+                    <p><strong>Investigations:</strong> ${entry.investigations.join(', ')}</p>
+                    <p><strong>Medications:</strong> ${entry.medications.join(', ')}</p>
+                `;
+                section.appendChild(card);
+            });
+        }
+
+        function callNumber(emergencyNumber) {
+            try {
+                firebase.analytics().logEvent('emergencyNumberClick');
+            } catch (error) {
+                console.log("Unable to log EmergencyNumberClick to firebase")
+            }
+            url = `tel:${emergencyNumber}`
+            window.open(url, '_blank')
+        }
+        // Call the function when page loads
+        window.onload = renderMedicalHistory;
+    </script>
+
+    <header class="header-custom">
+        <div class="header-left">
+            <div class="header-image-container">
+                <div class="header-image">
+                    <img class="header-front" src="./bg_images/profile_pic.jpg"></img>
+                    <img class="header-back" src="./bg_images/My_Life.webp"></img>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="header-title">Punnoose K Thomas</h1>
+                <p class="header-subtitle">AI Engineering Masters Student</p>
+                <p>Jonkoping University</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="download-btn" onclick="downloadMedicalHistory()">
+                <p>Medical History</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="emergency-contact">
+        <h3>Emergency Contact</h3>
+        <div class="emergency-grid">
+            <div class="emergency-item">
+                <i class="fa fa-phone" style="color: #ffffff; margin-right: 10px;"></i>
+                <span onclick="callNumber('+919497613650')">+91 94 97 613 650</span>
+            </div>
+            <div class="emergency-item">
+                <i class="fa fa-phone" style="color: #ffffff; margin-right: 10px;"></i>
+                <span onclick="callNumber('+919447208188')">+91 94 47 208 188</span>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section>
+            <h2>Medical Details About Me</h2>
+            <br/>
+            <p>This page shows my medical history. I have been to the hospital for various reasons. This page is a record of my medical history.</p>
+            <br/>
+            
+            <div class="address-link" onclick="seeWhereILive()">
+                Address : 1401, Box 443, Kärrhöksgatan 88, 556 12 Jönköping, Sweden
+                <i class="fa fa-map-marker" aria-hidden="true" style="color: black;"></i>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contact-container">
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/linkedin_logo.png" 
+                    alt="Linkedin :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToLinkedIn()">linkedin.com/in/punnoose-k-thomas</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/github_logo.png" 
+                    alt="Github :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToGitHub()">github.com/punnoose-1620</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/phone_logo.jpg" 
+                    alt="Phone :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="callMe()">+46 72 774 2495</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/office_mail_logo.png" 
+                    alt="Office :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMeFormal()">ktpu24fc@student.ju.se</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/gmail_logo.jpg" 
+                    alt="Home :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMePersonal()">punnoose1997@gmail.com</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
