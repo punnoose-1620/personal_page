@@ -234,11 +234,12 @@
                     // Find the data rows (skip header and any graph data)
                     let dataRows = [];
                     
-                    // Look for rows that have date-like data in the first column
+                    // Look for rows that have data in the first column
                     for (let i = 1; i < jsonData.length; i++) {
                         const row = jsonData[i];
-                        if (row && row[0] && !isNaN(new Date(row[0]).getTime())) {
-                            // This row has a valid date, so it's expense data
+                        if (row && row[0]) {
+                            // Debug: Log the first column value
+                            console.log(`Row ${i}, Column 0:`, row[0], 'Type:', typeof row[0]);
                             dataRows.push(row);
                         }
                     }
@@ -246,18 +247,33 @@
                     // Process expense data based on Swedish Expenses structure
                     dataRows.forEach(row => {
                         if (row.length >= 5) { // Ensure we have enough columns
-                            const dateStr = row[0];
-                            const monthStr = row[1];
-                            const purpose = row[2] || 'Unknown';
-                            const amount = parseFloat(row[3]) || 0;
-                            const comments = row[4] || '';
+                            // Use hardcoded column indices:
+                            // A (index 0): date
+                            // C (index 2): Purpose  
+                            // D (index 3): Amount in SEK
+                            // E (index 4): Comments
+                            const dateStr = row[0]; // Column A
+                            const purpose = row[2] || 'Unknown'; // Column C
+                            const amount = parseFloat(row[3]) || 0; // Column D
+                            const comments = row[4] || ''; // Column E
+                            
+                            // Debug: Log what we're reading from each column
+                            console.log('Row data:', {
+                                'Column A (Date)': dateStr,
+                                'Column C (Purpose)': purpose,
+                                'Column D (Amount)': amount,
+                                'Column E (Comments)': comments
+                            });
                             
                             if (amount > 0) {
                                 const date = new Date(dateStr);
                                 
+                                // Debug: Log the parsed date
+                                console.log('Parsed date from column A:', date, 'Original value:', dateStr);
+                                
                                 totalExpenses += amount;
                                 
-                                // Monthly data (use the date, not the month column)
+                                // Monthly data
                                 const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
                                 monthlyData[monthKey] = (monthlyData[monthKey] || 0) + amount;
                                 
