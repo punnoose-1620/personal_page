@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDynwMd0kGqmsMtyme6F16_hWIlJCDy6o4",
+            authDomain: "personal-page-a74af.firebaseapp.com",
+            projectId: "personal-page-a74af",
+            storageBucket: "personal-page-a74af.firebasestorage.app",
+            messagingSenderId: "102712351436",
+            appId: "1:102712351436:web:910815621d8d253b074069",
+            measurementId: "G-NK9DV3CTSX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        // Get user IP (requires a 3rd-party API as Firebase doesn't log IPs)
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                const browser = navigator.userAgent;
+
+                fetch(`http://ip-api.com/json/${ipAddress}`)
+                .then(response => response.json())
+                .then(locationData => {
+                    var logData = {
+                        ip: ipAddress,
+                        latitude: locationData.lat,
+                        longitude: locationData.lon,
+                        serviceProvider: locationData.as,
+                        country: locationData.country,
+                        city: locationData.city,
+                        region: locationData.regionName,
+                        zipCode: locationData.zip,
+                        browser: browser,
+                        language: navigator.language,
+                        platform: navigator.platform,
+                    }
+                    // console.log("Console log data : ",logData)
+                    // Log custom event in Firebase
+                    firebase.analytics().logEvent('education_page', logData);
+                })
+            });
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swedish Expenses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Add XLSX library for parsing Excel files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <script>
+        const fileId = '10BLqU5dfoAPlX806Xe-IQxg6ARzCaxRO';
+        function navigateToLinkedIn() {
+            try {
+                firebase.analytics().logEvent('linkedInClick');   
+            } catch (error) {
+                console.log("Unable to log LinkedInClickEvent to firebase")
+            }
+            url = "https://linkedin.com/in/punnoose-k-thomas"
+            window.open(url, '_blank')
+        }
+        function navigateToGitHub() {
+            try {
+                firebase.analytics().logEvent('gitHubClick');
+            } catch (error) {
+                console.log("Unable to log GitHubClickEvent to firebase")
+            }
+            url = "https://github.com/punnoose-1620"
+            window.open(url, '_blank')
+        }
+        function callMe() {
+            try {
+                firebase.analytics().logEvent('phoneNumberClick');
+            } catch (error) {
+                console.log("Unable to log PhoneNumberClickEvent to firebase")
+            }
+            url = "tel:+46727742495"
+            window.open(url, '_blank')
+        }
+        function mailMeFormal() {
+            try {
+                firebase.analytics().logEvent('formalEmailClick');
+            } catch (error) {
+                console.log("Unable to log FormalEmailClickEvent to firebase")
+            }
+            url = "mailto:ktpu24fc@student.ju.se"
+            window.open(url, '_blank')
+        }
+        function mailMePersonal() {
+            try {
+                firebase.analytics().logEvent('personalEmailClick');
+            } catch (error) {
+                console.log("Unable to log PersonalEmailClickEvent to firebase")
+            }
+            url = "mailto:punnoose1997@gmail.com"
+            window.open(url, '_blank')
+        }
+        function downloadMyExpenses() {
+            try {
+                firebase.analytics().logEvent('expensesDownloadClick');
+            } catch (error) {
+                console.log("Unable to log ExpensesDownload to firebase")
+            }
+            url = `https://drive.google.com/uc?export=download&id=${fileId}`
+            filename = "Punnoose_K_Thomas_Expenses.xlsx"
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Function to load and parse XLSX file from Google Drive
+        async function loadExpensesFromDrive() {
+            try {
+                console.log('Loading expenses from Google Drive...');
+                
+                // Update loading message
+                const mainSection = document.querySelector('main section');
+                mainSection.innerHTML = `
+                    <h2>Swedish Expenses Tracker</h2>
+                    <p>Loading expenses data from Google Drive...</p>
+                    <div id="charts-container">
+                        <div style="text-align: center; padding: 20px;">
+                            <i class="fa fa-spinner fa-spin" style="font-size: 24px; color: #007bff;"></i>
+                            <p>Processing your expense data...</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Use Google Drive's public sharing URL format
+                // This works when the file is set to "Anyone with the link can view"
+                const sharingUrl = `https://docs.google.com/spreadsheets/d/${fileId}/export?format=xlsx`;
+                
+                console.log('Fetching from Google Drive sharing URL...');
+                
+                const response = await fetch(sharingUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, */*'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} - File may not be publicly accessible`);
+                }
+                
+                const arrayBuffer = await response.arrayBuffer();
+                console.log('File downloaded successfully, parsing XLSX...');
+                
+                // Parse the XLSX file
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                
+                console.log('Workbook loaded successfully!');
+                console.log('Available sheets:', workbook.SheetNames);
+                
+                // Process the data and create charts
+                processExpenseData(workbook);
+                
+                // Log data to console for debugging
+                workbook.SheetNames.forEach(sheetName => {
+                    console.log(`\n--- Sheet: ${sheetName} ---`);
+                    const worksheet = workbook.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    console.log('Sheet data:', jsonData);
+                });
+                
+            } catch (error) {
+                console.error('Error loading expenses:', error);
+                
+                // Update the page content to show error with alternative options
+                const mainSection = document.querySelector('main section');
+                mainSection.innerHTML = `
+                    <h2>Swedish Expenses Tracker</h2>
+                    <p>Unable to load from Google Drive. The file may not be publicly accessible.</p>
+                    
+                    <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
+                        <h3>📁 Upload Your File Instead</h3>
+                        <p>This is the most reliable way to view your expense charts!</p>
+                        <button onclick="setupFileInput()" style="padding: 15px 30px; background-color: white; color: #667eea; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; margin: 10px;">
+                            <i class="fa fa-upload"></i> Upload Excel File
+                        </button>
+                    </div>
+                    
+                    <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+                        <h4>To make the file publicly accessible:</h4>
+                        <ol style="text-align: left;">
+                            <li>Open your Google Drive file</li>
+                            <li>Click "Share" in the top right</li>
+                            <li>Change to "Anyone with the link can view"</li>
+                            <li>Copy the link and try again</li>
+                        </ol>
+                    </div>
+                    
+                    <button onclick="loadExpensesFromDrive()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px;">
+                        Try Again
+                    </button>
+                    
+                    <div id="charts-container">
+                        <p style="text-align: center; color: #666; margin-top: 20px;">
+                            Or click "Upload Excel File" above for immediate access.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // Alternative function to handle file upload
+        function setupFileInput() {
+            const mainSection = document.querySelector('main section');
+            mainSection.innerHTML = `
+                <h2>Upload Swedish Expenses File</h2>
+                <p>Please select your Swedish Expenses Excel file (.xlsx)</p>
+                <input type="file" id="fileInput" accept=".xlsx,.xls" style="margin: 20px 0; padding: 10px; border: 2px dashed #007bff; border-radius: 5px; width: 100%;">
+                <div id="charts-container">
+                    <p style="text-align: center; color: #666; margin-top: 20px;">
+                        Select your Excel file to view interactive charts.
+                    </p>
+                </div>
+            `;
+            
+            document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+        }
+
+        // Function to handle file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const arrayBuffer = e.target.result;
+                    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                    
+                    console.log('File uploaded successfully!');
+                    console.log('Available sheets:', workbook.SheetNames);
+                    
+                    // Process the data and create charts
+                    processExpenseData(workbook);
+                    
+                } catch (error) {
+                    console.error('Error processing uploaded file:', error);
+                    const chartsContainer = document.getElementById('charts-container');
+                    chartsContainer.innerHTML = `
+                        <div style="color: red; text-align: center; padding: 20px;">
+                            <h3>Error Processing File</h3>
+                            <p>${error.message}</p>
+                            <p>Please make sure you selected a valid Excel file.</p>
+                        </div>
+                    `;
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Function to process expense data and create charts
+        function processExpenseData(workbook) {
+            const chartsContainer = document.getElementById('charts-container');
+            chartsContainer.innerHTML = ''; // Clear existing content
+            
+            let totalExpenses = 0;
+            let monthlyData = {};
+            let dailyData = {};
+            let purposeData = {};
+            let allExpenses = [];
+            
+            // Process each sheet
+            workbook.SheetNames.forEach(sheetName => {
+                const worksheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                
+                if (jsonData.length > 1) { // Skip if only header or empty
+                    // Find the data rows (skip header and any graph data)
+                    let dataRows = [];
+                    
+                    // Look for rows that have date-like data in the first column
+                    for (let i = 1; i < jsonData.length; i++) {
+                        const row = jsonData[i];
+                        if (row && row[0] && !isNaN(new Date(row[0]).getTime())) {
+                            // This row has a valid date, so it's expense data
+                            dataRows.push(row);
+                        }
+                    }
+                    
+                    // Process expense data based on Swedish Expenses structure
+                    dataRows.forEach(row => {
+                        if (row.length >= 5) { // Ensure we have enough columns
+                            const dateStr = row[0];
+                            const monthStr = row[1];
+                            const purpose = row[2] || 'Unknown';
+                            const amount = parseFloat(row[3]) || 0;
+                            const comments = row[4] || '';
+                            
+                            if (amount > 0) {
+                                const date = new Date(dateStr);
+                                
+                                totalExpenses += amount;
+                                
+                                // Monthly data (use the date, not the month column)
+                                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                                monthlyData[monthKey] = (monthlyData[monthKey] || 0) + amount;
+                                
+                                // Daily data
+                                const dayKey = date.toISOString().split('T')[0];
+                                dailyData[dayKey] = (dailyData[dayKey] || 0) + amount;
+                                
+                                // Purpose/Category data
+                                purposeData[purpose] = (purposeData[purpose] || 0) + amount;
+                                
+                                allExpenses.push({
+                                    date: date,
+                                    month: monthKey,
+                                    day: dayKey,
+                                    purpose: purpose,
+                                    amount: amount,
+                                    comments: comments
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // Create summary section
+            const summarySection = document.createElement('div');
+            summarySection.className = 'expense-summary';
+            summarySection.innerHTML = `
+                <h2>Swedish Expenses Summary</h2>
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <h3>Total Expenses</h3>
+                        <p class="amount">${totalExpenses.toFixed(2)} SEK</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Number of Transactions</h3>
+                        <p class="amount">${allExpenses.length}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Average per Transaction</h3>
+                        <p class="amount">${(totalExpenses / allExpenses.length).toFixed(2)} SEK</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Number of Days</h3>
+                        <p class="amount">${Object.keys(dailyData).length}</p>
+                    </div>
+                </div>
+            `;
+            chartsContainer.appendChild(summarySection);
+            
+            // Create monthly trend chart
+            if (Object.keys(monthlyData).length > 0) {
+                const monthlyChartSection = document.createElement('div');
+                monthlyChartSection.className = 'chart-section';
+                monthlyChartSection.innerHTML = `
+                    <h3>Monthly Expense Trend</h3>
+                    <canvas id="monthlyChart" width="400" height="200"></canvas>
+                `;
+                chartsContainer.appendChild(monthlyChartSection);
+                
+                const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+                const sortedMonths = Object.keys(monthlyData).sort();
+                
+                new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: sortedMonths.map(month => {
+                            const [year, monthNum] = month.split('-');
+                            return `${monthNum}/${year}`;
+                        }),
+                        datasets: [{
+                            label: 'Monthly Expenses (SEK)',
+                            data: sortedMonths.map(month => monthlyData[month]),
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.1,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Monthly Expense Trend'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Monthly Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Amount (SEK)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Create daily spending chart
+            if (Object.keys(dailyData).length > 0) {
+                const dailyChartSection = document.createElement('div');
+                dailyChartSection.className = 'chart-section';
+                dailyChartSection.innerHTML = `
+                    <h3>Daily Spending Pattern</h3>
+                    <canvas id="dailyChart" width="400" height="200"></canvas>
+                `;
+                chartsContainer.appendChild(dailyChartSection);
+                
+                const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+                const sortedDays = Object.keys(dailyData).sort();
+                const recentDays = sortedDays.slice(-30); // Show last 30 days
+                
+                new Chart(dailyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: recentDays.map(day => {
+                            const date = new Date(day);
+                            return `${date.getDate()}/${date.getMonth() + 1}`;
+                        }),
+                        datasets: [{
+                            label: 'Daily Expenses (SEK)',
+                            data: recentDays.map(day => dailyData[day]),
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Daily Spending (Last 30 Days)'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Daily Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Amount (SEK)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Create purpose/category pie chart
+            if (Object.keys(purposeData).length > 0) {
+                const purposeChartSection = document.createElement('div');
+                purposeChartSection.className = 'chart-section';
+                purposeChartSection.innerHTML = `
+                    <h3>Expenses by Purpose</h3>
+                    <canvas id="purposeChart" width="400" height="400"></canvas>
+                `;
+                chartsContainer.appendChild(purposeChartSection);
+                
+                const purposeCtx = document.getElementById('purposeChart').getContext('2d');
+                const colors = [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+                    '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+                ];
+                
+                // Sort purposes by amount (descending)
+                const sortedPurposes = Object.entries(purposeData)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 10); // Show top 10 purposes
+                
+                new Chart(purposeCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: sortedPurposes.map(([purpose]) => purpose),
+                        datasets: [{
+                            data: sortedPurposes.map(([,amount]) => amount),
+                            backgroundColor: colors.slice(0, sortedPurposes.length),
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    padding: 20
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed;
+                                        const percentage = ((value / totalExpenses) * 100).toFixed(1);
+                                        return `${label}: ${value.toFixed(2)} SEK (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Create detailed expenses table
+            const tableSection = document.createElement('div');
+            tableSection.className = 'expenses-table-section';
+            tableSection.innerHTML = `
+                <h3>Detailed Expenses</h3>
+                <div class="table-container">
+                    <table class="expenses-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Purpose</th>
+                                <th>Comments</th>
+                                <th>Amount (SEK)</th>
+                                <th>Daily Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${allExpenses
+                                .sort((a, b) => b.date - a.date)
+                                .map(expense => `
+                                    <tr>
+                                        <td>${expense.date.toLocaleDateString()}</td>
+                                        <td>${expense.purpose}</td>
+                                        <td>${expense.comments}</td>
+                                        <td>${expense.amount.toFixed(2)}</td>
+                                        <td>${dailyData[expense.day].toFixed(2)}</td>
+                                    </tr>
+                                `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            chartsContainer.appendChild(tableSection);
+            
+            // Create monthly summary table
+            const monthlyTableSection = document.createElement('div');
+            monthlyTableSection.className = 'expenses-table-section';
+            monthlyTableSection.innerHTML = `
+                <h3>Monthly Summary</h3>
+                <div class="table-container">
+                    <table class="expenses-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Expenses (SEK)</th>
+                                <th>Number of Transactions</th>
+                                <th>Average per Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.keys(monthlyData)
+                                .sort()
+                                .map(month => {
+                                    const monthExpenses = allExpenses.filter(e => e.month === month);
+                                    const daysInMonth = new Set(monthExpenses.map(e => e.day)).size;
+                                    return `
+                                        <tr>
+                                            <td>${month.split('-')[1]}/${month.split('-')[0]}</td>
+                                            <td>${monthlyData[month].toFixed(2)}</td>
+                                            <td>${monthExpenses.length}</td>
+                                            <td>${(monthlyData[month] / daysInMonth).toFixed(2)}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            chartsContainer.appendChild(monthlyTableSection);
+        }
+    </script>
+
+    <header class="header-custom">
+        <div class="header-left">
+            <div class="header-image-container">
+                <div class="header-image">
+                    <img class="header-front" src="./bg_images/profile_pic.jpg"></img>
+                    <img class="header-back" src="./bg_images/My_Life.webp"></img>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="header-title">Punnoose K Thomas</h1>
+                <p class="header-subtitle">AI Engineering Masters Student</p>
+                <p>Jonkoping University</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="download-btn" download="Punnoose_K_Thomas.pdf" onclick="downloadMyExpenses()">
+                <p>Expenses</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>Swedish Expenses Tracker</h2>
+            <p>Loading expenses data from Google Drive...</p>
+            <button onclick="loadExpensesFromDrive()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Load Expenses Data
+            </button>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contact-container">
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/linkedin_logo.png" 
+                    alt="Linkedin :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToLinkedIn()">linkedin.com/in/punnoose-k-thomas</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/github_logo.png" 
+                    alt="Github :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToGitHub()">github.com/punnoose-1620</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/phone_logo.jpg" 
+                    alt="Phone :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="callMe()">+46 72 774 2495</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/office_mail_logo.png" 
+                    alt="Office :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMeFormal()">ktpu24fc@student.ju.se</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/gmail_logo.jpg" 
+                    alt="Home :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMePersonal()">punnoose1997@gmail.com</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
