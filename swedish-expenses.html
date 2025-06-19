@@ -235,7 +235,7 @@
                     let dataRows = [];
                     
                     // Look for rows that have data in the first column
-                    for (let i = 1; i < jsonData.length; i++) {
+                    for (let i = 2; i < jsonData.length; i++) {
                         const row = jsonData[i];
                         if (row && row[0]) {
                             // Debug: Log the first column value
@@ -243,27 +243,34 @@
                             dataRows.push(row);
                         }
                     }
+                    tempTestJson= [];
                     
                     // Process expense data based on Swedish Expenses structure
                     dataRows.forEach(row => {
-                        if (row.length >= 5) { // Ensure we have enough columns
+                        if (row.length >= 7) { // Ensure we have enough columns
                             // Use hardcoded column indices:
                             // A (index 0): date
                             // C (index 2): Purpose  
                             // D (index 3): Amount in SEK
                             // E (index 4): Comments
                             const dateStr = row[0]; // Column A
+                            const monthStr = row[1]; // Column B
                             const purpose = row[2] || 'Unknown'; // Column C
                             const amount = parseFloat(row[3]) || 0; // Column D
                             const comments = row[4] || ''; // Column E
-                            
-                            // Debug: Log what we're reading from each column
-                            console.log('Row data:', {
-                                'Column A (Date)': dateStr,
-                                'Column C (Purpose)': purpose,
-                                'Column D (Amount)': amount,
-                                'Column E (Comments)': comments
+                            const dailyTotal = row[5] || 0; // Column F
+                            const monthlyTotal = row[6] || 0; // Column G
+
+                            tempTestJson.push({
+                                date: dateStr,
+                                month: monthStr,
+                                purpose: purpose,
+                                amount: amount,
+                                comments: comments,
+                                dailyTotal: dailyTotal,
+                                monthlyTotal: monthlyTotal
                             });
+
                             
                             if (amount > 0) {
                                 const date = new Date(dateStr);
@@ -295,6 +302,7 @@
                             }
                         }
                     });
+                    console.log("tempTestJson: ", tempTestJson);
                 }
             });
             
