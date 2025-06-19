@@ -54,6 +54,231 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Add Chart.js for interactive charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <style>
+        /* Enhanced styling for Swedish Expenses page */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        main section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        main section h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        /* Summary Cards Styling */
+        .expense-summary {
+            margin-bottom: 40px;
+        }
+        
+        .expense-summary h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+        
+        .summary-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.1em;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        
+        .summary-card .amount {
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Chart Sections */
+        .chart-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+        
+        .chart-section h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        /* Table Styling */
+        .expenses-table-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+        
+        .expenses-table-section h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .expenses-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.95em;
+        }
+        
+        .expenses-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            border: none;
+        }
+        
+        .expenses-table th:first-child {
+            border-top-left-radius: 10px;
+        }
+        
+        .expenses-table th:last-child {
+            border-top-right-radius: 10px;
+        }
+        
+        .expenses-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        
+        .expenses-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .expenses-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        /* Loading Animation */
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .summary-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .summary-card {
+                padding: 25px 20px;
+            }
+            
+            .summary-card .amount {
+                font-size: 1.6em;
+            }
+            
+            .chart-section, .expenses-table-section {
+                padding: 20px;
+            }
+            
+            main section {
+                padding: 20px;
+            }
+            
+            main section h2 {
+                font-size: 2em;
+            }
+        }
+        
+        /* Error Styling */
+        .error-container {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .error-container h3 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        /* Success/Info Styling */
+        .info-container {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
     <script>
@@ -180,11 +405,11 @@
                 mainSection.innerHTML = `
                     <h2>Swedish Expenses Tracker</h2>
                     <p>Unable to load from Google Drive. The file may not be publicly accessible.</p>
-                    <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
+                    <div class="error-container">
                         <h3>Error Details</h3>
                         <p>${error.message}</p>
                     </div>
-                    <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+                    <div class="info-container">
                         <h4>To make the file publicly accessible:</h4>
                         <ol style="text-align: left;">
                             <li>Open your Google Drive file</li>
@@ -193,7 +418,7 @@
                             <li>Copy the link and try again</li>
                         </ol>
                     </div>
-                    <button onclick="loadExpensesFromDrive()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px;">
+                    <button onclick="loadExpensesFromDrive()" style="padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 10px; cursor: pointer; margin: 20px; font-size: 16px; font-weight: 600; box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3); transition: transform 0.3s ease;">
                         Try Again
                     </button>
                 `;
@@ -223,6 +448,7 @@
             let monthlyData = {};
             let dailyData = {};
             let purposeData = {};
+            let annualData = {};
             let allExpenses = [];
             
             // Process each sheet
@@ -303,6 +529,10 @@
                                 const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
                                 monthlyData[monthKey] = (monthlyData[monthKey] || 0) + amount;
                                 
+                                // Annual data
+                                const yearKey = date.getFullYear().toString();
+                                annualData[yearKey] = (annualData[yearKey] || 0) + amount;
+                                
                                 // Daily data
                                 const dayKey = date.toISOString().split('T')[0];
                                 dailyData[dayKey] = (dailyData[dayKey] || 0) + amount;
@@ -325,38 +555,107 @@
                 }
             });
             
-            // Create summary section
+            // Helper function to format date as '1 Jan 2025'
+            function formatDate(date) {
+                const day = date.getDate();
+                const month = date.toLocaleDateString('en-US', { month: 'short' });
+                const year = date.getFullYear();
+                return `${day} ${month} ${year}`;
+            }
+            
+            // Create summary section with improved styling
             const summarySection = document.createElement('div');
             summarySection.className = 'expense-summary';
             summarySection.innerHTML = `
-                <h2>Swedish Expenses Summary</h2>
+                <h2>📊 Swedish Expenses Summary</h2>
                 <div class="summary-cards">
                     <div class="summary-card">
-                        <h3>Total Expenses</h3>
+                        <h3>💰 Total Expenses</h3>
                         <p class="amount">${totalExpenses.toFixed(2)} SEK</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Number of Transactions</h3>
+                        <h3>📝 Number of Transactions</h3>
                         <p class="amount">${allExpenses.length}</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Average per Transaction</h3>
+                        <h3>📈 Average per Transaction</h3>
                         <p class="amount">${(totalExpenses / allExpenses.length).toFixed(2)} SEK</p>
                     </div>
                     <div class="summary-card">
-                        <h3>Number of Days</h3>
+                        <h3>📅 Number of Days</h3>
                         <p class="amount">${Object.keys(dailyData).length}</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>📊 Average Daily Spending</h3>
+                        <p class="amount">${(totalExpenses / Object.keys(dailyData).length).toFixed(2)} SEK</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>📅 Date Range</h3>
+                        <p class="amount">${formatDate(new Date(Math.min(...allExpenses.map(e => e.date))))} - ${formatDate(new Date(Math.max(...allExpenses.map(e => e.date))))}</p>
                     </div>
                 </div>
             `;
             chartsContainer.appendChild(summarySection);
+            
+            // Create annual expenses chart
+            if (Object.keys(annualData).length > 0) {
+                const annualChartSection = document.createElement('div');
+                annualChartSection.className = 'chart-section';
+                annualChartSection.innerHTML = `
+                    <h3>📈 Annual Expense Overview</h3>
+                    <canvas id="annualChart" width="400" height="200"></canvas>
+                `;
+                chartsContainer.appendChild(annualChartSection);
+                
+                const annualCtx = document.getElementById('annualChart').getContext('2d');
+                const sortedYears = Object.keys(annualData).sort();
+                
+                new Chart(annualCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: sortedYears,
+                        datasets: [{
+                            label: 'Annual Expenses (SEK)',
+                            data: sortedYears.map(year => annualData[year]),
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Annual Expense Overview'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `Annual Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Amount (SEK)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
             
             // Create monthly trend chart
             if (Object.keys(monthlyData).length > 0) {
                 const monthlyChartSection = document.createElement('div');
                 monthlyChartSection.className = 'chart-section';
                 monthlyChartSection.innerHTML = `
-                    <h3>Monthly Expense Trend</h3>
+                    <h3>📊 Monthly Expense Trend</h3>
                     <canvas id="monthlyChart" width="400" height="200"></canvas>
                 `;
                 chartsContainer.appendChild(monthlyChartSection);
@@ -369,7 +668,9 @@
                     data: {
                         labels: sortedMonths.map(month => {
                             const [year, monthNum] = month.split('-');
-                            return `${monthNum}/${year}`;
+                            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            return `${monthNames[parseInt(monthNum) - 1]} ${year}`;
                         }),
                         datasets: [{
                             label: 'Monthly Expenses (SEK)',
@@ -413,7 +714,7 @@
                 const dailyChartSection = document.createElement('div');
                 dailyChartSection.className = 'chart-section';
                 dailyChartSection.innerHTML = `
-                    <h3>Daily Spending Pattern</h3>
+                    <h3>📅 Daily Spending Pattern</h3>
                     <canvas id="dailyChart" width="400" height="200"></canvas>
                 `;
                 chartsContainer.appendChild(dailyChartSection);
@@ -427,7 +728,7 @@
                     data: {
                         labels: recentDays.map(day => {
                             const date = new Date(day);
-                            return `${date.getDate()}/${date.getMonth() + 1}`;
+                            return formatDate(date);
                         }),
                         datasets: [{
                             label: 'Daily Expenses (SEK)',
@@ -470,7 +771,7 @@
                 const purposeChartSection = document.createElement('div');
                 purposeChartSection.className = 'chart-section';
                 purposeChartSection.innerHTML = `
-                    <h3>Expenses by Purpose</h3>
+                    <h3>🎯 Expenses by Purpose</h3>
                     <canvas id="purposeChart" width="400" height="400"></canvas>
                 `;
                 chartsContainer.appendChild(purposeChartSection);
@@ -521,11 +822,11 @@
                 });
             }
             
-            // Create detailed expenses table
+            // Create detailed expenses table with new date format
             const tableSection = document.createElement('div');
             tableSection.className = 'expenses-table-section';
             tableSection.innerHTML = `
-                <h3>Detailed Expenses</h3>
+                <h3>📋 Detailed Expenses</h3>
                 <div class="table-container">
                     <table class="expenses-table">
                         <thead>
@@ -542,7 +843,7 @@
                                 .sort((a, b) => b.date - a.date)
                                 .map(expense => `
                                     <tr>
-                                        <td>${expense.date.toLocaleDateString()}</td>
+                                        <td>${formatDate(expense.date)}</td>
                                         <td>${expense.purpose}</td>
                                         <td>${expense.comments}</td>
                                         <td>${expense.amount.toFixed(2)}</td>
@@ -559,7 +860,7 @@
             const monthlyTableSection = document.createElement('div');
             monthlyTableSection.className = 'expenses-table-section';
             monthlyTableSection.innerHTML = `
-                <h3>Monthly Summary</h3>
+                <h3>📊 Monthly Summary</h3>
                 <div class="table-container">
                     <table class="expenses-table">
                         <thead>
@@ -576,9 +877,12 @@
                                 .map(month => {
                                     const monthExpenses = allExpenses.filter(e => e.month === month);
                                     const daysInMonth = new Set(monthExpenses.map(e => e.day)).size;
+                                    const [year, monthNum] = month.split('-');
+                                    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                                                      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                                     return `
                                         <tr>
-                                            <td>${month.split('-')[1]}/${month.split('-')[0]}</td>
+                                            <td>${monthNames[parseInt(monthNum) - 1]} ${year}</td>
                                             <td>${monthlyData[month].toFixed(2)}</td>
                                             <td>${monthExpenses.length}</td>
                                             <td>${(monthlyData[month] / daysInMonth).toFixed(2)}</td>
@@ -590,6 +894,45 @@
                 </div>
             `;
             chartsContainer.appendChild(monthlyTableSection);
+            
+            // Create annual summary table
+            const annualTableSection = document.createElement('div');
+            annualTableSection.className = 'expenses-table-section';
+            annualTableSection.innerHTML = `
+                <h3>📈 Annual Summary</h3>
+                <div class="table-container">
+                    <table class="expenses-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Total Expenses (SEK)</th>
+                                <th>Number of Transactions</th>
+                                <th>Average per Month</th>
+                                <th>Average per Day</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.keys(annualData)
+                                .sort()
+                                .map(year => {
+                                    const yearExpenses = allExpenses.filter(e => e.date.getFullYear().toString() === year);
+                                    const daysInYear = new Set(yearExpenses.map(e => e.day)).size;
+                                    const monthsInYear = new Set(yearExpenses.map(e => e.month)).size;
+                                    return `
+                                        <tr>
+                                            <td>${year}</td>
+                                            <td>${annualData[year].toFixed(2)}</td>
+                                            <td>${yearExpenses.length}</td>
+                                            <td>${(annualData[year] / monthsInYear).toFixed(2)}</td>
+                                            <td>${(annualData[year] / daysInYear).toFixed(2)}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            chartsContainer.appendChild(annualTableSection);
         }
 
         // Automatically load expenses on page load
