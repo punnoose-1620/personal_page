@@ -63,12 +63,14 @@
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
+            width: 100%;
         }
         
         main {
             max-width: 1800px;
             margin: 0 auto;
             padding: 15px;
+            width: 100%;
         }
         
         main section {
@@ -77,6 +79,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             padding: 20px;
             margin-bottom: 20px;
+            width: 100%;
         }
         
         main section h2 {
@@ -275,6 +278,18 @@
             .tables-grid {
                 grid-template-columns: 1fr 1fr 1fr;
             }
+
+            main {
+                width: 100%;
+            }
+
+            main section {
+                width: 100%;
+            }
+
+            body {
+                width: 100%;
+            }
         }
         
         @media (max-width: 1199px) and (min-width: 768px) {
@@ -289,6 +304,18 @@
             
             .tables-grid {
                 grid-template-columns: 1fr 1fr;
+            }
+
+            main {
+                width: 100%;
+            }
+
+            main section {
+                width: 100%;
+            }   
+
+            body {
+                width: 100%;
             }
         }
         
@@ -314,9 +341,18 @@
             .summary-card .amount {
                 font-size: 1.4em;
             }
+
+            body {
+                width: 100%;
+            }
+
+            main {
+                width: 100%;
+            }
             
             main section {
                 padding: 15px;
+                width: 100%;
             }
             
             main section h2 {
@@ -533,6 +569,7 @@
                             dataRows.push(row);
                         }
                     }
+                    tempTestJson= [];
                     
                     // Process expense data based on Swedish Expenses structure
                     dataRows.forEach(row => {
@@ -554,6 +591,17 @@
                             // Excel dates are days since 1900-01-01 (with some quirks)
                             const excelEpoch = new Date(1900, 0, 1);
                             const date = new Date(excelEpoch.getTime() + (dateSerial - 2) * 24 * 60 * 60 * 1000);
+
+                            tempTestJson.push({
+                                date: date,
+                                month: monthStr,
+                                purpose: purpose,
+                                amount: amount,
+                                comments: comments,
+                                dailyTotal: dailyTotal,
+                                monthlyTotal: monthlyTotal
+                            });
+
                             
                             if (amount > 0) {
                                 totalExpenses += amount;
