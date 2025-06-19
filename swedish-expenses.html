@@ -267,7 +267,7 @@
 
                             // Debug: Log what we're reading from each column
                             console.log('Column values:', {
-                                'row[0] (A)': new Date(row[0]),
+                                'row[0] (A)': new Date(row[-1]),
                                 'row[1] (B)': row[1], 
                                 'row[2] (C)': row[2],
                                 'row[3] (D)': row[3],
@@ -277,7 +277,7 @@
                             });
 
                             tempTestJson.push({
-                                date: new Date(dateStr),
+                                date: new Date(row[-1]),
                                 month: monthStr,
                                 purpose: purpose,
                                 amount: amount,
