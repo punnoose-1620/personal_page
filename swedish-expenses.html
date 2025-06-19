@@ -228,7 +228,7 @@
             // Process each sheet
             workbook.SheetNames.forEach(sheetName => {
                 const worksheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 0 });
                 
                 if (jsonData.length > 1) { // Skip if only header or empty
                     // Find the data rows (skip header and any graph data)
@@ -262,7 +262,7 @@
                             const monthlyTotal = row[6] || 0; // Column G
 
                             tempTestJson.push({
-                                date: dateStr,
+                                date: new Date(dateStr),
                                 month: monthStr,
                                 purpose: purpose,
                                 amount: amount,
