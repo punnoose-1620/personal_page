@@ -105,7 +105,7 @@
         
         .summary-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -154,10 +154,12 @@
             margin-bottom: 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border: 1px solid #e9ecef;
+            height: 350px;
         }
         
         .chart-section.full-width {
             grid-column: 1 / -1;
+            height: 400px;
         }
         
         .chart-section h3 {
@@ -166,6 +168,15 @@
             font-size: 1.3em;
             font-weight: 500;
             text-align: center;
+        }
+        
+        .chart-section canvas {
+            max-height: 280px;
+            width: 100% !important;
+        }
+        
+        .chart-section.full-width canvas {
+            max-height: 330px;
         }
         
         /* Table Styling - Optimized for landscape */
@@ -259,16 +270,16 @@
         /* Responsive Design - Optimized for landscape */
         @media (min-width: 1200px) {
             .summary-cards {
-                grid-template-columns: repeat(6, 1fr);
-                gap: 12px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
             }
             
             .summary-card {
-                padding: 18px 12px;
+                padding: 20px 15px;
             }
             
             .summary-card .amount {
-                font-size: 1.4em;
+                font-size: 1.6em;
             }
             
             .charts-grid {
@@ -277,6 +288,22 @@
             
             .tables-grid {
                 grid-template-columns: 1fr 1fr 1fr;
+            }
+            
+            .chart-section {
+                height: 320px;
+            }
+            
+            .chart-section.full-width {
+                height: 380px;
+            }
+            
+            .chart-section canvas {
+                max-height: 250px;
+            }
+            
+            .chart-section.full-width canvas {
+                max-height: 310px;
             }
 
             main {
@@ -294,7 +321,7 @@
         
         @media (max-width: 1199px) and (min-width: 768px) {
             .summary-cards {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
                 gap: 15px;
             }
             
@@ -304,6 +331,22 @@
             
             .tables-grid {
                 grid-template-columns: 1fr 1fr;
+            }
+            
+            .chart-section {
+                height: 300px;
+            }
+            
+            .chart-section.full-width {
+                height: 350px;
+            }
+            
+            .chart-section canvas {
+                max-height: 230px;
+            }
+            
+            .chart-section.full-width canvas {
+                max-height: 280px;
             }
 
             main {
@@ -332,6 +375,19 @@
             
             .chart-section, .expenses-table-section {
                 margin-bottom: 15px;
+                height: 280px;
+            }
+            
+            .chart-section.full-width {
+                height: 320px;
+            }
+            
+            .chart-section canvas {
+                max-height: 210px;
+            }
+            
+            .chart-section.full-width canvas {
+                max-height: 250px;
             }
             
             .summary-card {
