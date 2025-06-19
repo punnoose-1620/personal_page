@@ -228,7 +228,7 @@
             // Process each sheet
             workbook.SheetNames.forEach(sheetName => {
                 const worksheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 0 });
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                 
                 if (jsonData.length > 1) { // Skip if only header or empty
                     // Find the data rows (skip header and any graph data)
@@ -248,6 +248,10 @@
                     // Process expense data based on Swedish Expenses structure
                     dataRows.forEach(row => {
                         if (row.length >= 5) { // Ensure we have enough columns
+                            // Debug: Log the entire row to see what's actually there
+                            console.log('Full row array:', row);
+                            console.log('Row length:', row.length);
+                            
                             // Use hardcoded column indices:
                             // A (index 0): date
                             // C (index 2): Purpose  
@@ -261,8 +265,19 @@
                             const dailyTotal = row[5] || 0; // Column F
                             const monthlyTotal = row[6] || 0; // Column G
 
+                            // Debug: Log what we're reading from each column
+                            console.log('Column values:', {
+                                'row[0] (A)': row[0],
+                                'row[1] (B)': row[1], 
+                                'row[2] (C)': row[2],
+                                'row[3] (D)': row[3],
+                                'row[4] (E)': row[4],
+                                'row[5] (F)': row[5],
+                                'row[6] (G)': row[6]
+                            });
+
                             tempTestJson.push({
-                                date: new Date(dateStr),
+                                date: dateStr,
                                 month: monthStr,
                                 purpose: purpose,
                                 amount: amount,
