@@ -257,7 +257,7 @@
                             // C (index 2): Purpose  
                             // D (index 3): Amount in SEK
                             // E (index 4): Comments
-                            const dateStr = row[0]; // Column A
+                            const dateSerial = row[0]; // Column A - Excel date serial number
                             const monthStr = row[1]; // Column B
                             const purpose = row[2] || 'Unknown'; // Column C
                             const amount = parseFloat(row[3]) || 0; // Column D
@@ -265,9 +265,15 @@
                             const dailyTotal = row[5] || 0; // Column F
                             const monthlyTotal = row[6] || 0; // Column G
 
+                            // Convert Excel serial number to JavaScript Date
+                            // Excel dates are days since 1900-01-01 (with some quirks)
+                            const excelEpoch = new Date(1900, 0, 1);
+                            const date = new Date(excelEpoch.getTime() + (dateSerial - 2) * 24 * 60 * 60 * 1000);
+
                             // Debug: Log what we're reading from each column
                             console.log('Column values:', {
-                                'row[0] (A)': new Date(row[-1]),
+                                'row[0] (A) - Excel serial:': dateSerial,
+                                'row[0] (A) - Converted date:': date,
                                 'row[1] (B)': row[1], 
                                 'row[2] (C)': row[2],
                                 'row[3] (D)': row[3],
@@ -277,7 +283,7 @@
                             });
 
                             tempTestJson.push({
-                                date: new Date(row[-1]),
+                                date: date,
                                 month: monthStr,
                                 purpose: purpose,
                                 amount: amount,
@@ -288,10 +294,8 @@
 
                             
                             if (amount > 0) {
-                                const date = new Date(dateStr);
-                                
                                 // Debug: Log the parsed date
-                                console.log('Parsed date from column A:', date, 'Original value:', dateStr);
+                                console.log('Parsed date from column A:', date, 'Original Excel serial:', dateSerial);
                                 
                                 totalExpenses += amount;
                                 
