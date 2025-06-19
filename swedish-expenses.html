@@ -56,7 +56,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     
     <style>
-        /* Enhanced styling for Swedish Expenses page */
+        /* Enhanced styling for Swedish Expenses page - Optimized for Landscape */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -66,144 +66,171 @@
         }
         
         main {
-            max-width: 1400px;
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         main section {
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
         main section h2 {
             color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-size: 2.2em;
             font-weight: 300;
         }
         
-        /* Summary Cards Styling */
+        /* Summary Cards Styling - Optimized for Landscape */
         .expense-summary {
-            margin-bottom: 40px;
+            margin-bottom: 25px;
         }
         
         .expense-summary h2 {
             color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-size: 2em;
             font-weight: 300;
         }
         
         .summary-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
         .summary-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 30px 25px;
-            border-radius: 15px;
+            padding: 20px 15px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
         .summary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
         
         .summary-card h3 {
-            margin: 0 0 15px 0;
-            font-size: 1.1em;
+            margin: 0 0 10px 0;
+            font-size: 0.95em;
             font-weight: 500;
             opacity: 0.9;
         }
         
         .summary-card .amount {
-            font-size: 2em;
+            font-size: 1.6em;
             font-weight: 700;
             margin: 0;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        /* Chart Sections */
+        /* Chart Sections - Side by side layout for landscape */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
         .chart-section {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border: 1px solid #e9ecef;
+        }
+        
+        .chart-section.full-width {
+            grid-column: 1 / -1;
         }
         
         .chart-section h3 {
             color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-size: 1.3em;
             font-weight: 500;
             text-align: center;
         }
         
-        /* Table Styling */
+        /* Table Styling - Optimized for landscape */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
         .expenses-table-section {
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border: 1px solid #e9ecef;
+        }
+        
+        .expenses-table-section.full-width {
+            grid-column: 1 / -1;
         }
         
         .expenses-table-section h3 {
             color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-size: 1.3em;
             font-weight: 500;
             text-align: center;
         }
         
         .table-container {
             overflow-x: auto;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-height: 400px;
+            overflow-y: auto;
         }
         
         .expenses-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            font-size: 0.95em;
+            font-size: 0.85em;
         }
         
         .expenses-table th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 15px 12px;
+            padding: 12px 8px;
             text-align: left;
             font-weight: 600;
             border: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .expenses-table th:first-child {
-            border-top-left-radius: 10px;
+            border-top-left-radius: 8px;
         }
         
         .expenses-table th:last-child {
-            border-top-right-radius: 10px;
+            border-top-right-radius: 8px;
         }
         
         .expenses-table td {
-            padding: 12px;
+            padding: 8px;
             border-bottom: 1px solid #e9ecef;
             vertical-align: top;
         }
@@ -226,31 +253,74 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        /* Responsive Design - Optimized for landscape */
+        @media (min-width: 1200px) {
             .summary-cards {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 12px;
             }
             
             .summary-card {
-                padding: 25px 20px;
+                padding: 18px 12px;
             }
             
             .summary-card .amount {
-                font-size: 1.6em;
+                font-size: 1.4em;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            
+            .tables-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 1199px) and (min-width: 768px) {
+            .summary-cards {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .tables-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .summary-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .charts-grid, .tables-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .chart-section, .expenses-table-section {
-                padding: 20px;
+                margin-bottom: 15px;
+            }
+            
+            .summary-card {
+                padding: 20px 15px;
+            }
+            
+            .summary-card .amount {
+                font-size: 1.4em;
             }
             
             main section {
-                padding: 20px;
+                padding: 15px;
             }
             
             main section h2 {
-                font-size: 2em;
+                font-size: 1.8em;
             }
         }
         
@@ -258,25 +328,37 @@
         .error-container {
             background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
         }
         
         .error-container h3 {
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-size: 1.2em;
         }
         
         /* Success/Info Styling */
         .info-container {
             background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
             color: white;
-            padding: 25px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
+        }
+        
+        /* Compact layout for better landscape viewing */
+        .compact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            align-items: start;
+        }
+        
+        .compact-layout .chart-section {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -347,8 +429,6 @@
         // Function to load and parse XLSX file from Google Drive
         async function loadExpensesFromDrive() {
             try {
-                console.log('Loading expenses from Google Drive...');
-                
                 // Update loading message
                 const mainSection = document.querySelector('main section');
                 mainSection.innerHTML = `
@@ -366,8 +446,6 @@
                 // This works when the file is set to "Anyone with the link can view"
                 const sharingUrl = `https://docs.google.com/spreadsheets/d/${fileId}/export?format=xlsx`;
                 
-                console.log('Fetching from Google Drive sharing URL...');
-                
                 const response = await fetch(sharingUrl, {
                     method: 'GET',
                     headers: {
@@ -380,24 +458,12 @@
                 }
                 
                 const arrayBuffer = await response.arrayBuffer();
-                console.log('File downloaded successfully, parsing XLSX...');
                 
                 // Parse the XLSX file
                 const workbook = XLSX.read(arrayBuffer, { type: 'array' });
                 
-                console.log('Workbook loaded successfully!');
-                console.log('Available sheets:', workbook.SheetNames);
-                
                 // Process the data and create charts
                 processExpenseData(workbook);
-                
-                // Log data to console for debugging
-                workbook.SheetNames.forEach(sheetName => {
-                    console.log(`\n--- Sheet: ${sheetName} ---`);
-                    const worksheet = workbook.Sheets[sheetName];
-                    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                    console.log('Sheet data:', jsonData);
-                });
                 
             } catch (error) {
                 console.error('Error loading expenses:', error);
@@ -427,12 +493,12 @@
 
         // Function to process expense data and create charts
         function processExpenseData(workbook) {
-            const chartsContainer = document.getElementById('charts-container');
-            chartsContainer.innerHTML = ''; // Clear existing content
+            const mainSection = document.querySelector('main section');
             
             // Check if Chart.js is available
             if (typeof Chart === 'undefined') {
-                chartsContainer.innerHTML = `
+                mainSection.innerHTML = `
+                    <h2>Swedish Expenses Tracker</h2>
                     <div style="color: red; text-align: center; padding: 20px;">
                         <h3>Chart.js Library Not Loaded</h3>
                         <p>Please refresh the page to load the chart library properly.</p>
@@ -464,20 +530,13 @@
                     for (let i = 2; i < jsonData.length; i++) {
                         const row = jsonData[i];
                         if (row && row[0]) {
-                            // Debug: Log the first column value
-                            console.log(`Row ${i}, Column 0:`, row[0], 'Type:', typeof row[0]);
                             dataRows.push(row);
                         }
                     }
-                    tempTestJson= [];
                     
                     // Process expense data based on Swedish Expenses structure
                     dataRows.forEach(row => {
                         if (row.length >= 5) { // Ensure we have enough columns
-                            // Debug: Log the entire row to see what's actually there
-                            console.log('Full row array:', row);
-                            console.log('Row length:', row.length);
-                            
                             // Use hardcoded column indices:
                             // A (index 0): date
                             // C (index 2): Purpose  
@@ -495,34 +554,8 @@
                             // Excel dates are days since 1900-01-01 (with some quirks)
                             const excelEpoch = new Date(1900, 0, 1);
                             const date = new Date(excelEpoch.getTime() + (dateSerial - 2) * 24 * 60 * 60 * 1000);
-
-                            // Debug: Log what we're reading from each column
-                            console.log('Column values:', {
-                                'row[0] (A) - Excel serial:': dateSerial,
-                                'row[0] (A) - Converted date:': date,
-                                'row[1] (B)': row[1], 
-                                'row[2] (C)': row[2],
-                                'row[3] (D)': row[3],
-                                'row[4] (E)': row[4],
-                                'row[5] (F)': row[5],
-                                'row[6] (G)': row[6]
-                            });
-
-                            tempTestJson.push({
-                                date: date,
-                                month: monthStr,
-                                purpose: purpose,
-                                amount: amount,
-                                comments: comments,
-                                dailyTotal: dailyTotal,
-                                monthlyTotal: monthlyTotal
-                            });
-
                             
                             if (amount > 0) {
-                                // Debug: Log the parsed date
-                                console.log('Parsed date from column A:', date, 'Original Excel serial:', dateSerial);
-                                
                                 totalExpenses += amount;
                                 
                                 // Monthly data
@@ -551,7 +584,6 @@
                             }
                         }
                     });
-                    console.log("tempTestJson: ", tempTestJson);
                 }
             });
             
@@ -563,376 +595,410 @@
                 return `${day} ${month} ${year}`;
             }
             
-            // Create summary section with improved styling
-            const summarySection = document.createElement('div');
-            summarySection.className = 'expense-summary';
-            summarySection.innerHTML = `
-                <h2>📊 Swedish Expenses Summary</h2>
-                <div class="summary-cards">
-                    <div class="summary-card">
-                        <h3>💰 Total Expenses</h3>
-                        <p class="amount">${totalExpenses.toFixed(2)} SEK</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>📝 Number of Transactions</h3>
-                        <p class="amount">${allExpenses.length}</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>📈 Average per Transaction</h3>
-                        <p class="amount">${(totalExpenses / allExpenses.length).toFixed(2)} SEK</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>📅 Number of Days</h3>
-                        <p class="amount">${Object.keys(dailyData).length}</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>📊 Average Daily Spending</h3>
-                        <p class="amount">${(totalExpenses / Object.keys(dailyData).length).toFixed(2)} SEK</p>
-                    </div>
-                    <div class="summary-card">
-                        <h3>📅 Date Range</h3>
-                        <p class="amount">${formatDate(new Date(Math.min(...allExpenses.map(e => e.date))))} - ${formatDate(new Date(Math.max(...allExpenses.map(e => e.date))))}</p>
+            // Create the complete content for the section
+            let sectionContent = `
+                <h2>Swedish Expenses Tracker</h2>
+                
+                <!-- Summary section -->
+                <div class="expense-summary">
+                    <h2>📊 Swedish Expenses Summary</h2>
+                    <div class="summary-cards">
+                        <div class="summary-card">
+                            <h3>💰 Total Expenses</h3>
+                            <p class="amount">${totalExpenses.toFixed(2)} SEK</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>📝 Number of Transactions</h3>
+                            <p class="amount">${allExpenses.length}</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>📈 Average per Transaction</h3>
+                            <p class="amount">${(totalExpenses / allExpenses.length).toFixed(2)} SEK</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>📅 Number of Days</h3>
+                            <p class="amount">${Object.keys(dailyData).length}</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>📊 Average Daily Spending</h3>
+                            <p class="amount">${(totalExpenses / Object.keys(dailyData).length).toFixed(2)} SEK</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>📅 Date Range</h3>
+                            <p class="amount">${formatDate(new Date(Math.min(...allExpenses.map(e => e.date))))} - ${formatDate(new Date(Math.max(...allExpenses.map(e => e.date))))}</p>
+                        </div>
                     </div>
                 </div>
             `;
-            chartsContainer.appendChild(summarySection);
             
-            // Create annual expenses chart
+            // Add annual chart if data exists
             if (Object.keys(annualData).length > 0) {
-                const annualChartSection = document.createElement('div');
-                annualChartSection.className = 'chart-section';
-                annualChartSection.innerHTML = `
-                    <h3>📈 Annual Expense Overview</h3>
-                    <canvas id="annualChart" width="400" height="200"></canvas>
+                sectionContent += `
+                    <div class="chart-section">
+                        <h3>📈 Annual Expense Overview</h3>
+                        <canvas id="annualChart" width="400" height="200"></canvas>
+                    </div>
                 `;
-                chartsContainer.appendChild(annualChartSection);
-                
-                const annualCtx = document.getElementById('annualChart').getContext('2d');
-                const sortedYears = Object.keys(annualData).sort();
-                
-                new Chart(annualCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: sortedYears,
-                        datasets: [{
-                            label: 'Annual Expenses (SEK)',
-                            data: sortedYears.map(year => annualData[year]),
-                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Annual Expense Overview'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `Annual Total: ${context.parsed.y.toFixed(2)} SEK`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Amount (SEK)'
-                                }
-                            }
-                        }
-                    }
-                });
             }
             
-            // Create monthly trend chart
+            // Add charts grid
+            sectionContent += `<div class="charts-grid">`;
+            
+            // Add monthly chart if data exists
             if (Object.keys(monthlyData).length > 0) {
-                const monthlyChartSection = document.createElement('div');
-                monthlyChartSection.className = 'chart-section';
-                monthlyChartSection.innerHTML = `
-                    <h3>📊 Monthly Expense Trend</h3>
-                    <canvas id="monthlyChart" width="400" height="200"></canvas>
+                sectionContent += `
+                    <div class="chart-section">
+                        <h3>📊 Monthly Expense Trend</h3>
+                        <canvas id="monthlyChart" width="400" height="200"></canvas>
+                    </div>
                 `;
-                chartsContainer.appendChild(monthlyChartSection);
-                
-                const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
-                const sortedMonths = Object.keys(monthlyData).sort();
-                
-                new Chart(monthlyCtx, {
-                    type: 'line',
-                    data: {
-                        labels: sortedMonths.map(month => {
-                            const [year, monthNum] = month.split('-');
-                            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                            return `${monthNames[parseInt(monthNum) - 1]} ${year}`;
-                        }),
-                        datasets: [{
-                            label: 'Monthly Expenses (SEK)',
-                            data: sortedMonths.map(month => monthlyData[month]),
-                            borderColor: 'rgb(75, 192, 192)',
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            tension: 0.1,
-                            fill: true
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Monthly Expense Trend'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `Monthly Total: ${context.parsed.y.toFixed(2)} SEK`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Amount (SEK)'
-                                }
-                            }
-                        }
-                    }
-                });
             }
             
-            // Create daily spending chart
+            // Add daily chart if data exists
             if (Object.keys(dailyData).length > 0) {
-                const dailyChartSection = document.createElement('div');
-                dailyChartSection.className = 'chart-section';
-                dailyChartSection.innerHTML = `
-                    <h3>📅 Daily Spending Pattern</h3>
-                    <canvas id="dailyChart" width="400" height="200"></canvas>
+                sectionContent += `
+                    <div class="chart-section">
+                        <h3>📅 Daily Spending Pattern</h3>
+                        <canvas id="dailyChart" width="400" height="200"></canvas>
+                    </div>
                 `;
-                chartsContainer.appendChild(dailyChartSection);
-                
-                const dailyCtx = document.getElementById('dailyChart').getContext('2d');
-                const sortedDays = Object.keys(dailyData).sort();
-                const recentDays = sortedDays.slice(-30); // Show last 30 days
-                
-                new Chart(dailyCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: recentDays.map(day => {
-                            const date = new Date(day);
-                            return formatDate(date);
-                        }),
-                        datasets: [{
-                            label: 'Daily Expenses (SEK)',
-                            data: recentDays.map(day => dailyData[day]),
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Daily Spending (Last 30 Days)'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `Daily Total: ${context.parsed.y.toFixed(2)} SEK`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Amount (SEK)'
-                                }
-                            }
-                        }
-                    }
-                });
             }
             
-            // Create purpose/category pie chart
+            sectionContent += `</div>`;
+            
+            // Add purpose chart if data exists
             if (Object.keys(purposeData).length > 0) {
-                const purposeChartSection = document.createElement('div');
-                purposeChartSection.className = 'chart-section';
-                purposeChartSection.innerHTML = `
-                    <h3>🎯 Expenses by Purpose</h3>
-                    <canvas id="purposeChart" width="400" height="400"></canvas>
+                sectionContent += `
+                    <div class="chart-section full-width">
+                        <h3>🎯 Expenses by Purpose</h3>
+                        <canvas id="purposeChart" width="400" height="300"></canvas>
+                    </div>
                 `;
-                chartsContainer.appendChild(purposeChartSection);
-                
-                const purposeCtx = document.getElementById('purposeChart').getContext('2d');
-                const colors = [
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
-                    '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
-                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
-                ];
-                
-                // Sort purposes by amount (descending)
-                const sortedPurposes = Object.entries(purposeData)
-                    .sort(([,a], [,b]) => b - a)
-                    .slice(0, 10); // Show top 10 purposes
-                
-                new Chart(purposeCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: sortedPurposes.map(([purpose]) => purpose),
-                        datasets: [{
-                            data: sortedPurposes.map(([,amount]) => amount),
-                            backgroundColor: colors.slice(0, sortedPurposes.length),
-                            borderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                                labels: {
-                                    padding: 20
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const label = context.label || '';
-                                        const value = context.parsed;
-                                        const percentage = ((value / totalExpenses) * 100).toFixed(1);
-                                        return `${label}: ${value.toFixed(2)} SEK (${percentage}%)`;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
             }
             
-            // Create detailed expenses table with new date format
-            const tableSection = document.createElement('div');
-            tableSection.className = 'expenses-table-section';
-            tableSection.innerHTML = `
-                <h3>📋 Detailed Expenses</h3>
-                <div class="table-container">
-                    <table class="expenses-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Purpose</th>
-                                <th>Comments</th>
-                                <th>Amount (SEK)</th>
-                                <th>Daily Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${allExpenses
-                                .sort((a, b) => b.date - a.date)
-                                .map(expense => `
-                                    <tr>
-                                        <td>${formatDate(expense.date)}</td>
-                                        <td>${expense.purpose}</td>
-                                        <td>${expense.comments}</td>
-                                        <td>${expense.amount.toFixed(2)}</td>
-                                        <td>${dailyData[expense.day].toFixed(2)}</td>
-                                    </tr>
-                                `).join('')}
-                        </tbody>
-                    </table>
+            // Add detailed expenses table
+            sectionContent += `
+                <div class="expenses-table-section full-width">
+                    <h3>📋 Detailed Expenses</h3>
+                    <div class="table-container">
+                        <table class="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Purpose</th>
+                                    <th>Comments</th>
+                                    <th>Amount (SEK)</th>
+                                    <th>Daily Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${allExpenses
+                                    .sort((a, b) => b.date - a.date)
+                                    .map(expense => `
+                                        <tr>
+                                            <td>${formatDate(expense.date)}</td>
+                                            <td>${expense.purpose}</td>
+                                            <td>${expense.comments}</td>
+                                            <td>${expense.amount.toFixed(2)}</td>
+                                            <td>${dailyData[expense.day].toFixed(2)}</td>
+                                        </tr>
+                                    `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             `;
-            chartsContainer.appendChild(tableSection);
             
-            // Create monthly summary table
-            const monthlyTableSection = document.createElement('div');
-            monthlyTableSection.className = 'expenses-table-section';
-            monthlyTableSection.innerHTML = `
-                <h3>📊 Monthly Summary</h3>
-                <div class="table-container">
-                    <table class="expenses-table">
-                        <thead>
-                            <tr>
-                                <th>Month</th>
-                                <th>Total Expenses (SEK)</th>
-                                <th>Number of Transactions</th>
-                                <th>Average per Day</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${Object.keys(monthlyData)
-                                .sort()
-                                .map(month => {
-                                    const monthExpenses = allExpenses.filter(e => e.month === month);
-                                    const daysInMonth = new Set(monthExpenses.map(e => e.day)).size;
+            // Add tables grid
+            sectionContent += `<div class="tables-grid">`;
+            
+            // Add monthly summary table
+            sectionContent += `
+                <div class="expenses-table-section">
+                    <h3>📊 Monthly Summary</h3>
+                    <div class="table-container">
+                        <table class="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Total Expenses (SEK)</th>
+                                    <th>Number of Transactions</th>
+                                    <th>Average per Day</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.keys(monthlyData)
+                                    .sort()
+                                    .map(month => {
+                                        const monthExpenses = allExpenses.filter(e => e.month === month);
+                                        const daysInMonth = new Set(monthExpenses.map(e => e.day)).size;
+                                        const [year, monthNum] = month.split('-');
+                                        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                                                          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                                        return `
+                                            <tr>
+                                                <td>${monthNames[parseInt(monthNum) - 1]} ${year}</td>
+                                                <td>${monthlyData[month].toFixed(2)}</td>
+                                                <td>${monthExpenses.length}</td>
+                                                <td>${(monthlyData[month] / daysInMonth).toFixed(2)}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            // Add annual summary table
+            sectionContent += `
+                <div class="expenses-table-section">
+                    <h3>📈 Annual Summary</h3>
+                    <div class="table-container">
+                        <table class="expenses-table">
+                            <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Total Expenses (SEK)</th>
+                                    <th>Number of Transactions</th>
+                                    <th>Average per Month</th>
+                                    <th>Average per Day</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.keys(annualData)
+                                    .sort()
+                                    .map(year => {
+                                        const yearExpenses = allExpenses.filter(e => e.date.getFullYear().toString() === year);
+                                        const daysInYear = new Set(yearExpenses.map(e => e.day)).size;
+                                        const monthsInYear = new Set(yearExpenses.map(e => e.month)).size;
+                                        return `
+                                            <tr>
+                                                <td>${year}</td>
+                                                <td>${annualData[year].toFixed(2)}</td>
+                                                <td>${yearExpenses.length}</td>
+                                                <td>${(annualData[year] / monthsInYear).toFixed(2)}</td>
+                                                <td>${(annualData[year] / daysInYear).toFixed(2)}</td>
+                                            </tr>
+                                        `;
+                                    }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            sectionContent += `</div>`;
+            
+            // Replace the section content
+            mainSection.innerHTML = sectionContent;
+            
+            // Now create the charts after the DOM elements exist
+            setTimeout(() => {
+                // Create annual chart
+                if (Object.keys(annualData).length > 0) {
+                    const annualCtx = document.getElementById('annualChart')?.getContext('2d');
+                    if (annualCtx) {
+                        const sortedYears = Object.keys(annualData).sort();
+                        new Chart(annualCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: sortedYears,
+                                datasets: [{
+                                    label: 'Annual Expenses (SEK)',
+                                    data: sortedYears.map(year => annualData[year]),
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Annual Expense Overview'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `Annual Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Amount (SEK)'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Create monthly chart
+                if (Object.keys(monthlyData).length > 0) {
+                    const monthlyCtx = document.getElementById('monthlyChart')?.getContext('2d');
+                    if (monthlyCtx) {
+                        const sortedMonths = Object.keys(monthlyData).sort();
+                        new Chart(monthlyCtx, {
+                            type: 'line',
+                            data: {
+                                labels: sortedMonths.map(month => {
                                     const [year, monthNum] = month.split('-');
                                     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                                                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                                    return `
-                                        <tr>
-                                            <td>${monthNames[parseInt(monthNum) - 1]} ${year}</td>
-                                            <td>${monthlyData[month].toFixed(2)}</td>
-                                            <td>${monthExpenses.length}</td>
-                                            <td>${(monthlyData[month] / daysInMonth).toFixed(2)}</td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            chartsContainer.appendChild(monthlyTableSection);
-            
-            // Create annual summary table
-            const annualTableSection = document.createElement('div');
-            annualTableSection.className = 'expenses-table-section';
-            annualTableSection.innerHTML = `
-                <h3>📈 Annual Summary</h3>
-                <div class="table-container">
-                    <table class="expenses-table">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Total Expenses (SEK)</th>
-                                <th>Number of Transactions</th>
-                                <th>Average per Month</th>
-                                <th>Average per Day</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${Object.keys(annualData)
-                                .sort()
-                                .map(year => {
-                                    const yearExpenses = allExpenses.filter(e => e.date.getFullYear().toString() === year);
-                                    const daysInYear = new Set(yearExpenses.map(e => e.day)).size;
-                                    const monthsInYear = new Set(yearExpenses.map(e => e.month)).size;
-                                    return `
-                                        <tr>
-                                            <td>${year}</td>
-                                            <td>${annualData[year].toFixed(2)}</td>
-                                            <td>${yearExpenses.length}</td>
-                                            <td>${(annualData[year] / monthsInYear).toFixed(2)}</td>
-                                            <td>${(annualData[year] / daysInYear).toFixed(2)}</td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            chartsContainer.appendChild(annualTableSection);
+                                    return `${monthNames[parseInt(monthNum) - 1]} ${year}`;
+                                }),
+                                datasets: [{
+                                    label: 'Monthly Expenses (SEK)',
+                                    data: sortedMonths.map(month => monthlyData[month]),
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    tension: 0.1,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Monthly Expense Trend'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `Monthly Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Amount (SEK)'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Create daily chart
+                if (Object.keys(dailyData).length > 0) {
+                    const dailyCtx = document.getElementById('dailyChart')?.getContext('2d');
+                    if (dailyCtx) {
+                        const sortedDays = Object.keys(dailyData).sort();
+                        const recentDays = sortedDays.slice(-30);
+                        new Chart(dailyCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: recentDays.map(day => {
+                                    const date = new Date(day);
+                                    return formatDate(date);
+                                }),
+                                datasets: [{
+                                    label: 'Daily Expenses (SEK)',
+                                    data: recentDays.map(day => dailyData[day]),
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: 'Daily Spending (Last 30 Days)'
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `Daily Total: ${context.parsed.y.toFixed(2)} SEK`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Amount (SEK)'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Create purpose chart
+                if (Object.keys(purposeData).length > 0) {
+                    const purposeCtx = document.getElementById('purposeChart')?.getContext('2d');
+                    if (purposeCtx) {
+                        const colors = [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+                            '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'
+                        ];
+                        
+                        const sortedPurposes = Object.entries(purposeData)
+                            .sort(([,a], [,b]) => b - a)
+                            .slice(0, 10);
+                        
+                        new Chart(purposeCtx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: sortedPurposes.map(([purpose]) => purpose),
+                                datasets: [{
+                                    data: sortedPurposes.map(([,amount]) => amount),
+                                    backgroundColor: colors.slice(0, sortedPurposes.length),
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                        labels: {
+                                            padding: 15,
+                                            font: {
+                                                size: 12
+                                            }
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                const label = context.label || '';
+                                                const value = context.parsed;
+                                                const percentage = ((value / totalExpenses) * 100).toFixed(1);
+                                                return `${label}: ${value.toFixed(2)} SEK (${percentage}%)`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            }, 100);
         }
 
         // Automatically load expenses on page load
