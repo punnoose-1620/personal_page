@@ -52,6 +52,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Add XLSX library for parsing Excel files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Add Chart.js for interactive charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 </head>
 <body>
     <script>
@@ -174,21 +176,14 @@
                 
             } catch (error) {
                 console.error('Error loading expenses:', error);
-                
-                // Update the page content to show error with alternative options
                 const mainSection = document.querySelector('main section');
                 mainSection.innerHTML = `
                     <h2>Swedish Expenses Tracker</h2>
                     <p>Unable to load from Google Drive. The file may not be publicly accessible.</p>
-                    
                     <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
-                        <h3>📁 Upload Your File Instead</h3>
-                        <p>This is the most reliable way to view your expense charts!</p>
-                        <button onclick="setupFileInput()" style="padding: 15px 30px; background-color: white; color: #667eea; border: none; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; margin: 10px;">
-                            <i class="fa fa-upload"></i> Upload Excel File
-                        </button>
+                        <h3>Error Details</h3>
+                        <p>${error.message}</p>
                     </div>
-                    
                     <div style="margin: 20px 0; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
                         <h4>To make the file publicly accessible:</h4>
                         <ol style="text-align: left;">
@@ -198,73 +193,31 @@
                             <li>Copy the link and try again</li>
                         </ol>
                     </div>
-                    
                     <button onclick="loadExpensesFromDrive()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px;">
                         Try Again
                     </button>
-                    
-                    <div id="charts-container">
-                        <p style="text-align: center; color: #666; margin-top: 20px;">
-                            Or click "Upload Excel File" above for immediate access.
-                        </p>
-                    </div>
                 `;
             }
-        }
-
-        // Alternative function to handle file upload
-        function setupFileInput() {
-            const mainSection = document.querySelector('main section');
-            mainSection.innerHTML = `
-                <h2>Upload Swedish Expenses File</h2>
-                <p>Please select your Swedish Expenses Excel file (.xlsx)</p>
-                <input type="file" id="fileInput" accept=".xlsx,.xls" style="margin: 20px 0; padding: 10px; border: 2px dashed #007bff; border-radius: 5px; width: 100%;">
-                <div id="charts-container">
-                    <p style="text-align: center; color: #666; margin-top: 20px;">
-                        Select your Excel file to view interactive charts.
-                    </p>
-                </div>
-            `;
-            
-            document.getElementById('fileInput').addEventListener('change', handleFileUpload);
-        }
-
-        // Function to handle file upload
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const arrayBuffer = e.target.result;
-                    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-                    
-                    console.log('File uploaded successfully!');
-                    console.log('Available sheets:', workbook.SheetNames);
-                    
-                    // Process the data and create charts
-                    processExpenseData(workbook);
-                    
-                } catch (error) {
-                    console.error('Error processing uploaded file:', error);
-                    const chartsContainer = document.getElementById('charts-container');
-                    chartsContainer.innerHTML = `
-                        <div style="color: red; text-align: center; padding: 20px;">
-                            <h3>Error Processing File</h3>
-                            <p>${error.message}</p>
-                            <p>Please make sure you selected a valid Excel file.</p>
-                        </div>
-                    `;
-                }
-            };
-            reader.readAsArrayBuffer(file);
         }
 
         // Function to process expense data and create charts
         function processExpenseData(workbook) {
             const chartsContainer = document.getElementById('charts-container');
             chartsContainer.innerHTML = ''; // Clear existing content
+            
+            // Check if Chart.js is available
+            if (typeof Chart === 'undefined') {
+                chartsContainer.innerHTML = `
+                    <div style="color: red; text-align: center; padding: 20px;">
+                        <h3>Chart.js Library Not Loaded</h3>
+                        <p>Please refresh the page to load the chart library properly.</p>
+                        <button onclick="location.reload()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Refresh Page
+                        </button>
+                    </div>
+                `;
+                return;
+            }
             
             let totalExpenses = 0;
             let monthlyData = {};
@@ -595,6 +548,11 @@
             `;
             chartsContainer.appendChild(monthlyTableSection);
         }
+
+        // Automatically load expenses on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadExpensesFromDrive();
+        });
     </script>
 
     <header class="header-custom">
@@ -623,9 +581,6 @@
         <section>
             <h2>Swedish Expenses Tracker</h2>
             <p>Loading expenses data from Google Drive...</p>
-            <button onclick="loadExpensesFromDrive()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Load Expenses Data
-            </button>
         </section>
     </main>
 
