@@ -529,98 +529,6 @@
             document.body.removeChild(link);
         }
 
-        // Function to generate dummy data for preview
-        function generateDummyData() {
-            const dummyData = [];
-            const purposes = [
-                'Food & Groceries', 'Transportation', 'Shopping', 'Entertainment', 
-                'Healthcare', 'Education', 'Utilities', 'Rent', 'Insurance', 'Travel'
-            ];
-            
-            const comments = [
-                'Weekly groceries', 'Bus ticket', 'Clothing purchase', 'Movie night',
-                'Doctor visit', 'Course materials', 'Electricity bill', 'Monthly rent',
-                'Health insurance', 'Weekend trip', 'Coffee break', 'Lunch at restaurant',
-                'Gym membership', 'Phone bill', 'Internet subscription'
-            ];
-            
-            // Generate 200 days of data starting from 6 months ago
-            const startDate = new Date();
-            startDate.setMonth(startDate.getMonth() - 6);
-            
-            for (let i = 0; i < 200; i++) {
-                const currentDate = new Date(startDate);
-                currentDate.setDate(startDate.getDate() + i);
-                
-                // Skip weekends occasionally to make it more realistic
-                if (Math.random() < 0.3 && (currentDate.getDay() === 0 || currentDate.getDay() === 6)) {
-                    continue;
-                }
-                
-                // Generate 1-3 transactions per day
-                const transactionsPerDay = Math.floor(Math.random() * 3) + 1;
-                
-                for (let j = 0; j < transactionsPerDay; j++) {
-                    const purpose = purposes[Math.floor(Math.random() * purposes.length)];
-                    const comment = comments[Math.floor(Math.random() * comments.length)];
-                    const amount = Math.floor(Math.random() * 500) + 50; // 50-550 SEK
-                    
-                    dummyData.push({
-                        date: new Date(currentDate),
-                        purpose: purpose,
-                        amount: amount,
-                        comments: comment
-                    });
-                }
-            }
-            
-            return dummyData;
-        }
-        
-        // Function to process dummy data
-        function processDummyData() {
-            const dummyData = generateDummyData();
-            
-            let totalExpenses = 0;
-            let monthlyData = {};
-            let dailyData = {};
-            let purposeData = {};
-            let annualData = {};
-            let allExpenses = [];
-            
-            // Process dummy data
-            dummyData.forEach(expense => {
-                totalExpenses += expense.amount;
-                
-                // Monthly data
-                const monthKey = `${expense.date.getFullYear()}-${String(expense.date.getMonth() + 1).padStart(2, '0')}`;
-                monthlyData[monthKey] = (monthlyData[monthKey] || 0) + expense.amount;
-                
-                // Annual data
-                const yearKey = expense.date.getFullYear().toString();
-                annualData[yearKey] = (annualData[yearKey] || 0) + expense.amount;
-                
-                // Daily data
-                const dayKey = expense.date.toISOString().split('T')[0];
-                dailyData[dayKey] = (dailyData[dayKey] || 0) + expense.amount;
-                
-                // Purpose/Category data
-                purposeData[expense.purpose] = (purposeData[expense.purpose] || 0) + expense.amount;
-                
-                allExpenses.push({
-                    date: expense.date,
-                    month: monthKey,
-                    day: dayKey,
-                    purpose: expense.purpose,
-                    amount: expense.amount,
-                    comments: expense.comments
-                });
-            });
-            
-            // Create the complete content for the section
-            createExpenseContent(totalExpenses, monthlyData, dailyData, purposeData, annualData, allExpenses);
-        }
-        
         // Function to create expense content (extracted from processExpenseData)
         function createExpenseContent(totalExpenses, monthlyData, dailyData, purposeData, annualData, allExpenses) {
             const mainSection = document.querySelector('main section');
@@ -1080,8 +988,8 @@
                 
             } catch (error) {
                 console.error('Error loading expenses:', error);
-                
-                processDummyData();
+                // Show a popup if the expenses sheet could not be loaded
+                alert("Unable to load the expenses sheet from Google Drive. Please check the file's sharing settings or try again later.");
             }
         }
 
