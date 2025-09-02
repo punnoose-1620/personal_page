@@ -674,7 +674,7 @@
                             </thead>
                             <tbody>
                                 ${Object.keys(monthlyData)
-                                    .sort()
+                                    .sort().reverse()
                                     .map(month => {
                                         const monthExpenses = allExpenses.filter(e => e.month === month);
                                         const daysInMonth = new Set(monthExpenses.map(e => e.day)).size;
@@ -713,7 +713,7 @@
                             </thead>
                             <tbody>
                                 ${Object.keys(annualData)
-                                    .sort()
+                                    .sort().reverse()
                                     .map(year => {
                                         const yearExpenses = allExpenses.filter(e => e.date.getFullYear().toString() === year);
                                         const daysInYear = new Set(yearExpenses.map(e => e.day)).size;
