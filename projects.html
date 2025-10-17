@@ -163,13 +163,24 @@
             <br />
             <div class="education-grid">
                 <!-- Add project details here -->
+                <a onclick="viewGitHubRepo('snake-reinforcement-learning')" class="disable-link-underscore">
+                    <div 
+                        class="project-item"
+                        onmouseover="this.style.backgroundImage='url(./bg_images/snake_game_dqn.png)';"
+                        onmouseout="this.style.backgroundImage='none';"
+                    >
+                        <h3 class="education-item-title">Snake AI - Reinforcement Learning</h3>
+                        <p class="education-item-description">A Deep Q-Network reinforcement learning system developed to train an AI agent for the classic Snake game. Systematic optimization of reward functions, curriculum learning, and intelligent training termination mechanisms led to an agent with strategic gameplay capabilities and consistent high success rates.</p>
+                    </div>
+                </a>
+
                 <a onclick="viewGitHubRepo('SlowFashion-DL-Mallus')" class="disable-link-underscore">
                     <div 
                         class="project-item"
                         onmouseover="this.style.backgroundImage='url(./bg_images/slow_fashion.png)';"
                         onmouseout="this.style.backgroundImage='none';"
                     >
-                        <h3 class="education-item-title">Slow Fashion Deep Learning Project</h3>
+                        <h3 class="education-item-title">Slow Fashion - Deep Learning</h3>
                         <p class="education-item-description">This group project for Slow Fashion creates an AI system that hierarchically classifies fashion products. It first categorizes items into clothing, shoes, or bags, then subcategorizes into specific types like dresses, heels, and totes. Using transfer learning with ResNet50 and VGG16 models, the system incorporates data augmentation and Grad-CAM visualizations for interpretability.</p>
                     </div>
                 </a>
