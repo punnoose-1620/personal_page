@@ -251,7 +251,8 @@ section {
 
 .education-projects .skills {
     font-style: oblique;
-    font-weight: 700;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
 }
 
 .project-item {
