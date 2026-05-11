@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Masters Thesis</title>
+  <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
+  <style>
+    :root {
+      --chrome: #2a2a2a;
+      --nav-bg: #444444;
+      --text: #2a2a2a;
+      --muted: #444;
+      --border: #ddd;
+      --surface: #ffffff;
+      --page: #f7f7f7;
+      --accent: #007bd9;
+      --btn: #4b4b4b;
+      --btn-hover: #787878;
+      --sidebar-width: 280px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--page);
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); }
+    .document a.citation-link,
+    .document a.reference-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .document a.citation-link:hover,
+    .document a.reference-link:hover { text-decoration: underline; }
+    .document a.reference-link { color: var(--text); }
+    .document a.reference-link:hover { color: var(--accent); }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--chrome);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid #333;
+      z-index: 1000;
+    }
+    .sidebar-header {
+      padding: 1rem 1rem 0.75rem;
+      border-bottom: 1px solid var(--nav-bg);
+    }
+    .sidebar-header h1 {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .logo-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .logo-row img {
+      height: 36px;
+      width: auto;
+      max-width: 110px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 4px;
+      padding: 4px;
+    }
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem 0.5rem 1rem;
+    }
+    .sidebar-nav ul { list-style: none; margin: 0; padding: 0; }
+    .sidebar-nav a {
+      display: block;
+      padding: 0.35rem 0.75rem;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      line-height: 1.35;
+    }
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active { background: var(--nav-bg); }
+    .sidebar-nav .nav-sub a { padding-left: 1.25rem; font-size: 0.85rem; }
+    .sidebar-nav .nav-sub2 a { padding-left: 1.75rem; font-size: 0.82rem; }
+    .sidebar-actions {
+      padding: 0.75rem;
+      border-top: 1px solid var(--nav-bg);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 16px;
+      background: var(--btn);
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--btn-hover); }
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      background: var(--chrome);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .mobile-topbar h1 { margin: 0; font-size: 1rem; }
+    .menu-toggle {
+      background: var(--nav-bg);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.45rem 0.7rem;
+      font: inherit;
+      cursor: pointer;
+    }
+    .backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 999;
+    }
+    .content-wrap {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      padding: 1.5rem 1rem 3rem;
+    }
+    .document {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      line-height: 1.65;
+    }
+    .document h1,
+    .document h2,
+    .document h3 {
+      scroll-margin-top: 5rem;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .document h1 { font-size: 1.75rem; margin: 0 0 1rem; }
+    .document h2 {
+      font-size: 1.35rem;
+      margin: 2rem 0 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.35rem;
+    }
+    .document h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+    .document p { margin: 0 0 1rem; color: var(--muted); }
+    .document ul,
+    .document ol { margin: 0 0 1rem 1.25rem; color: var(--muted); }
+    .document li { margin-bottom: 0.35rem; }
+    .document code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #f1f1f1;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.92em;
+    }
+    .document hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+    .document-toc ul { list-style: none; padding-left: 0; }
+    .document-toc .toc-sub { margin-left: 1rem; }
+    .document-toc a { text-decoration: none; }
+    .report-figure { margin: 1rem 0 1.5rem; text-align: center; }
+    .report-figure img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .report-figure figcaption,
+    .caption { font-size: 0.92rem; color: var(--muted); font-style: italic; }
+    .table-rotate { margin: 1rem 0 1.5rem; }
+    .table-rotate-inner { width: 100%; overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #f3f3f3; color: var(--text); }
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-topbar { display: flex; }
+      .content-wrap { margin-left: 0; width: 100%; padding: 0 0 2rem; }
+      .document {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        padding: 1.25rem 1rem;
+      }
+      .backdrop.show { display: block; }
+      .table-rotate {
+        height: min(88vw, 520px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .table-rotate-inner {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: min(140vw, 720px);
+        max-height: 92vw;
+        overflow: hidden;
+      }
+      .table-rotate table { font-size: 0.72rem; }
+    }
+    @media print {
+      .sidebar,
+      .mobile-topbar,
+      .backdrop { display: none !important; }
+      .content-wrap { margin: 0; width: 100%; }
+      .document { box-shadow: none; border: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="mobile-topbar">
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
+    <h1>Masters Thesis</h1>
+  </div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Report sections">
+      <div class="sidebar-header">
+        <div class="logo-row">
+          <img id="juLogo" src="" alt="Jönköping University logo">
+          <img id="volvoLogo" src="" alt="Volvo Cars logo">
+        </div>
+        <h1>Masters Thesis</h1>
+      </div>
+      <nav class="sidebar-nav" aria-label="Section index">
+        <ul>
+<li class=""><a href="#holistic-design-and-evaluation-of-an-agentic-llm-workflow-with-integrated-function-calling" data-section="holistic-design-and-evaluation-of-an-agentic-llm-workflow-with-integrated-function-calling">Holistic Design and Evaluation of an Agentic LLM Workflow with Integrated Function Calling</a></li>
+<li class="nav-sub"><a href="#abstract" data-section="abstract">Abstract</a></li>
+<li class=""><a href="#introduction" data-section="introduction">Introduction</a></li>
+<li class="nav-sub"><a href="#problem-statement" data-section="problem-statement">Problem Statement</a></li>
+<li class=""><a href="#background-and-related-works" data-section="background-and-related-works">Background and related works</a></li>
+<li class="nav-sub"><a href="#overview-of-automotive-enterprise-knowledge-systems" data-section="overview-of-automotive-enterprise-knowledge-systems">Overview of Automotive Enterprise Knowledge Systems</a></li>
+<li class="nav-sub"><a href="#large-language-models-for-enterprise-applications" data-section="large-language-models-for-enterprise-applications">Large Language Models for Enterprise Applications</a></li>
+<li class="nav-sub"><a href="#retrieval-augmented-generationrag" data-section="retrieval-augmented-generationrag">Retrieval-Augmented Generation(RAG)</a></li>
+<li class="nav-sub"><a href="#tool-augmented-llm-and-function-calling" data-section="tool-augmented-llm-and-function-calling">Tool-Augmented LLM and Function calling</a></li>
+<li class="nav-sub"><a href="#structured-output-and-schema-based-reasoning" data-section="structured-output-and-schema-based-reasoning">Structured Output and Schema-based Reasoning</a></li>
+<li class="nav-sub"><a href="#metadata-driven-knowledge-retrieval" data-section="metadata-driven-knowledge-retrieval">Metadata-Driven Knowledge Retrieval</a></li>
+<li class="nav-sub"><a href="#related-work" data-section="related-work">Related Work</a></li>
+<li class=""><a href="#wice-chatbot" data-section="wice-chatbot">WICE Chatbot</a></li>
+<li class="nav-sub"><a href="#architecture" data-section="architecture">Architecture</a></li>
+<li class="nav-sub2"><a href="#orchestration-module" data-section="orchestration-module">Orchestration Module</a></li>
+<li class="nav-sub2"><a href="#prompt-specification-layer" data-section="prompt-specification-layer">Prompt Specification Layer</a></li>
+<li class="nav-sub2"><a href="#schema-validation-layer" data-section="schema-validation-layer">Schema Validation Layer</a></li>
+<li class="nav-sub2"><a href="#provider-abstraction-layer" data-section="provider-abstraction-layer">Provider Abstraction Layer</a></li>
+<li class="nav-sub2"><a href="#knowledge-access-layer" data-section="knowledge-access-layer">Knowledge Access Layer</a></li>
+<li class="nav-sub2"><a href="#capability-registry" data-section="capability-registry">Capability Registry</a></li>
+<li class="nav-sub2"><a href="#interaction-layer-execution-environment" data-section="interaction-layer-execution-environment">Interaction Layer (Execution Environment)</a></li>
+<li class=""><a href="#evaluation" data-section="evaluation">Evaluation</a></li>
+<li class="nav-sub"><a href="#evaluation-dataset" data-section="evaluation-dataset">Evaluation Dataset</a></li>
+<li class="nav-sub"><a href="#evaluation-metrics" data-section="evaluation-metrics">Evaluation Metrics</a></li>
+<li class=""><a href="#results" data-section="results">Results</a></li>
+<li class="nav-sub2"><a href="#rq1-results-how-effective-are-agentic-llms-in-interpreting-stakeholder-queries-and-retrieving-accurate-information-through-chained-function-calls-from-enterprise-data-sources" data-section="rq1-results-how-effective-are-agentic-llms-in-interpreting-stakeholder-queries-and-retrieving-accurate-information-through-chained-function-calls-from-enterprise-data-sources">RQ1 Results: How effective are agentic LLMs in interpreting stakeholder queries and retrieving accurate information through chained function calls from enterprise data sources?</a></li>
+<li class="nav-sub2"><a href="#rq2-results-to-what-extent-are-responses-generated-by-an-agentic-llm-with-structured-function-calling-tools-similar-to-expected-human-curated-responses" data-section="rq2-results-to-what-extent-are-responses-generated-by-an-agentic-llm-with-structured-function-calling-tools-similar-to-expected-human-curated-responses">RQ2 Results: To what extent are responses generated by an agentic LLM with structured function-calling tools similar to expected human-curated responses?</a></li>
+<li class="nav-sub"><a href="#evaluation-summary-table" data-section="evaluation-summary-table">Evaluation Summary Table</a></li>
+<li class=""><a href="#discussion" data-section="discussion">Discussion</a></li>
+<li class=""><a href="#conclusion" data-section="conclusion">Conclusion</a></li>
+<li class="nav-sub"><a href="#references" data-section="references">References</a></li>
+<li class="nav-sub"><a href="#appendices" data-section="appendices">Appendices</a></li>
+<li class="nav-sub2"><a href="#per-query-scores-for-15-query-sample" data-section="per-query-scores-for-15-query-sample">Per-query Scores for 15-query Sample</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-actions">
+        <button class="btn" id="viewReportBtn" type="button">View Report</button>
+      </div>
+    </aside>
+    <main class="content-wrap">
+      <article class="document" id="reportDocument">
+<h1 id="holistic-design-and-evaluation-of-an-agentic-llm-workflow-with-integrated-function-calling">Holistic Design and Evaluation of an Agentic LLM Workflow with Integrated Function Calling</h1>
+<p><strong>Author(s):</strong> Deepa Krishnan, Punnoose Kozhuppakalam Thomas</p>
+<p><strong>Subject:</strong> AI Engineering</p>
+<p><strong>Programme:</strong> Two Year Master of AI Engineering</p>
+<p><strong>Supervisor:</strong> Lucy Ellen Mukalinda Lwakatare</p>
+<p><strong>Credits:</strong> 30</p>
+<hr>
+<h2 id="abstract">Abstract</h2>
+<p>This thesis presents the design and empirical evaluation of an agentic large language model workflow with structured function calling for enterprise knowledge retrieval in an automotive context. The work addresses a practical challenge in which technical knowledge is distributed across heterogeneous internal repositories and stakeholders often depend on slow, expert-mediated communication for information access. To improve reliability and usability, the proposed architecture separates query routing, bounded iterative tool execution, evidence collection, and schema-constrained interpretation into explicit stages. The system uses metadata-guided retrieval from knowledge sources to reduce ungrounded generation and improve traceability of responses. Experimental evaluation on a manually curated benchmark shows that the workflow provided practically useful answer quality across both technical and non-technical query categories, with stronger semantic alignment that lexical overlap due to differences in reference and response style. The findings support the suitability of function-calling agentic LLM workflows for knowledge-grounded enterprise assistance, while highlighting remaining challenges in loop-efficiency and reliability optimization before high-stakes deployment.</p>
+<p><strong>Keywords:</strong> Agentic LLM, Function Calling, Enterprise Knowledge Retrieval, Retrieval-Augmented Generation (RAG), Schema-Constrained Generation, Metadata-Driven Retrieval, Automotive Engineering.</p>
+<p><em>Note:</em> AI-assisted language support was used only for sentence rephrasing and structural refinement; all scientific content, analysis, and conclusions were produced and verified by the authors.</p>
+<nav class="document-toc" aria-label="Table of contents"><h2>Table of Contents</h2><ul>
+<li class=""><a href="#introduction">Introduction</a></li>
+<li class="toc-sub"><a href="#problem-statement">Problem Statement</a></li>
+<li class=""><a href="#background-and-related-works">Background and related works</a></li>
+<li class="toc-sub"><a href="#overview-of-automotive-enterprise-knowledge-systems">Overview of Automotive Enterprise Knowledge Systems</a></li>
+<li class="toc-sub"><a href="#large-language-models-for-enterprise-applications">Large Language Models for Enterprise Applications</a></li>
+<li class="toc-sub"><a href="#retrieval-augmented-generationrag">Retrieval-Augmented Generation(RAG)</a></li>
+<li class="toc-sub"><a href="#tool-augmented-llm-and-function-calling">Tool-Augmented LLM and Function calling</a></li>
+<li class="toc-sub"><a href="#structured-output-and-schema-based-reasoning">Structured Output and Schema-based Reasoning</a></li>
+<li class="toc-sub"><a href="#metadata-driven-knowledge-retrieval">Metadata-Driven Knowledge Retrieval</a></li>
+<li class="toc-sub"><a href="#related-work">Related Work</a></li>
+<li class=""><a href="#wice-chatbot">WICE Chatbot</a></li>
+<li class="toc-sub"><a href="#architecture">Architecture</a></li>
+<li class=""><a href="#evaluation">Evaluation</a></li>
+<li class="toc-sub"><a href="#evaluation-dataset">Evaluation Dataset</a></li>
+<li class="toc-sub"><a href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class=""><a href="#results">Results</a></li>
+<li class="toc-sub"><a href="#rq1-results-how-effective-are-agentic-llms-in-interpreting-stakeholder-queries-and-retrieving-accurate-information-through-chained-function-calls-from-enterprise-data-sources">RQ1 Results: How effective are agentic LLMs in interpreting stakeholder queries and retrieving accurate information through chained function calls from enterprise data sources?</a></li>
+<li class="toc-sub"><a href="#rq2-results-to-what-extent-are-responses-generated-by-an-agentic-llm-with-structured-function-calling-tools-similar-to-expected-human-curated-responses">RQ2 Results: To what extent are responses generated by an agentic LLM with structured function-calling tools similar to expected human-curated responses?</a></li>
+<li class="toc-sub"><a href="#evaluation-summary-table">Evaluation Summary Table</a></li>
+<li class=""><a href="#discussion">Discussion</a></li>
+<li class=""><a href="#conclusion">Conclusion</a></li>
+<li class=""><a href="#references">References</a></li>
+<li class=""><a href="#appendices">Appendices</a></li>
+<li class="toc-sub"><a href="#per-query-scores-for-15-query-sample">Per-query Scores for 15-query Sample</a></li>
+</ul></nav>
+<h1 id="introduction">Introduction</h1>
+<p>In the automotive industry, vast amounts of technical information are generated on a routine basis. This creates challenges for knowledge access and decision-making. Specifically at Volvo Cars, this complexity is exemplified in the product validation phase where numerous sensors and Electronic Control Units (ECUs) equipped in vehicles generate massive streams of operational data. This data largely impacts decisions and processes for engineers who work to assess real-world behavior and ensure compliance with design and safety specifications. Managing and retrieving this information is often a herculean task, for which internal Wiki and SharePoint systems serve as central repositories for technical documentation, test reports, maintenance logs, and diagnostics. To locate relevant information, resolve procedural doubts or to apply documented methods, stakeholders often rely on traditional methods, such as scheduled meetings, calls, emails and informal discussions, despite the presence of these centralized platforms. This fragmented approach often reduces efficiency, consumes time and increases the risk of inconsistencies, especially when rapid and accurate decisions are critical.</p>
+<p>In contemporary enterprise practice, knowledge access is increasingly handled through retrieval-grounded AI workflows rather than fully manual, expert mediated communication. Typical approaches combine semantic retrieval, metadata-guided source routing, and tool-augmented LLM orchestration so that the system first retrieves relevant evidence from internal repositories and then generates responses grounded in that evidence. Compared with ad-hoc manual lookup, these workflows can reduce response latency, improve consistency across users, and provide traceable evidence paths that support auditability and governance. In high-stakes engineering settings, recommended practice also includes bounded tool execution and schema-constrained outputs to reduce hallucination risk while preserving reliability and data privacy in internal environments.</p>
+<p>This thesis addresses these limitations by proposing an agentic Large Language Model (LLM) workflow with structured function calling for enterprise knowledge retrieval. The system improves how stakeholders access knowledge across Wiki and SharePoint by interpreting user queries, selecting appropriate retrieval functions, and synthesizing responses from retrieved evidence. In this context, hallucination refers to model outputs that sound plausible but are not supported by authoritative source content. To reduce this risk, the proposed workflow uses staged orchestration, schema-constrained outputs, and bounded tool execution. The system is deployed fully within the internal intranet to preserve strict data privacy.</p>
+<p>Unlike work that reports only system implementation details, this thesis combines architecture development with a formal empirical evaluation. The implemented workflow moves from bulk context ingestion towards targeted evidence retrieval and synthesis, so responses are grounded in the most relevant source content rather than large undifferentiated inputs (Sen et al., 2024). To evaluate this design, the study uses a curated automotive benchmark and compares generated responses against reference answers using similarity-based metrics. The evaluation design in its entirety provides a reproducible and interpretable benchmarking framework that supports incremental system improvement, category level diagnosis and ablation ready comparison as the agentic workflow evolves.</p>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Automotive stakeholders require fast and accurate access to enterprise knowledge for tasks such as safety analysis, validation, planning, and decision-making. Although there are centralized repositories such as Wiki and SharePoint, information is often distributed across multiple platforms, and stakeholders rely on inefficient manual workflows to locate and interpret critical documentation. These challenges slow decision making and increase the risk of inconsistencies in safety critical procedures.</p>
+<p>Non-agentic LLM systems primarily generate responses directly from prompts and model-internal knowledge, without explicit multi-step tool orchestration. While useful for general language tasks, this setup is often insufficient for high-stakes enterprise retrieval, where responses must be grounded in current organizational sources and supported by traceable evidence. Otherwise, hallucinated or weakly supported answers can occur (Balu et al., 2025). Agentic LLM systems address part of this limitation by enabling structured function calls, iterative retrieval, and tool-mediated reasoning over external repositories (Sen et al., 2024). However, evidence is still limited to how well such systems perform in operational enterprise contexts, particularly for intent interpretation, chained function execution across heterogeneous sources, and hallucination reduction relative to non-agentic baselines.</p>
+<p>To address the above gaps, this thesis investigates the use of an agentic LLM architecture with structured function calling to improve knowledge retrieval. Multi-step workflows guided by metadata-driven function selection iteratively fetch and integrate content from Wiki and SharePoint, ensuring complete and accurate responses that are grounded on relevant data from both sources rather than relying on a single source and missing gaps in data. The proposed system is empirically evaluated by comparing its output with human-curated answers, providing quantitative insight into intent interpretation accuracy, workflow reliability, and hallucination reduction.</p>
+<p>This study delves into the following research questions:</p>
+<ul>
+<li><strong>RQ1:</strong> : How effective are agentic LLMs in interpreting stakeholder queries and retrieving accurate information through chained function calls from enterprise data sources?</li>
+<li><strong>RQ2:</strong> : To what extent is the response generated by LLM equipped with structured function calling tools in enterprise knowledge retrieval similar to expected response?</li>
+</ul>
+<p>By answering these questions, this thesis contributes a systematic understanding of agentic LLM workflows in real world enterprise environments, bridging the gap between theoretical LLM capabilities and practical, high stakes organizational applications.</p>
+<h1 id="background-and-related-works">Background and related works</h1>
+<h2 id="overview-of-automotive-enterprise-knowledge-systems">Overview of Automotive Enterprise Knowledge Systems</h2>
+<p>As established, technical knowledge at Automotive enterprise is distributed between SharePoint repositories and technical Wiki website. Within this ecosystem, SharePoint serves as the authoritative archive for static, high-granularity materials such as manuals, process documentation and versioned engineering artifacts. The wiki, in contrast, supports continuously updated knowledge, including evolving system architecture descriptions and cross-referenced engineering notes. Together, these platforms form a core knowledge layer that supports engineering decision making.</p>
+<p>However, inefficiencies remain in the knowledge transfer between these repositories and internal stakeholders. The current operation workflow is limited by a reliance on mediated communication - rather than querying a system directly, a stakeholder typically initiates a request via email of Microsoft Teams for expert assistance. The experts themselves then manually navigate and retrieve relevant information across repositories to resolve procedural or technical questions. The dependency on availability of these experts is effectively a bottleneck where response time and decision speed are limited by the bandwidth of human availability rather than by data accessibility.</p>
+<h2 id="large-language-models-for-enterprise-applications">Large Language Models for Enterprise Applications</h2>
+<p>LLMs can serve as a semantic bridge between unstructured organizational knowledge and user query. In enterprise settings, their value lies in moving beyond geneal-purpose dialogue toward knowledge synthesis and decision support over complex document landscapes.</p>
+<p>Particularly, the capabilities of LLM based systems lie in interpreting high-level technical questions from non-expert stakeholders and translating them into actionable steps for analysis, such as retrieving relevant engineering evidence and producing concise technical summaries. This can reduce manual effort and shorten decision cycle, especially in domains where users require interpretation of domain specific terminology(e.g., vehicle software architecture, validation processes and sensor related reasoning). Domain-focused agentic and RAG Retrieval-Augmented Generation (RAG) based systems for automotive engineering illustrate this trajectory, where LLM are used to support engineering analytics and knowledge access in controlled, evidence driven workflows, as discussed in (Khoee et al., 2025) and (Zolfaghari et al., 2024). further, automotive PDF/chatbot RAG pipelines demonstrate how LLMs can operationalise knowledge access for industrial users, as described in (Liu et al., 2024).</p>
+<p>While these approaches are promising, deployment in risk-sensitive industrial contexts requires additional attention to reliability, traceability and grounding properties that motivate the retrieval and tool based paradigms discussed next.</p>
+<h2 id="retrieval-augmented-generationrag">Retrieval-Augmented Generation(RAG)</h2>
+<p>Retrieval-Augmented Generation(RAG) improves language model performance by retrieving relevant external evidence before generating an answer. Unlike standalone LLMs that rely primarily on parametric knowledge learned during pretraining, RAG introduces an explicit retrieval step over external sources(e.g., documents, knowledge bases or indexed content) and conditions generation on that retrieved material.</p>
+<p>This design address common enterprise limitations of vanilla LLMs, including outdated information, missing domain specific details, and insufficient evidence for constrained tasks. RAG is widely framed as a retrieval to generation pipeline in the literature, for example in (Tural et al., 2024). In automotive oriented application, RAG based systems ae used to ground responses in engineering documents and domain specific knowledge, as described in (Zolfaghari et al., 2024). Additionally, retrieval effectiveness and re-ranking are shown to be important for answer quality in structured domains, as reflected in (Rustamov et al., 2025).</p>
+<h2 id="tool-augmented-llm-and-function-calling">Tool-Augmented LLM and Function calling</h2>
+<p>Capabilities of traditional language models can be extended by using tool-augmented LLMs, thus enabling controlled interaction with external systems through predefined functions(tools). These tools, in enterprise knowledge retrieval, can encapsulate structured operations such as navigating document structures, connecting to data repositories, filtering sources by version or topic, and extracting relevant content from heterogeneous formats. The system provides the model with controlled access to domain knowledge without the necessity for direct exposure to the full underlying datasets by abstracting these operations into callable functions.</p>
+<p>Function calling mechanisms are the most common form of interaction between LLMs and tools. The system first interprets a user query, after which the model selects an appropriate function from the registry and additionally produces the required parameters for execution. After executing the selected tool externally, the results are provided back to the model for reasoning and response generation. This paradigm aligns with agentic and tool-chain approaches studied in (Sen et al., 2024) and with automotive oriented comparisons of agentic versus direct LLM approaches in (Mazur et al., 2025). Compared to approaches that inject one huge bulk of raw enterprise data into the prompt, tool-augmented systems can use a selective retrieval strategy to reduce latency and limit irrelevant noise. This would improve both efficiency and provide a grounding quality.</p>
+<h2 id="structured-output-and-schema-based-reasoning">Structured Output and Schema-based Reasoning</h2>
+<p>In deterministic enterprise workflows, downstream components require machine interpretable decisions and parameters. The naturally generated free-form language of LLMs are often unsuitable for such uses. Structured output addresses this mismatch by constraining the model to generate responses that follow a predefined schema. This reduces the ambiguity, improves integration reliability and enables direct extraction of parameters used for executing the tools and functions.</p>
+<p>Schema-based reasoning explicitly defines required fields, permissible values and validation rules, thus strengthening control in the reasoning data flow. This schema acts as a guide during inference time to constrain the model&#x27;s output format while the downstream validation ensures the generated structure matches the expected constraints. The model&#x27;s outputs can directly determine which tools are invoked and what arguments they receive and hence, this is important in tool calling architectures. So format compliance is necessary to avoid execution failures. The work on improving function calling reliability via structured outputs provides direct support for this design motivation as discussed in (Sejourne and Lata, 2025)</p>
+<h2 id="metadata-driven-knowledge-retrieval">Metadata-Driven Knowledge Retrieval</h2>
+<p>Large document volumes and heterogeneous content make direct retrieval over raw material inefficient and prone to ambiguity in enterprise settings. By using structured description to guide how the LLM selects sources and how the system orchestrates tool calls, a metadata driven retrieval approach addresses this issue.</p>
+<p>In this work, metadata includes</p>
+<ol>
+<li>topic level descriptions of documents and repositories</li>
+<li>functional descriptions of available tools (capabilities, expected parameters, and output types)</li>
+<li>guidance for behavior that constrains how an LLM should operate during retrieval</li>
+</ol>
+<p>This layer reduces the effective search spaces by allowing the system to map queries to structured descriptors, thus enabling targeted access rather than full context ingestion. The broader idea of routing queries to suitable retrieval mechanisms is aligned with approaches such as (Zhang et al., 2025). In addition, enterprise focused retrieval pipelines emphasize hybrid and security aware mechanism where structured knowledge access constraints are crucial which is reflected in (Byun et al., 2024). These lines of work together motivate as a practical pathway, metadata driven orchestration to improve scalability, maintainability and grounding reliability in complex industrial knowledge environments.</p>
+<h2 id="related-work">Related Work</h2>
+<p>Gholamzadeh et al. (2024) introduce LLMs to reduce human effort for analyzing large tabular test datasets for automotive software release decisions. In conventional workflows, engineers inspects test outcomes manually to determine release readiness, a process that is both time intensive and error prone. To address this, the author propose an LLM based multi agent architecture composed of a planner agent and a executor agent. The planner converts natural language queries into structured stepwise plans, and the actor transforms these plans into executable python code that retrieves and process relevant data from source systems. A key strength of this design is that the model does not operate on built data pasted directly into prompts, instead of that it uses generated code to access data at execution time, improving factual grounding and</p>
+<p>reducing hallucination risk. This work is closely related to our motivation in building a domain focused knowledge sharing Chat bot. However, direct transfer of this approach is limited in our setting because our knowledge source  are heterogeneous(e.g., PDFs, spreadsheets and web content), rather than clean, uniformly structured tabular test repositories (Gholamzadeh et al., 2024).</p>
+<p>The major challenge highlighted, providing all data directly to the LLM would results in large context sizes. Roig et al. (2025) systematically study how context size affects hallucination. Their evaluation span 32K, 128K and 200K token context, where larger inputs contain more documents, entities and potentially competing facts. Importantly, the paper distinguishes grounding from hallucination means a model may retrieve relevant information yet still generate unsupported claims. Results shows significant decrease in performance at larger context windows, suggesting that hallucination growth may caused by missing information and long-context stress. These findings directly inform our design choice to avoid naively injecting large document collections into a single prompt (Roig et al., 2025).</p>
+<p>To mitigate this risk, Sen et al. (2024) proposes an architecture that separate LLM planning from deterministic execution. In the paper, LLM produces a structured JSON action plan means which function to call in what order, while an external rule based action engine validates inputs, executes API calls, and manages intermediate outputs. This separation of responsibilities  preventing the LLM to generate final outputs from large contexts. Our system adopts this core principle but departs from their strict sequential execution pattern. Instead of always following predefined multi step plans, our approach allows dynamic function selection, since many queries can be resolved through a single targeted retrieval operation. In addition, unlike pipelines that return raw execution results, our system includes an explicit interpretation layer to produce user facing structured, and understandable response suitable for knowledge sharing use cases. Together, these adaptations align the planning execution paradigm with domain constraints and usability goals (Sen et al., 2024).</p>
+<h1 id="wice-chatbot">WICE Chatbot</h1>
+<h2 id="architecture">Architecture</h2>
+<p>This thesis proposes WICE Agent  designed as a architecture modular and agentic framework that facilitates structured interaction between a Large Language Model(LLM) and enterprise knowledge sources, specifically Wiki website and Enterprise knowledge repositories (SharePoint) . The design  in which the LLM iteratively identify the user query, selects appropriate actions, retrieves information through function calls and interprets the retrieved results to produce coherent response . The design allows the system to handle complex, multi-step queries while maintaining reliability and scalability.</p>
+<p>Unlike traditional retrieval-augmented generation architectures that rely on static pipelines. The agent dynamically plans the execution strategies based on user query, available data sources, and intermediate results. The architecture is organized into set of logical layers each encapsulating a specific concern. These layers collectively describe how user input is processed, how decisions are made, and how information is retrieved and presented.</p>
+<figure class="report-figure"><img id="architectureFlowchart" src="" alt="High level architecture of WICE chatbot"><figcaption>High level architecture of WICE chatbot</figcaption></figure>
+<p class="caption"><em>Caption: High level architecture of WICE chatbot</em></p>
+<h3 id="orchestration-module">Orchestration Module</h3>
+<p>The orchestration module governs execution order, transition conditions, and state progression across inference stages. It manages source routing, iterative retrieval operation selection, bounded execution, and handoff to final response synthesis. Concretely, it acts as the control plane of the system which first determines whether the query should target Wiki, SharePoint or both, then it runs a controlled retrieval loop in which the model selects operations and parameters step by step and finally it transfers accumulated evidence to the interpretation stage.</p>
+<p>This module enforces explicit stopping criteria to preserve reliability, prevent unbounded tool use and reduce drift in multi-step queries. This includes iterations limits and enough information checks. It also centralizes error handling and retry behavior. Thus, malformed tool augments or transient API issues can be handled consistently rather than propagating across components. As a result, orchestration provides both functional coordination and operational safeguards.</p>
+<h3 id="prompt-specification-layer">Prompt Specification Layer</h3>
+<p>Specific prompt templates for source routing, retrieval operation selection, continuation logic and evidence interpretation are defined in this layer. To improve maintainability and support controlled prompt refinement, prompt definitions are externalized from controller logic. To make adjusting decision criteria, output schemas and instruction parsing without modifying orchestration flow easier, the system keeps prompts as dedicated specifications rather than embedding prompt strings directly into execution code.</p>
+<p>This separation enables systematic prompt versioning and comparison during experiments from an engineering perspective. This allows the prompt updates to be tested as isolated changes while keeping the runtime logic stable. This also improves reproducibility, since each inference stage can be tied to a known prompt definition and expected structured output format. Overall, the prompt layer balances flexibility with consistency by functioning as a configurable policy interface between the orchestration logic and the language model.</p>
+<h3 id="schema-validation-layer">Schema Validation Layer</h3>
+<p>Explicit schema definitions that govern source selection, retrieval-call specification, adequacy decisions, evidence packaging and final interpretation are defined to constrain all intermediate and final model outputs. This allows for the creation of a strict typed boundary between probabilistic text generation and deterministic program execution. So only structurally valid outputs can pass forward into downstream steps. This in practice also reduces orchestration errors by normalizing field variants, enforcing required keys and value types, and preventing malformed or overly free-form responses from propagating into retrieval or synthesis stages</p>
+<h3 id="provider-abstraction-layer">Provider Abstraction Layer</h3>
+<p>To encapsulate backend specific implementation details for Azure Open AI while preserving a consistent invocation contract for the rest of the system, we have a unified connector interface. By standardizing request assembly, structured JSON response handling, and schema aware parsing, this layer allows higher level orchestration to remain provider agnostic. It also enables predictable error semantics and cleaner recovery behavior at the controller level by centralizing exception translation and propagation for authentication failures, rate limits, connectivity issues and server side faults.</p>
+<h3 id="knowledge-access-layer">Knowledge Access Layer</h3>
+<p>The WICE Agent relies on two primary enterprise knowledge sources :</p>
+<ul>
+<li>SharePoint Repositories : The SharePoint system contains detailed, structured documentation essential for vehicle validation and operational procedures, cable solutions, package contents with part numbers, LED behavior and functional checks, portal access and data-handling guidelines, and training materials.</li>
+<li>WICE Wiki Website : The WICE Wiki website encompasses the broader system context as a dynamic, structured knowledge base. Information detailed in this source include the WICE system architecture, hardware platforms, communication interfaces, power management, module functions, portal usage, new features and updates, integration through REST APIs and release history.</li>
+</ul>
+<ul>
+<li><strong>SharePoint Interface:</strong> This component facing the SharePoint source provides retrieval capabilities for metadata discovery and selective file content extraction across heterogeneous document formats, including textual, tabular and video files. It combines index based filtering with format ware reading paths so the orchestrator can first narrow candidate documents and then extract interpretable content from the chosen items.</li>
+</ul>
+<ul>
+<li><strong> Wiki Interface:</strong> The wiki facing component provides retrieval capabilities for version discovery, page mapping and content extraction from versioned technical documentation. It supports access based on version context and page traversal and allows the system to resolve historical or release specific information while preserving navigational continuity across linked documentation pages.</li>
+</ul>
+<p>Both interfaces are designed to expose callable operation descriptors that the orchestration module&#x27;s executable tool can consume. This shared contract allows tool selection to be driven by semantic relevance rather than backend specific logic and enables consistent planning behavior across heterogeneous knowledge sources.</p>
+<h3 id="capability-registry">Capability Registry</h3>
+<p>In this system, a retrieval operations are a list of entries where each operation is represented by a canonical name, semantic description, parameter schema and an executable handle. The system builds a unified registry of these retrieval operations which acts as the formal action space available to the planner. This constrains the tool invocation to approved capabilities and valid argument structures. As a result, planning context is both machine actionable and auditable, improving controllability, reducing the chance of hallucinated operations and supporting reproducible execution traces across turns.</p>
+<h3 id="interaction-layer-execution-environment">Interaction Layer (Execution Environment)</h3>
+<p>Interactive session initialization, turn level dialogue handling and persistent conversational state across user inputs are the key features of the execution environment. By combining query handling, iterative retrieval orchestration, interpretation and logging, it operationalizes the architecture for experimentation and development time validation in a single workflow. This environment also supports continuation logic across incomplete retrieval cycles, enabling multi-turn evidence accumulation and controlled progression toward answer adequacy.</p>
+<h1 id="evaluation">Evaluation</h1>
+<p>The proposed architecture described in 3 implements a retrieval augmented, function using conversion architecture designed to answer domain specific questions grounded in two heterogeneous knowledge sources which are internal SharePoint document repository and wiki website as mentioned in Knowledge access Layer. Rather than generating responses directly from a language model in a single pass, the method decomposes answering into a sequential control stages which are query intake, source routing, iterative evidence acquisition, adequacy, assessment, response synthesis, and user facing delivery.</p>
+<p>At runtime, each user utterance is first normalized and evaluated by a termination detector to determine whether the interaction should continue. For non terminal inputs, the controller initiates a source routing step in which a language model predicts the most relevant knowledge backend(Wiki website, SharePoint, or both) based on topical coverage and expected retrieval efficiency. This routing decision constrains the function set available in subsequent steps and thereby reduces irrelevant tool calls.</p>
+<p>For evidence acquisition, iterative function selection loops are performed. The controller, in each iteration, constructs a structured prompt containing</p>
+<ol>
+<li>the original request from the user</li>
+<li>a list of available tools with descriptions and parameter schemas</li>
+<li>outcome of the previous tool invocation when applicable</li>
+</ol>
+<p>The model returns an object of type function call specifying the next operation, its rationale, parameter and a boolean sufficiency estimate. The controller takes the target backend and executes the selected function against it (e.g., list of files, URLs to pages, fetch document/version meta data). It validates the parameter compatibility against the registry schema and appends the normalized output to an accumulating evidence trace.</p>
+<p>This loop is governed by two stopping mechanisms. First, a sufficiency signal used internally allows early exit when a judgment is made by the model that the collected evidence is adequate for answer construction. Second, to prevent unbounded tool invocation and enforce computational predictability, a hard iteration cap is used. In cases where sufficiency is not achieved before the cap is reached, the system preserves the loop state for controlled continuation in a follow up user turn, thus allowing progressive evidence gathering without discarding prior context.</p>
+<p>After termination of the data collection routine, the full evidence trace is passed to a dedicated interpretation stage. A second structured prompt is used here to instruct the model to transform raw tool outputs into a constrained response object containing concise summary, justification grounded in retrieved evidence, relevant textual excerpt, conclusion and explicit source attributions. The separation between retrieval control and interpretation improves modularity where retrieval functions remain focused on evidence access. This allows a specialized formatter constrained by schema level validation to handle synthesis.</p>
+<p>Finally, a user facing response is rendered by the system from the interpreted object, typically emphasizing the quoted evidence and cited provenance to support transparency and auditability. The contribution to methodology is not just multi-source retrieval, but a controlled decision pipeline in which each stage is explicit, typed and transparent enough to be inspected. In formal terms, the flow of the operations is : User query injection - Probabilistic source routing - Bounded iterative tool orchestration (tool selection &gt; execution &gt; sufficiency/termination checks) - Evidence conditioned interpretation - Final grounded response generation. This design allows for reliable enterprise knowledge assistance by balancing flexibility of large language models with deterministic safeguards.</p>
+<h2 id="evaluation-dataset">Evaluation Dataset</h2>
+<p>Evaluation dataset was manually created from both knowledge sources used by the system are internal SharePoint documentation and versioned Wiki pages. A systematic study of these sources was utilized to manually curate the evaluation dataset.</p>
+<p>Each installation manual files, process instructions files, release history pages and feature documentation was parsed manually and relevant pieces of information was arranged into a row with labels for source, category, natural language question, expected response, and traceable reference to the original document or URL. Instead of using standardized benchmark prompts, questions were purposefully designed in a variety of conversational styles to represent actual user behavior. This produced a grounded test set that maintains source traceability while simulating operational usage scenarios.</p>
+<p>The final evaluation dataset contains 163 curated query-answer pairs spanning both SharePoint and Wiki knowledge sources. The purpose of collecting data this way was to ensure high factual integrity and auditability. Manual curation allowed the team to verify that each expected response is anchored to an explicit document passage or page, reducing the risk of unsupported answers and making error analysis practical. It also enabled deliberate balancing across technical and non-technical queries, platform-specific installation tasks, troubleshooting scenarios, and cross-version product change questions. By covering both source domains, the dataset supports evaluating not only answer quality, but also whether the orchestration logic consults the most appropriate repository for a given query.</p>
+<p>Each parameter in the dataset serves a distinct role in the evaluation pipeline. The question field is the primary runtime input used to test agent behavior complete. The remaining fields are primarily analytical controls used after response generation, source supports assessment of source selection correctness, Category enables segmented analysis of performance by query type, expected response provides a reference for semantic and factual comparison, and source of answer supplies provenance and response interpretation, while keeping the online test interface simple and shifting deeper diagnostic to post-hoc analysis.</p>
+<h2 id="evaluation-metrics">Evaluation Metrics</h2>
+<p>This work applies similarity analysis between WICE agent generated outputs and actual (ground-truth) responses in the curated evaluation dataset (Zhang et al., 2019). A dataset with predetermined question and answers is used to test the generated outputs, and performance is statically evaluated on how well the generated and reference responses align.</p>
+<p>To determine how agent generated responses closely resemble with human generated reference for the same query under a controlled test, the evaluation method was created. Each test has the following: a question/prompt, a reference answer and the LLM generated answer produced by the agentic pipeline. There are two objectives to this evaluation: to quantify textual overlap, and to capture lexical correctness in a reproducible manner suitable for iterative system development.</p>
+<p>To implement this, we use two complementary automatic metrics: token-level F1 and TF-IDF cosine similarity (Tural et al., 2024). Both metrics are bounded in the range [0,1], where higher values indicate stronger alignment with the reference answer. Token-level F1 captures lexical overlap through the harmonic mean of precision and recall, so low values typically indicate missing key tokens and/or additional unsupported tokens. TF-IDF cosine similarity measures similarity in weighted term distributions, making it more tolerant to wording variation than exact token matching, but it does not directly measure meaning. In this study, these metrics are interpreted comparatively across runs and query categories rather than by a universal pass/fail threshold, since practical score levels depend on reference style (concise key points versus longer explanatory generations).</p>
+<p>The evaluation pipeline uses pre-processing and normalization to reduce known artifacts from response formatting and length variation. In particular, evaluation text is normalized before token comparison, and boilerplate heavy answer sections are reduced to a compact scoring span to limit verbosity bias. This important in the present dataset because references are intentionally concise (key points), while generated answers may be longer and explanatory.</p>
+<p>Using fixed equal weights, the two metrics are combined into a single aggregate score:</p>
+<p><code>AggregateScore_i = 0.5 <em> F1_i + 0.5 </em> Cosine_i</code></p>
+<p>where <code>F1_i</code> is the token-level F1 score and <code>Cosine_i</code> is the TF-IDF cosine similarity for query <code>i</code>.</p>
+<p>The aggregate score also ranges from 0 to 1. Values near 0 indicate weak textual alignment, mid-range values indicate partial alignment, and values near 1 indicate strong alignment under the selected textual metrics. As an illustrative dataset-level result in this study, the overall aggregate score was 0.450 (median 0.475), indicating mid-range alignment between generated and reference answers.</p>
+<p>Scoring is computed per query and then summarized first at dataset level (mean, median, confidence interval) and then by category (technical vs non-technical). This supports consistent longitudinal comparison across runs while preserving visibility into variability.</p>
+<p><strong>Illustrative Example (Reader Orientation)</strong> <em>The following example is included only to clarify the evaluation setup and is not a separate result category.</em></p>
+<p><strong>Sample user query:</strong> &quot;What is WICE and what is it used for?&quot; <strong>Sample final response (sanitized):</strong> &quot;WICE stands for Wireless Information Collection Environment. It is used to collect vehicle-related data to support engineering analysis and decision-making. It also supports operational data-collection processes and documentation for test/development vehicle workflows.&quot;</p>
+<p>The choice of metrics is aligned with the project&#x27;s scope and previous literature. For lexical analysis, precision/recall/F1-style evaluation is widely used in QA and conversational system studies, including automotive-oriented agentic evaluation (Khoee et al., 2025; Gholamzadeh et al., 2024). Similar overlap-based and relevance-oriented evaluation logic is also common in retrieval-grounded pipelines (Tural et al., 2024; Rustamov et al., 2025). According to recent findings, overlap-based metrics used in isolation can be sensitive to response length in long-context settings (Roig et al., 2025). Hence, this work intentionally uses a compact pair of complementary metrics rather than an overly broad metric set.</p>
+<p>The evaluation design in its entirety provides a reproducible and interpretable benchmarking framework that supports incremental system improvement, category level diagnosis and ablation ready comparison as the agentic workflow evolves.</p>
+<h1 id="results">Results</h1>
+<p>The final evaluation was conducted on 163 test queries using the updated scoring pipeline. At the aggregate level, the agent achieved a mean evaluation score of 0.450 (median 0.475; 95% CI [0.432, 0.469]), indicating moderate alignment with reference answers across the dataset.</p>
+<p>The score distribution shows that most responses cluster in the moderate-to-good range (interquartile range: 0.378 to 0.529), with a small number of low outliers and a maximum near 0.698. This indicates that the system is generally reliable, while still exhibiting occasional failure cases.</p>
+<div class="table-rotate"><div class="table-rotate-inner"><table><thead><tr>
+<th>No</th>
+<th>Query</th>
+<th>Response (sanitized)</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>What is WICE and what is it used for?</td>
+<td>WICE is a vehicle data collection environment used to support engineering analysis and operational decision-making.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Can you explain how to connect the tablet to the WICE unit and open the checklist?</td>
+<td>Connect the tablet to ETH1, log in to the tablet user profile, open the checklist page, and refresh if needed.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>What should I do if the Start switch shows INT Red on the checklist?</td>
+<td>Move the physical Start switch from INT to EXT and verify it changes to the expected green status.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>How do I perform the unshelving process on the tablet?</td>
+<td>Open the Unshelving tab, initiate the process, and wait until all steps complete successfully.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>How do I read VIN with the tablet and what if SCAN fails?</td>
+<td>Start VIN readout with SCAN; if it fails, run the fallback VIN readout action and verify completion in logs.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>How do I perform shelving before uninstalling WICE?</td>
+<td>Open Shelving, initiate the sequence, confirm the action, wait for completion, then remove unit and cables.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>What should I do if WCU time is red on the checklist?</td>
+<td>Trigger time synchronization from the checklist workflow and verify the status returns to green.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Is GPS required to be green during indoor verification?</td>
+<td>Indoor verification can still be acceptable when GPS is not fully locked; check other mandatory checklist indicators.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>What is the expected ETH status by platform during verification?</td>
+<td>Expected Ethernet indicators vary by platform profile; verify against the platform-specific checklist guidance.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>What does the WICE tablet do during installation?</td>
+<td>It supports setup/verification actions such as unshelving, VIN readout, checklist validation, and shelving workflow.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Why do we need to unshelve before using WICE?</td>
+<td>Unshelving is a required initialization state transition before normal operational checks can proceed.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Why do we need to shelve before removing the unit?</td>
+<td>Shelving ensures controlled shutdown/transition before physical removal to reduce process and data-handling issues.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Where should a new user start in the wiki to understand WICE quickly?</td>
+<td>Start from the main overview, then follow quick-start and requirements pages for onboarding context.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Is WICE Portal browser-based or locally installed?</td>
+<td>The portal is browser-based and does not require local desktop installation for standard use.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>What do the WICE LEDs indicate at a high level?</td>
+<td>LED states provide high-level health/status cues for power, connectivity, positioning, and system readiness.</td>
+</tr>
+</tbody></table></div></div>
+<p class="caption"><em>Note: &quot;Responses (sanitized)&quot; refers to compressed responses where outputs are shortened for readability while preserving meaning.</em></p>
+<p>Before reporting category-level summaries, we first inspected a dataset-level sample of 15 queries (mixed technical and non-technical) to verify that aggregate behavior was not driven by a small subset of items. The sample showed mostly mid-range aggregate scores with noticeable variability across query types and response formats, consistent with the full-dataset trend reported below.</p>
+<p>At dataset level, results should be interpreted as moderate rather than high alignment. The overall aggregate score profile indicates usable but non-saturated performance, with room for improvement in consistency across queries. Category-level summaries were comparable, with a slight advantage for technical queries (technical mean 0.468, non-technical mean 0.460), suggesting no major category collapse.</p>
+<p>At individual-metric level, the run produced a token-level F1 mean of 0.174 and a TF-IDF cosine similarity mean of 0.755. This gap is expected under the current benchmark design, where references are concise key-point targets and generated answers are often longer and explanatory. Token-level F1 is sensitive to exact lexical overlap and therefore remains low when wording differs, even when answers are directionally correct. TF-IDF cosine is more tolerant to paraphrasing because it down-weights common terms and compares weighted term distributions; however, it remains a lexical alignment measure and does not directly measure semantic correctness. For this reason, metric values are interpreted as comparative indicators of textual alignment, not as direct evidence of meaning-level equivalence.</p>
+<p>The quality-versus-latency analysis showed only a weak positive relationship between response time and score, indicating limited quality gain from longer runtimes. Latency remained operationally moderate overall (median 106 s, mean 114.6 s), with visible tail behavior.</p>
+<p>Operationally, count-limit analysis reported an overall limit-hit rate of 18.4%, with higher pressure in technical queries (20.4%) than in non-technical queries (9.2%). This indicates technical loop-budget exhaustion as a continuing reliability bottleneck.</p>
+<p>Rolling-window analysis showed mild temporal drift: later windows were slightly slower and slightly lower-scoring than earlier windows, but no severe degradation was observed. Overall, the system shows moderate, practically usable performance with clear improvement opportunities in loop efficiency, response compactness, and metric coverage.</p>
+<h3 id="rq1-results-how-effective-are-agentic-llms-in-interpreting-stakeholder-queries-and-retrieving-accurate-information-through-chained-function-calls-from-enterprise-data-sources">RQ1 Results: How effective are agentic LLMs in interpreting stakeholder queries and retrieving accurate information through chained function calls from enterprise data sources?</h3>
+<p>At the aggregate level, the pipeline achieved a mean evaluation score of 0.450 (median 0.475), indicating moderate end-to-end retrieval performance on the benchmark. Across domains, mean scores were close (technical 0.468, non-technical 0.460), suggesting that the function-chaining workflow operates across both query categories without category collapse. Operationally, chained retrieval remained bounded by the iteration budget. The count-limit flag was triggered in 18.4% of runs overall, and more frequently for technical queries (20.4%) than non-technical queries (9.2%). Here, the count-limit flag means the retrieval loop reached the maximum allowed number of function-call iterations before the system declared evidence as sufficient. This pattern indicates that more complex technical queries more often require additional retrieval steps than allowed by the current budget. Latency was moderate overall (median 106 s, mean 114.6 s), with visible tail behavior and only weak quality gain from longer runtime.</p>
+<p>Rolling-window summaries indicated mild temporal drift (later windows slightly slower and slightly lower on average than earlier windows), but no abrupt collapse in behavior. Taken together, RQ1 is supported in the practical sense: the agent usually completes the retrieve-and-answer process with acceptable quality, while effectiveness remains bounded by occasional failure, higher tool-loop pressure on technical items, and limited quality gain from additional runtime.</p>
+<h3 id="rq2-results-to-what-extent-are-responses-generated-by-an-agentic-llm-with-structured-function-calling-tools-similar-to-expected-human-curated-responses">RQ2 Results: To what extent are responses generated by an agentic LLM with structured function-calling tools similar to expected human-curated responses?</h3>
+<p>For RQ2, similarity between generated and expected responses was assessed using token-level F1 and TF-IDF cosine similarity. In this run, mean token-level F1 was 0.174 and mean TF-IDF cosine similarity was 0.755. This divergence is consistent with the benchmark format. References are concise key-point targets, while generated responses are often longer and more explanatory. As a result, lexical overlap (F1) remains low even when responses are directionally consistent with references. TF-IDF cosine is more tolerant to wording variation because it compares weighted term distributions, but it is still a lexical similarity measure and does not directly measure semantic correctness. A key reason for this mismatch is output design choice. The benchmark references were intentionally concise key-point targets, while the agent was configured to produce explanatory, evidence-grounded responses for stakeholder readability and traceability. Thus, the generation objective prioritized completeness and justification over terse key-point formatting. As a result, responses were not templated to strictly mirror key-point style, which reduced lexical overlap even when intended content was preserved. Therefore, RQ2 results should be interpreted as moderate-to-strong textual alignment under the selected metrics, not as definitive proof of meaning-level equivalence.</p>
+<h2 id="evaluation-summary-table">Evaluation Summary Table</h2>
+<div class="table-rotate"><div class="table-rotate-inner"><table><thead><tr>
+<th>Measure</th>
+<th>Overall (n=163)</th>
+<th>Technical (n=93)</th>
+<th>Non-Technical (n=65)</th>
+</tr></thead><tbody>
+<tr>
+<td>Evaluation score mean</td>
+<td>0.45</td>
+<td>0.468</td>
+<td>0.460</td>
+</tr>
+<tr>
+<td>Evaluation Score</td>
+<td>0.475</td>
+<td>0.480</td>
+<td>0.475</td>
+</tr>
+<tr>
+<td>Evaluation score Standards</td>
+<td>0.122</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Token-Level-F1 Mean</td>
+<td>0.174</td>
+<td>0.174</td>
+<td>0.174</td>
+</tr>
+<tr>
+<td>TF-IDF Cosine Similarity Mean</td>
+<td>0.755</td>
+<td>0.761</td>
+<td>0.747</td>
+</tr>
+<tr>
+<td>Execution Time Mean (Seconds)</td>
+<td>114.6</td>
+<td>122.3</td>
+<td>112.4</td>
+</tr>
+<tr>
+<td>Execution Time median (Seconds)</td>
+<td>106</td>
+<td>107</td>
+<td>105</td>
+</tr>
+</tbody></table></div></div>
+<p class="caption"><em>Table summarizes aggregate and category-wise evaluation metrics for generated answers against ground-truth references.</em></p>
+<figure class="report-figure"><img id="resultsGraph" src="" alt="Evaluation Score by category"><figcaption>Evaluation Score by category</figcaption></figure>
+<p class="caption"><em>Caption: Evaluation Score by category</em></p>
+<h1 id="discussion">Discussion</h1>
+<p>Overall performance on the retained benchmark run should be described as moderately strong rather than saturated. The aggregate evaluation score was 0.450(mean), 0.475(median), indicating stable mid-range alignment between generated answers and curated references, but also residual dispersion consistent with occasional failures. This level of outcome is broadly compatible with the motivation in automotive agentic work that treats LLM driven assistance as useful yet not inherently trustworthy without controls, for example (Khoee et al., 2025) and (Gholamzadeh et al., 2024), where agentic orchestration is pursued precisely because release and documentation tasks are complex, while reliability remains an open engineering concern.</p>
+<p>The technical versus non-technical comparison is nuanced. Mean aggregate scores were close(0.468 vs 0.460), and medians were also close(0.480 vs 0.475), so a large systematic quality gap was not observed in this corpus. However, technical items exhibited higher mean latency(122.3 s vs 112.4 s) and a higher count limit termination rate (20.4\% vs 9.2\%), while the logged distributional similarity component (mean 0.761 vs 0.747) was slightly higher for technical queries. That pattern is consistent with harder multi-step retrieval and tool orchestration under fixed iteration budgets, echoing limitations discussed for complex queries and relevance in safety oriented retrieval settings (Balu et al., 2025), where performance is tied to retrieving suitable context and where irrelevant or incorrect context is explicitly linked to increased hallucination risk.</p>
+<p>Whether &quot;sources&quot; are meaningful or borderline cannot be settled solely from aggregate alignment scores, because source-selection accuracy was not independently labeled in the benchmark. What can be stated conservatively is that end-to-end scores and the high mean value of the logged TF-IDF cosine component(0.755) are compatible with answers that usually stay close to reference are terse key-point string and generations are longer and paraphrased. Interpreting this alongside retrieval grounded generation literature, Rustamov et al. (2025) argue that RAG-style pipelines &quot;generate responses grounded in external knowledge&quot; and that incorporating retrieved evidence can &quot;reduce hallucinations and improve fatual accuracy&quot; (Rustamov et al., 2025). Conversely, Balu et al. (2025) caution that if irrelevant or incorrect context is retrieved, 2 the probability of hallucinations is exacerbated (Balu et al., 2025). Therefore, the empirical split between low lexical overlap and high distributional similarity is best read as evidence of semantic alignment under the chosen scoring, not as a proof that every retrieval trajectory was optimal.</p>
+<p>The claim that function calling improves answer quality is architecturally supported but not uniquely proven by correlation alone in the absence of a matched no-tools baseline on the same 163 queries. The implemented workflow is stages: tools fetch structured artifacts, then a separate interpretation step produces the final text-an arrangement conceptually aligned with tool-chain approaches that expose LLMs to executable interfaces rather than unconstrained completion (Sen et al., 2024). The observed score profile(high distributional similarity with low token F1) is consistent with grounded generation that paraphrases reference rubrics, which is also the regime emphasized when retrieval is used to condition generation on external evidence (Rustamov et al., 2025). A stronger causal statement would require an ablation study(tool-off vs tool-on), which parallels open questions raised in agentic-vs-direct comparisons in automotive software querying (Mazur et al., 2025).</p>
+<p>On hallucination and grounding, the results support a conditional conclusion that structured tool usage tightens the evidence channel when the loop completes successfully, but does not eliminate failure modes. The non-trival count limit rate (18.4\% overall) is a practical indicator that some trajectories terminate before a clean &quot;enough&quot; state is reached, which is precisely where unsupported or incomplete answers become more likely in agentic systems. This resonates with broader analyses of how long interactions, staged pipelines, and accumulated context interact with reliability, for example, Chen et al. (2025) frame hallucinations issues as arising across stages memory operations under extended context, while Curran et al. (2023) discuss risks when large problem text is passed wholesale rather than reduced to decisive spans. Balu et al. (2025) likewise tie hallucination risk to the suitability of information accessible to the model. Taken together, the evidence supports grounding when tools return the right artifacts, not guaranteed factual correctness on every run.</p>
+<p>For deployment, latency and tail risk matter as much as average scores: median latency was 106 s(mean 114.6 s), which may be acceptable for internal engineering assistance but restrictive for low-latency interactive services. Privacy and data-handling constraints remain first order. Zolfaghari et al. (2024) report stakeholder discomfort when sensitive automotive specification content must sent to external online services, motivating local or controlled deployment options (Zolfaghari et al., 2024). Operationally, format reliability of tool call is also known bottleneck when schema are enforced only by prompting; Sejourne and Lata (2025) discuss how prompt ony JSON/function outputs can fail strict adherence and proposes constrained structured generation to improve reliability (Sejourne and Lata, 2025).</p>
+<p>The approach is likely most effective where answers should be traceable to internal documents(wikis, manuals, spreadsheets) and where users accept multi-step latency - use cases aligned with automotive analytics and release support agentic systems (Khoee et al., 2025; Gholamzadeh et al., 2024). It is least appropriate as a fully autonomous authority for safety critical actions without human verification, consistent with the requirement that LLM outputs be highly reliable and explainable in safety adjacent assistance (Balu et al., 2025).</p>
+<p>The evaluation contribution is methodlogical: the benchmark makes visible a systematic tension between lexical overlap and distributional similarity when references are intentionally minimal and generations are explanatory. That tension is not merely a model artifact; it parallels discussions in the hallucination literature about how bulk context and chunk-level generation behaviors can decouple apparent fluency from faithful factuality (Curran et al., 2023), and it motivates complementary checks for critical tokens (versions, part numbers) beyond similarity scores (Balu et al., 2025; Rustamov et al., 2025).</p>
+<p>Finally, function calling remains suitable for knowledge grounded LLM systems when paired with tool allowlists, bounded loops, auditable logs, and where feasible, stronger schema enforcement (Sejourne and Lata, 2025; Rustamov et al., 2025). The implication for agentic workflows is that autonomy should be treated as budgeted orchestration: reliability is improved by deterministic execution surfaces and retrieval quality discipline, while risk concentrates in tool mis-selection, irrelevant context, and premature termination-failure classes already emphasized in agent-based RAG and RAG relevance literature (Balu et al., 2025; Rustamov et al., 2025).</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>This thesis presented a holistic design and empirical evaluation of an agentic LLM workflow with structured function calling for enterprise knowledge retrieval across Wiki and SharePoint sources in an automotive context. A modular architecture was implemented in which query routing, function selection, bounded tool execution, and evidence interpretation were  separated into explicit stages to improve controllability, traceability, and grounding. The central objective was to move from bulk prompt-based retrieval toward selective, metadata-guided evidence access under deterministic execution constraints.</p>
+<p>The evaluation on 163 curated queries indicates that the proposed workflow is effective at a practical level. the aggregate score remained stable at a moderate-to-strong range(mean 0.450, median 0.475), with comparable performance across technical non-technical categories. This supports RQ1 by showing that chained function calls can retrieve sufficiently relevant enterprise evidence for stakeholder-facing queries under realistic constraints. At the same time, higher limit-hit rates and latency for technical queries indicate that complex requests still impose operational stress on bounded iterative orchestration.</p>
+<p>For RQ2, the metric profile showed low lexical overlap(token-level F1 mean 0.174) but high semantic similarity(TF-IDF cosine mean 0.755). Given that reference answers were intentionally concise key-point targets while generated answers were often explanatory, this gap is interpreted as expected rather than contradictory. The results therefore suggest that responses were generally aligned with expected intent and content in semantic terms, even when exact phrasing differed from reference formulations.</p>
+<p>The study contributes both an implementation and an evaluation perspective: a deployable, schema-constrained agentic workflow for enterprise knowledge retrieval, and a reproducible benchmarking setup that captures quality, category behavior, latency, and loop-bound effects. However, several limitations remain. source-selection correctness was not independently labeled, and no matched no-tool baseline was included for casual comparison. future work should therefore include controlled ablations(tool-on vs tool-off), explicit grounding/error taxonomies, stricter schema-constrained function calling, and optimization of technical-query loop efficiency. Overall, the findings support the suitability of function-calling agentic LLM workflows for knowledge-grounded enterprise assistance, while highlighting the need for continued reliability engineering before high-stakes operational adoption.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2504.11243" target="_blank" rel="noopener noreferrer" class="reference-link">Balu, B. V. et al. (2025). <em>Towards Automated Safety Requirements Derivation Using Agent-based RAG</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2504.13425" target="_blank" rel="noopener noreferrer" class="reference-link">Byun, G. et al. (2024). <em>Secure Multifaceted-RAG for Enterprise: Hybrid Knowledge Retrieval with Security Filtering</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2511.03506" target="_blank" rel="noopener noreferrer" class="reference-link">Chen, D. et al. (2025). <em>HaluMem: Evaluating Hallucinations in Memory Systems of Agents</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2306.11520" target="_blank" rel="noopener noreferrer" class="reference-link">Curran et al. (2023). <em>Hallucination is the Last Thing You Need</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2408.09785" target="_blank" rel="noopener noreferrer" class="reference-link">Gholamzadeh et al. (2024). <em>GoNoGo: An Efficient LLM-based Multi-Agent System for Streamlining Automotive Software Release Decision-Making</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2503.21735" target="_blank" rel="noopener noreferrer" class="reference-link">Khoee et al. (2025). <em>GateLens: A Reasoning-Enhanced LLM Agent for Automotive Software Release Analytics</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2408.05933" target="_blank" rel="noopener noreferrer" class="reference-link">Liu et al. (2024). <em>Optimizing RAG Techniques for Automotive Industry PDF Chatbots: A Case Study with Locally Deployed Ollama Models</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2506.13171" target="_blank" rel="noopener noreferrer" class="reference-link">Mazur et al. (2025). <em>Querying Large Automotive Software Models: Agentic vs. Direct LLM Approaches</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2601.08847" target="_blank" rel="noopener noreferrer" class="reference-link">Roig, J. V. R. et al. (2025). <em>Scalable and Reliable Evaluation of AI Knowledge Retrieval Systems (RIKER)</em>.</a></li>
+<li><a href="https://doi.org/10.1109/aict67988.2025.11268677" target="_blank" rel="noopener noreferrer" class="reference-link">Rustamov, Z. et al. (2025). <em>Enhancing Retrieval and Re-ranking in RAG: A Case Study on Tax Law</em>.</a></li>
+<li><a href="https://doi.org/10.1109/gaclm67198.2025.11232016" target="_blank" rel="noopener noreferrer" class="reference-link">Sejourné, K., Lata, A. (2025). <em>Enhancing LLM Function Calling with Structured Outputs</em>.</a></li>
+<li><a href="https://doi.org/10.1109/areis62559.2024.10893677" target="_blank" rel="noopener noreferrer" class="reference-link">Sen, R. S. et al. (2024). <em>Simple Action Model: Enabling LLM to Sequential Function Calling Tool Chain</em>.</a></li>
+<li><a href="https://doi.org/10.1109/isas64331.2024.10845308" target="_blank" rel="noopener noreferrer" class="reference-link">Tural, B. et al. (2024). <em>Retrieval-Augmented Generation (RAG) and LLM Integration</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2505.23052" target="_blank" rel="noopener noreferrer" class="reference-link">Zhang, J. et al. (2025). <em>RAGRouter: Learning to Route Queries to Multiple Retrieval-Augmented Language Models</em>.</a></li>
+<li><a href="https://arxiv.org/abs/2411.09590" target="_blank" rel="noopener noreferrer" class="reference-link">Zolfaghari, V. et al. (2024). <em>Adopting RAG for LLM-Aided Future Vehicle Design</em>.</a></li>
+</ul>
+<h2 id="appendices">Appendices</h2>
+<h3 id="per-query-scores-for-15-query-sample">Per-query Scores for 15-query Sample</h3>
+<div class="table-rotate"><div class="table-rotate-inner"><table><thead><tr>
+<th>No</th>
+<th>Query</th>
+<th>Response (sanitized)</th>
+<th>F1</th>
+<th>TF-IDF Cosine</th>
+<th>Final Score</th>
+</tr></thead><tbody>
+<tr>
+<td>1</td>
+<td>What is WICE and what is it used for?</td>
+<td>WICE is a vehicle data collection environment used to support engineering analysis and operational decision-making.</td>
+<td>0.281</td>
+<td>0.775</td>
+<td>0.528</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Can you explain how to connect the tablet to the WICE unit and open the checklist?</td>
+<td>Connect the tablet to ETH1, log in to the tablet user profile, open the checklist page, and refresh if needed.</td>
+<td>0.244</td>
+<td>0.867</td>
+<td>0.556</td>
+</tr>
+<tr>
+<td>3</td>
+<td>What should I do if the Start switch shows INT Red on the checklist?</td>
+<td>Move the physical Start switch from INT to EXT and verify it changes to the expected green status.</td>
+<td>0.491</td>
+<td>0.905</td>
+<td>0.698</td>
+</tr>
+<tr>
+<td>4</td>
+<td>How do I perform the unshelving process on the tablet?</td>
+<td>Open the Unshelving tab, initiate the process, and wait until all steps complete successfully.</td>
+<td>0.440</td>
+<td>0.767</td>
+<td>0.604</td>
+</tr>
+<tr>
+<td>5</td>
+<td>How do I read VIN with the tablet and what if SCAN fails?</td>
+<td>Start VIN readout with SCAN; if it fails, run the fallback VIN readout action and verify completion in logs.</td>
+<td>0.338</td>
+<td>0.754</td>
+<td>0.546</td>
+</tr>
+<tr>
+<td>6</td>
+<td>How do I perform shelving before uninstalling WICE?</td>
+<td>Open Shelving, initiate the sequence, confirm the action, wait for completion, then remove unit and cables.</td>
+<td>0.088</td>
+<td>0.730</td>
+<td>0.409</td>
+</tr>
+<tr>
+<td>7</td>
+<td>What should I do if WCU time is red on the checklist?</td>
+<td>Trigger time synchronization from the checklist workflow and verify the status returns to green.</td>
+<td>0.196</td>
+<td>0.792</td>
+<td>0.494</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Is GPS required to be green during indoor verification?</td>
+<td>Indoor verification can still be acceptable when GPS is not fully locked; check other mandatory checklist indicators.</td>
+<td>0.375</td>
+<td>0.836</td>
+<td>0.605</td>
+</tr>
+<tr>
+<td>9</td>
+<td>What is the expected ETH status by platform during verification?</td>
+<td>Expected Ethernet indicators vary by platform profile; verify against the platform-specific checklist guidance.</td>
+<td>0.032</td>
+<td>0.694</td>
+<td>0.363</td>
+</tr>
+<tr>
+<td>10</td>
+<td>What does the WICE tablet do during installation?</td>
+<td>It supports setup/verification actions such as unshelving, VIN readout, checklist validation, and shelving workflow.</td>
+<td>0.243</td>
+<td>0.704</td>
+<td>0.474</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Why do we need to unshelve before using WICE?</td>
+<td>Unshelving is a required initialization state transition before normal operational checks can proceed.</td>
+<td>0.066</td>
+<td>0.591</td>
+<td>0.328</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Why do we need to shelve before removing the unit?</td>
+<td>Shelving ensures controlled shutdown/transition before physical removal to reduce process and data-handling issues.</td>
+<td>0.157</td>
+<td>0.793</td>
+<td>0.475</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Where should a new user start in the wiki to understand WICE quickly?</td>
+<td>Start from the main overview, then follow quick-start and requirements pages for onboarding context.</td>
+<td>0.219</td>
+<td>0.702</td>
+<td>0.460</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Is WICE Portal browser-based or locally installed?</td>
+<td>The portal is browser-based and does not require local desktop installation for standard use.</td>
+<td>0.143</td>
+<td>0.844</td>
+<td>0.493</td>
+</tr>
+<tr>
+<td>15</td>
+<td>What do the WICE LEDs indicate at a high level?</td>
+<td>LED states provide high-level health/status cues for power, connectivity, positioning, and system readiness.</td>
+<td>0.078</td>
+<td>0.729</td>
+<td>0.403</td>
+</tr>
+</tbody></table></div></div>
+      </article>
+    </main>
+  </div>
+  <script>
+    const REPORT_URL = "https://example.com/report";
+    const PRINT_PDF_URL = "https://example.com/report.pdf";
+    const JU_LOGO_PATH = "./logo_images/ju-black.png";
+    const VOLVO_LOGO_PATH = "./logo_images/volvo-black.png";
+    const ARCHITECTURE_FLOWCHART_PATH = "./report_images/report-flowchart.png";
+    const RESULTS_GRAPH_PATH = "./report_images/results-graph.png";
+    const REFERENCES = [
+      { authors: "Balu et al.", year: "2025", url: "https://arxiv.org/abs/2504.11243" },
+      { authors: "Byun et al.", year: "2024", url: "https://arxiv.org/abs/2504.13425" },
+      { authors: "Chen et al.", year: "2025", url: "https://arxiv.org/abs/2511.03506" },
+      { authors: "Curran et al.", year: "2023", url: "https://arxiv.org/abs/2306.11520" },
+      { authors: "Gholamzadeh et al.", year: "2024", url: "https://arxiv.org/abs/2408.09785" },
+      { authors: "Khoee et al.", year: "2025", url: "https://arxiv.org/abs/2503.21735" },
+      { authors: "Liu et al.", year: "2024", url: "https://arxiv.org/abs/2408.05933" },
+      { authors: "Mazur et al.", year: "2025", url: "https://arxiv.org/abs/2506.13171" },
+      { authors: "Roig et al.", year: "2025", url: "https://arxiv.org/abs/2601.08847" },
+      { authors: "Rustamov et al.", year: "2025", url: "https://doi.org/10.1109/aict67988.2025.11268677" },
+      { authors: "Sejourne and Lata", year: "2025", url: "https://doi.org/10.1109/gaclm67198.2025.11232016" },
+      { authors: "Sen et al.", year: "2024", url: "https://doi.org/10.1109/areis62559.2024.10893677" },
+      { authors: "Tural et al.", year: "2024", url: "https://doi.org/10.1109/isas64331.2024.10845308" },
+      { authors: "Zhang et al.", year: "2019", url: "https://arxiv.org/abs/1904.09675" },
+      { authors: "Zhang et al.", year: "2025", url: "https://arxiv.org/abs/2505.23052" },
+      { authors: "Zolfaghari et al.", year: "2024", url: "https://arxiv.org/abs/2411.09590" }
+    ];
+
+    function buildReferenceLookup() {
+      return new Map(
+        REFERENCES.map((reference) => [`${reference.authors}\u0000${reference.year}`, reference.url])
+      );
+    }
+
+    function createCitationLink(label, url) {
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="citation-link">${label}</a>`;
+    }
+
+    function isInsideCitationLink(source, index) {
+      const openIndex = source.lastIndexOf("<a", index);
+      if (openIndex === -1) {
+        return false;
+      }
+      const closeIndex = source.lastIndexOf("</a>", index);
+      if (closeIndex < openIndex) {
+        return source.slice(openIndex, index).includes('class="citation-link"');
+      }
+      return false;
+    }
+
+    function linkCitationsInHtml(html, lookup) {
+      const narrativePattern = /([A-Z][\w\-.]+(?: et al\.| and [A-Z][\w\-]+)?) \((20\d{2})\)/g;
+      html = html.replace(narrativePattern, (match, authors, year, offset, source) => {
+        if (isInsideCitationLink(source, offset)) {
+          return match;
+        }
+        const url = lookup.get(`${authors}\u0000${year}`);
+        return url ? createCitationLink(match, url) : match;
+      });
+
+      const commaPattern = /([A-Z][\w\-.]+(?: et al\.| and [A-Z][\w\-]+)?), (20\d{2})/g;
+      html = html.replace(commaPattern, (match, authors, year, offset, source) => {
+        if (isInsideCitationLink(source, offset)) {
+          return match;
+        }
+        const url = lookup.get(`${authors}\u0000${year}`);
+        return url ? createCitationLink(match, url) : match;
+      });
+
+      return html;
+    }
+
+    function linkInTextCitations() {
+      const article = document.getElementById("reportDocument");
+      const referencesHeading = document.getElementById("references");
+      const paragraphs = Array.from(article.querySelectorAll("p")).filter((paragraph) => {
+        if (!referencesHeading) {
+          return true;
+        }
+        return (paragraph.compareDocumentPosition(referencesHeading) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+      });
+      const lookup = buildReferenceLookup();
+
+      paragraphs.forEach((paragraph) => {
+        paragraph.innerHTML = linkCitationsInHtml(paragraph.innerHTML, lookup);
+      });
+    }
+
+    document.getElementById("juLogo").src = JU_LOGO_PATH;
+    document.getElementById("volvoLogo").src = VOLVO_LOGO_PATH;
+    document.getElementById("architectureFlowchart").src = ARCHITECTURE_FLOWCHART_PATH;
+    document.getElementById("resultsGraph").src = RESULTS_GRAPH_PATH;
+
+    const sidebar = document.getElementById("sidebar");
+    const backdrop = document.getElementById("backdrop");
+    const menuToggle = document.getElementById("menuToggle");
+    const viewReportBtn = document.getElementById("viewReportBtn");
+    const navLinks = Array.from(document.querySelectorAll(".sidebar-nav a"));
+
+    function openPdfInNewTab() {
+      window.open(PRINT_PDF_URL, "_blank", "noopener,noreferrer");
+    }
+
+    function setMenuOpen(open) {
+      sidebar.classList.toggle("open", open);
+      backdrop.classList.toggle("show", open);
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    menuToggle.addEventListener("click", () => setMenuOpen(!sidebar.classList.contains("open")));
+    backdrop.addEventListener("click", () => setMenuOpen(false));
+    viewReportBtn.addEventListener("click", () => window.open(REPORT_URL, "_blank", "noopener,noreferrer"));
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          setMenuOpen(false);
+        }
+      });
+    });
+
+    const sectionIds = navLinks.map((link) => link.dataset.section).filter(Boolean);
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean);
+
+    function updateActiveNav() {
+      let current = sectionIds[0];
+      const offset = window.matchMedia("(max-width: 768px)").matches ? 88 : 24;
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top - offset <= 0) {
+          current = section.id;
+        }
+      }
+      navLinks.forEach((link) => link.classList.toggle("active", link.dataset.section === current));
+    }
+
+    linkInTextCitations();
+
+    window.addEventListener("scroll", updateActiveNav, { passive: true });
+    updateActiveNav();
+
+    window.addEventListener("beforeprint", () => {
+      openPdfInNewTab();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "p") {
+        event.preventDefault();
+        openPdfInNewTab();
+      }
+    });
+  </script>
+</body>
+</html>
