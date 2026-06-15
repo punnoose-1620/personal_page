@@ -191,14 +191,14 @@ section {
     background-position: center;
 }
 
-.education-item:hover {
+/* .education-item:hover {
     background-color: white;
     color: transparent !important;
     zoom: 110%;
     transition: 300ms;
     background-size: cover;
     background-position: center;
-}
+} */
 
 .experience-item-content, .education-item-content {
     text-align: start;
@@ -247,6 +247,10 @@ section {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
+}
+
+.education-projects .content.thesis-report-link {
+    margin-bottom: 3px;
 }
 
 .education-projects .skills {
@@ -338,6 +342,27 @@ section {
     border: 2px solid #424242;  /* 2px material-style border color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     object-fit: cover;          /* Ensures the image fills the circular shape */
+}
+
+.round-image--light-bg {
+    background: #fff;
+    object-fit: contain;
+    padding: 0.5rem;
+}
+
+.institution-logo {
+    height: 65px;
+    width: auto;
+    max-width: 210px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 0.5rem;
+}
+
+.institution-logo--light-bg {
+    background: #fff;
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
 }
 
 .job-title {
