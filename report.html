@@ -598,8 +598,7 @@ Scoring is computed per query and then summarized first at dataset level (mean, 
 </tbody>
 </table></div></div>
 <p class="caption"><em>Table 2 describes the evaluation results of generated answers against Ground truth answers.</em></p>
-<p><img alt="Evaluation Score by category" src="Assets/results-graph.png" /><br />
-<em>Caption: Evaluation Score by category</em></p>
+<figure class="report-figure"><img id="resultsGraph" alt="Evaluation Score by category" src="./report_images/results-graph.png"><figcaption>Evaluation Score by category</figcaption></figure>
 <h1 id="discussion">Discussion</h1>
 <p>Overall performance on the retained benchmark run should be described as moderately strong rather than saturated. The aggregate evaluation score was 0.450(mean), 0.475(median), indicating stable mid-range alignment between generated answers and curated references, but also residual dispersion consistent with occasional failures. This level of outcome is broadly compatible with the motivation in automotive agentic work that treats LLM driven assistance as useful yet not inherently trustworthy without controls, for example (Khoee et al., 2025) and (Gholamzadeh et al., 2024), where agentic orchestration is pursued precisely because release and documentation tasks are complex, while reliability remains an open engineering concern.</p>
 <p>The technical versus non-technical comparison is nuanced. Mean aggregate scores were close(0.468 vs 0.460), and medians were also close(0.480 vs 0.475), so a large systematic quality gap was not observed in this corpus. However, technical items exhibited higher mean latency(122.3 s vs 112.4 s) and a higher count limit termination rate (20.4% vs 9.2%), while the logged distributional similarity component (mean 0.761 vs 0.747) was slightly higher for technical queries. That pattern is consistent with harder multi-step retrieval and tool orchestration under fixed iteration budgets, echoing limitations discussed for complex queries and relevance in safety oriented retrieval settings (Balu et al., 2025), where performance is tied to retrieving suitable context and where irrelevant or incorrect context is explicitly linked to increased hallucination risk.</p>
@@ -887,7 +886,10 @@ Scoring is computed per query and then summarized first at dataset level (mean, 
       window.open("https://www.volvocars.com/se/", "_blank", "noopener,noreferrer");
     });
     document.getElementById("architectureFlowchart").src = ARCHITECTURE_FLOWCHART_PATH;
-    document.getElementById("resultsGraph").src = RESULTS_GRAPH_PATH;
+    const resultsGraph = document.getElementById("resultsGraph");
+    if (resultsGraph) {
+      resultsGraph.src = RESULTS_GRAPH_PATH;
+    }
 
     const sidebar = document.getElementById("sidebar");
     const backdrop = document.getElementById("backdrop");
