@@ -51,25 +51,32 @@
     <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+        /* Full legal name needs room; global header gap: 59% squeezes it into 3 lines */
+        .header-custom {
+            gap: 2rem;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
         .medical-card {
             border: 1px solid #ddd;
             border-radius: 2rem;
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             background-color: white;
-            cursor: pointer;
             text-decoration: none !important;
             color: black !important;
-            transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .medical-card:hover {
-            background-color: white;
-            zoom: 110%;
-            transition: 300ms;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            transform: translateY(-5px);
         }
 
         .medical-card h3 {
@@ -79,7 +86,8 @@
             font-weight: bold;
         }
 
-        .medical-card p {
+        .medical-card p,
+        .medical-card .hospital-field {
             margin-bottom: 0.8rem;
             line-height: 1.6;
             color: #444;
@@ -88,6 +96,133 @@
         .medical-card strong {
             color: #2a2a2a;
             font-weight: bold;
+        }
+
+        .hospital-trigger {
+            position: relative;
+            display: block;
+            cursor: pointer;
+        }
+
+        .hospital-link {
+            color: #2a2a2a;
+            text-decoration: none;
+        }
+
+        .hospital-trigger:hover .hospital-link {
+            color: #000;
+        }
+
+        .hospital-popover {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: calc(100% + 6px);
+            z-index: 30;
+            min-width: 240px;
+            max-width: min(320px, 85vw);
+            padding: 0.85rem 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 0.75rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: left;
+        }
+
+        /* Invisible bridge so the pointer can reach any part of the popover */
+        .hospital-popover::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -6px;
+            height: 6px;
+        }
+
+        .hospital-popover-title {
+            margin: 0 0 0.75rem 0;
+            font-size: 0.95rem;
+            color: #2a2a2a;
+            line-height: 1.3;
+            padding-right: 1.5rem;
+        }
+
+        .hospital-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2a2a2a;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 0.55rem;
+            line-height: 1.3;
+        }
+
+        .hospital-action:last-child {
+            margin-bottom: 0;
+        }
+
+        .hospital-action:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+
+        .hospital-action i {
+            width: 14px;
+            text-align: center;
+        }
+
+        .hospital-popover-close {
+            display: none;
+            position: absolute;
+            top: 0.45rem;
+            right: 0.55rem;
+            border: none;
+            background: transparent;
+            font-size: 1.25rem;
+            line-height: 1;
+            color: #666;
+            cursor: pointer;
+            padding: 0.15rem 0.35rem;
+        }
+
+        .hospital-popover-close:hover {
+            color: #000;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .hospital-trigger:hover .hospital-popover,
+            .hospital-trigger:focus-within .hospital-popover {
+                display: block;
+            }
+        }
+
+        .hospital-modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.45);
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+
+        .hospital-modal-backdrop.is-open {
+            display: flex;
+        }
+
+        .hospital-modal-backdrop .hospital-popover {
+            display: block;
+            position: relative;
+            left: auto;
+            top: auto;
+            z-index: 1001;
+            max-width: min(340px, 92vw);
+        }
+
+        .hospital-modal-backdrop .hospital-popover-close {
+            display: block;
         }
 
         .emergency-contact {
@@ -112,13 +247,41 @@
         .emergency-item {
             display: flex;
             align-items: center;
+            gap: 10px;
             font-size: 1rem;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .emergency-item:hover {
             zoom: 120%;
             transition: 300ms;
+            align-items: start;
+            text-align: left;
+        }
+
+        .emergency-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            align-items: self-start;
+            line-height: 1.2;
+        }
+
+        .emergency-title,
+        .emergency-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 0;
+            margin-top: 3px;
+            margin-bottom: 3px;
+            font-size: 1rem;
+        }
+
+        .emergency-title {
+            opacity: 0.85;
         }
 
         @media (max-width: 768px) {
@@ -130,13 +293,51 @@
     </style>
 </head>
 <body>
+    <div id="hospitalModalBackdrop" class="hospital-modal-backdrop" aria-hidden="true"></div>
     <script>
+        myDetails = {
+            name: "Punnoose Kozhuppakalam Thomas",
+            formal_email: "punnoose@patentgap.ai",
+            personal_email: "punnoose1997@gmail.com",
+            phone: "+46769768215",
+            address: "https://maps.app.goo.gl/psE6GirmV2CJoT14A",
+            linkedin: "https://linkedin.com/in/punnoose-k-thomas",
+            github: "https://github.com/punnoose-1620",
+            header_front: "./bg_images/profile_pic.jpg",
+            header_back: "./bg_images/My_Life.webp",
+            swedish_personalNumber: "19971213 - 3439",
+            indian_aadharNumber: "9432 4004 8726",
+            emergency_contacts: [
+                {
+                    title: 'Father',
+                    number_display: '+91 9497 6136 50',
+                    number_call: '+91 9497 6136 50',
+                    location: 'Kottayam, Kerala, India'
+                },
+                {
+                    title: 'Mother',
+                    number_display: '+91 9447 2081 88',
+                    number_call: '+91 9447 2081 88',
+                    location: 'Kottayam, Kerala, India'
+                },
+                {
+                    title: 'Brother',
+                    number_display: '+46 76 976 8215',
+                    number_call: '+46769768215',
+                    location: 'Jönköping, Sweden'
+                }
+            ]
+        }
         // TODO: Update Medical history data
         const medicalHistory = [
             {
                 id: 1,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2024-07-26",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME (In Remission)",
                 clinicalNote: "26 Year old male with JME; wt = 79kg; \nJuly 2024 - Last episode - June 2022 - Poor drug compliance and sleep deprivation, unwitnessed lasting 5 minutes; \nBefore that October 2019; No myclonic jerks.",
@@ -149,7 +350,11 @@
             {
                 id: 2,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2023-07-21",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME (In Remission)",
                 clinicalNote: "Last attack - 2022 \nNo myclonic jerks \nWeight 64kg",
@@ -162,7 +367,11 @@
             {
                 id: 3,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2022-10-21",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME (In Remission)",
                 clinicalNote: "24 Year old male with JME; \nLast episode 4 months back - Poor drug compliance and sleep deprivation, unwitnessed lasting 5 minutes; \nBefore that October 2019; No myclonic jerks.\n Weight 64kg",
@@ -175,7 +384,11 @@
             {
                 id: 4,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2022-10-21",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME",
                 clinicalNote: "Seizures since the age of 17 years \nLoses awareness transiently - about 2-3 minutes \nAbout 3 episodes - all precedented by physical exhaustion \nStrong family h/o epilepsy \nOn Follow Up \n Epilive 750mg/day \nLA - 26/12/2018; Had blackout while bathing, woke up after 5 minutes at bed with post ictal headache",
@@ -188,7 +401,11 @@
             {
                 id: 5,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2017-12-27",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME",
                 clinicalNote: "On Follow Up \nEpilive 750mg/day \nDoing well \nNo fresh seizures \nLA - 2.5 yrs back",
@@ -201,7 +418,11 @@
             {
                 id: 6,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2016-12-28",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME",
                 clinicalNote: "No fresh seizures \nLA - 1.5 yrs back",
@@ -214,7 +435,11 @@
             {
                 id: 7,
                 hospitalName: "Sree Chitra Tirunal Institute of Medical Sciences and Technology",
+                hospitalWebsite: "https://www.sctimst.ac.in/",
                 hospitalLocation: "Thiruvananthapuram, Kerala, India",
+                hospitalLat: 8.5207474,
+                hospitalLng: 76.9260788,
+                hospitalZoom: 17,
                 date: "2015-12-09",
                 diagnosis: "Juvenile Myclonic Epilepsy - JME",
                 clinicalNote: "",
@@ -272,6 +497,16 @@
             window.open(url, '_blank')
         }
 
+        function callNumber(emergencyNumber) {
+            try {
+                firebase.analytics().logEvent('emergencyNumberClick');
+            } catch (error) {
+                console.log("Unable to log EmergencyNumberClick to firebase")
+            }
+            url = `tel:${emergencyNumber}`
+            window.open(url, '_blank')
+        }
+        
         function mailMeFormal() {
             try {
                 firebase.analytics().logEvent('formalEmailClick');
@@ -302,6 +537,129 @@
             window.open(url, '_blank')
         }
         
+        function canFineHover() {
+            return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        }
+
+        function mapsUrl(entry) {
+            return `https://www.google.com/maps?q=${entry.hospitalLat},${entry.hospitalLng}&z=${entry.hospitalZoom}`;
+        }
+
+        function hospitalChoiceContent(entry, { includeClose } = { includeClose: false }) {
+            const closeBtn = includeClose
+                ? `<button type="button" class="hospital-popover-close" aria-label="Close">&times;</button>`
+                : '';
+            return `
+                ${closeBtn}
+                <h4 class="hospital-popover-title">${entry.hospitalName}</h4>
+                <a class="hospital-action" href="${mapsUrl(entry)}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span>View on Google Maps</span>
+                </a>
+                <a class="hospital-action" href="${entry.hospitalWebsite}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa fa-globe" aria-hidden="true"></i>
+                    <span>Open Website</span>
+                </a>
+            `;
+        }
+
+        function closeHospitalModal() {
+            const backdrop = document.getElementById('hospitalModalBackdrop');
+            if (!backdrop) return;
+            backdrop.classList.remove('is-open');
+            backdrop.setAttribute('aria-hidden', 'true');
+            backdrop.innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        function openHospitalModal(entry) {
+            const backdrop = document.getElementById('hospitalModalBackdrop');
+            if (!backdrop) return;
+
+            const card = document.createElement('div');
+            card.className = 'hospital-popover';
+            card.setAttribute('role', 'dialog');
+            card.setAttribute('aria-modal', 'true');
+            card.innerHTML = hospitalChoiceContent(entry, { includeClose: true });
+
+            backdrop.innerHTML = '';
+            backdrop.appendChild(card);
+            backdrop.classList.add('is-open');
+            backdrop.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            card.querySelector('.hospital-popover-close').addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeHospitalModal();
+            });
+
+            card.addEventListener('click', (e) => e.stopPropagation());
+        }
+
+        function renderHeader() {
+            headerInnerHtml = `
+                <div class="header-left">
+                    <div class="header-image-container">
+                        <div class="header-image">
+                            <img class="header-front" src="${myDetails.header_front}"></img>
+                            <img class="header-back" src="${myDetails.header_back}"></img>
+                        </div>
+                    </div>
+                    <div class="header-text">
+                        <h1 class="header-title">${myDetails.name}</h1>
+                        <p class="header-subtitle">SV Personal Number : ${myDetails.swedish_personalNumber}</p>
+                        <p class="header-subtitle">IND Aadhar Number : ${myDetails.indian_aadharNumber}</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="download-btn" onclick="downloadMedicalHistory()">
+                        <p>Medical History</p>
+                        <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+                    </div>
+                </div>
+            `;
+
+            document.querySelector('header').innerHTML = headerInnerHtml;
+        }
+
+        function renderEmergencyContacts() {
+            emergencyContactsDiv = document.querySelector('.emergency-contact');
+            if (!emergencyContactsDiv || myDetails.emergency_contacts.length === 0) {
+                if (emergencyContactsDiv) {
+                    emergencyContactsDiv.style.display = 'none'
+                };           
+                return;
+            };
+
+            emergencyContactsGrid = document.createElement('div');
+            emergencyContactsGrid.className = 'emergency-grid';
+            myDetails.emergency_contacts.forEach(contact => {
+                const item = document.createElement('div');
+                item.className = 'emergency-item';
+                item.onclick = () => callNumber(contact.number_call);
+                item.innerHTML = `
+                    <div class="emergency-text">
+                        <span class="emergency-title">
+                            <i class="fa fa-user" style="color: #ffffff;"></i>
+                            ${contact.title}
+                        </span>
+                        <span class="emergency-number">
+                            <i class="fa fa-map-marker" style="color: #ffffff;"></i>
+                            ${contact.location}
+                        </span>
+                        <span class="emergency-number">
+                            <i class="fa fa-phone" style="color: #ffffff;"></i>
+                            ${contact.number_display}
+                        </span>
+                    </div>
+                `;
+                emergencyContactsGrid.appendChild(item);
+            });
+
+            emergencyContactsDiv.innerHTML = `<h3>Emergency Contact</h3>`;
+            emergencyContactsDiv.appendChild(emergencyContactsGrid);
+        }
+
         function renderMedicalHistory() {
             const section = document.querySelector('section');
             section.innerHTML = '<h2>Medical History</h2><br/>';
@@ -313,7 +671,13 @@
                 let cardContent = `
                     <h3>${entry.diagnosis}</h3>
                     <p><strong>Date:</strong> ${new Date(entry.date).toLocaleDateString()}</p>
-                    <p><strong>Hospital:</strong> <br>${entry.hospitalName}, ${entry.hospitalLocation}</p>
+                    <div class="hospital-field hospital-trigger" role="button" tabindex="0">
+                        <strong>Hospital:</strong><br>
+                        <span class="hospital-link">${entry.hospitalName}</span>, ${entry.hospitalLocation}
+                        <div class="hospital-popover">
+                            ${hospitalChoiceContent(entry, { includeClose: false })}
+                        </div>
+                    </div>
                 `;
                 
                 if (entry.clinicalNote && entry.clinicalNote.trim() !== '') {
@@ -338,58 +702,51 @@
                 }
                 
                 card.innerHTML = cardContent;
+
+                const hospitalTrigger = card.querySelector('.hospital-trigger');
+                hospitalTrigger.addEventListener('click', (e) => {
+                    if (e.target.closest('.hospital-action')) return;
+                    e.preventDefault();
+                    if (canFineHover()) {
+                        return;
+                    }
+                    openHospitalModal(entry);
+                });
+                hospitalTrigger.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    e.preventDefault();
+                    if (canFineHover()) {
+                        return;
+                    }
+                    openHospitalModal(entry);
+                });
+
                 section.appendChild(card);
             });
         }
 
-        function callNumber(emergencyNumber) {
-            try {
-                firebase.analytics().logEvent('emergencyNumberClick');
-            } catch (error) {
-                console.log("Unable to log EmergencyNumberClick to firebase")
-            }
-            url = `tel:${emergencyNumber}`
-            window.open(url, '_blank')
-        }
+
+        
         // Call the function when page loads
-        window.onload = renderMedicalHistory;
+        window.onload = function () {
+            renderHeader();
+            renderEmergencyContacts();
+            renderMedicalHistory();
+
+            const backdrop = document.getElementById('hospitalModalBackdrop');
+            if (backdrop) {
+                backdrop.addEventListener('click', closeHospitalModal);
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeHospitalModal();
+            });
+        };
     </script>
 
-    <header class="header-custom">
-        <div class="header-left">
-            <div class="header-image-container">
-                <div class="header-image">
-                    <img class="header-front" src="./bg_images/profile_pic.jpg"></img>
-                    <img class="header-back" src="./bg_images/My_Life.webp"></img>
-                </div>
-            </div>
-            <div class="header-text">
-                <h1 class="header-title">Punnoose K Thomas</h1>
-                <p class="header-subtitle">SV Personal Number : 19971213 - 3439</p>
-                <p class="header-subtitle">IND Aadhar Number : 9432 4004 8726</p>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="download-btn" onclick="downloadMedicalHistory()">
-                <p>Medical History</p>
-                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
-            </div>
-        </div>
-    </header>
+    <header class="header-custom"></header>
 
-    <div class="emergency-contact">
-        <h3>Emergency Contact</h3>
-        <div class="emergency-grid">
-            <div class="emergency-item">
-                <i class="fa fa-phone" style="color: #ffffff; margin-right: 10px;"></i>
-                <span onclick="callNumber('+919497613650')">+91 94 97 613 650</span>
-            </div>
-            <div class="emergency-item">
-                <i class="fa fa-phone" style="color: #ffffff; margin-right: 10px;"></i>
-                <span onclick="callNumber('+919447208188')">+91 94 47 208 188</span>
-            </div>
-        </div>
-    </div>
+    <div class="emergency-contact"></div>
 
     <main>
         <section>
