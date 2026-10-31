@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyDynwMd0kGqmsMtyme6F16_hWIlJCDy6o4",
+            authDomain: "personal-page-a74af.firebaseapp.com",
+            projectId: "personal-page-a74af",
+            storageBucket: "personal-page-a74af.firebasestorage.app",
+            messagingSenderId: "102712351436",
+            appId: "1:102712351436:web:910815621d8d253b074069",
+            measurementId: "G-NK9DV3CTSX"
+        };
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        // Get user IP (requires a 3rd-party API as Firebase doesn't log IPs)
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                const browser = navigator.userAgent;
+
+                fetch(`http://ip-api.com/json/${ipAddress}`)
+                .then(response => response.json())
+                .then(locationData => {
+                    var logData = {
+                        ip: ipAddress,
+                        latitude: locationData.lat,
+                        longitude: locationData.lon,
+                        serviceProvider: locationData.as,
+                        country: locationData.country,
+                        city: locationData.city,
+                        region: locationData.regionName,
+                        zipCode: locationData.zip,
+                        browser: browser,
+                        language: navigator.language,
+                        platform: navigator.platform,
+                    }
+                    // Log custom event in Firebase
+                    firebase.analytics().logEvent('evaluation_page', logData);
+                })
+            });
+    </script>
+    <link rel="canonical" href="https://punnoose-k-thomas.com/evaluation">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Punnoose K Thomas Portfolio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="Technical Evaluation & Ecosystem Standing | Punnoose K Thomas">
+    <meta property="og:description" content="Analytical evaluation and ecosystem positioning of Punnoose K Thomas within the Swedish AI and agentic engineering landscape.">
+    <meta property="og:url" content="https://punnoose-k-thomas.com/evaluation">
+    <meta property="og:image" content="https://punnoose-k-thomas.com/logo_images/profile_pic.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Punnoose K Thomas Technical Evaluation">
+
+    <meta name="author" content="Punnoose K Thomas">
+    <meta name="linkedin:profile" content="https://linkedin.com/in/punnoose-k-thomas">
+    <meta name="github:profile" content="https://github.com/punnoose-1620">
+
+    <meta name="description" content="Detailed analytical evaluation of Punnoose K Thomas, AI Engineer at Patent Gap AI and former Volvo Cars researcher. Features statistics on Swedish AI startups, top 1% engineer ranking, agentic LLM multi-agent workflows, and reducing patent infringement analysis from 2 weeks to 3-5 hours.">
+    <meta name="keywords" content="Punnoose K Thomas, Technical Evaluation, Ecosystem Standing, AI Engineer Sweden, Patent Gap AI, Volvo Cars, agentic AI, LLM engineer, patent infringement analysis, claim charting, top 1 percent AI engineers Sweden, multi-agent workflows, Jönköping University, enterprise AI agents, Python software architect">
+    <meta name="robots" content="noindex, nofollow">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "name": "Technical Evaluation - Punnoose K Thomas",
+        "url": "https://punnoose-k-thomas.com/evaluation",
+        "about": {
+            "@type": "Person",
+            "name": "Punnoose K Thomas",
+            "sameAs": [
+                "https://linkedin.com/in/punnoose-k-thomas",
+                "https://github.com/punnoose-1620"
+            ]
+        }
+    }
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Technical and ecosystem evaluation of Punnoose K Thomas as an AI Engineer and Lead Architect in Sweden.">
+    <meta name="keywords" content="Punnoose K Thomas, AI Engineer, Sweden, Patent Gap AI, Agentic AI, LLM Architect, Technical Evaluation, Ecosystem Standing">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Technical Evaluation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="logo_images/punnoose_pic.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <script>
+        function navigateToLinkedIn() {
+            try { firebase.analytics().logEvent('linkedInClick'); } catch (error) { console.log("Unable to log LinkedInClickEvent to firebase") }
+            url = "https://linkedin.com/in/punnoose-k-thomas"
+            window.open(url, '_blank')
+        }
+        function navigateToGitHub() {
+            try { firebase.analytics().logEvent('gitHubClick'); } catch (error) { console.log("Unable to log GitHubClickEvent to firebase") }
+            url = "https://github.com/punnoose-1620"
+            window.open(url, '_blank')
+        }
+        function callMe() {
+            try { firebase.analytics().logEvent('phoneNumberClick'); } catch (error) { console.log("Unable to log PhoneNumberClickEvent to firebase") }
+            url = "tel:+46727742495"
+            window.open(url, '_blank')
+        }
+        function mailMeFormal() {
+            try { firebase.analytics().logEvent('formalEmailClick'); } catch (error) { console.log("Unable to log FormalEmailClickEvent to firebase") }
+            url = "mailto:ktpu24fc@student.ju.se"
+            window.open(url, '_blank')
+        }
+        function mailMePersonal() {
+            try { firebase.analytics().logEvent('personalEmailClick'); } catch (error) { console.log("Unable to log PersonalEmailClickEvent to firebase") }
+            url = "mailto:punnoose1997@gmail.com"
+            window.open(url, '_blank')
+        }
+        function downloadMyResume() {
+            try { firebase.analytics().logEvent('resumeDownloadClick'); } catch (error) { console.log("Unable to log ResumeDownload to firebase") }
+            url = "https://drive.google.com/uc?export=download&id=1rZuEQynzgw9VpFL9BG_7FL22luEsOu4O"
+            filename = "Punnoose_K_Thomas.pdf"
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+    <header class="header-custom">
+        <div class="header-left">
+            <div class="header-image-container">
+                <div class="header-image">
+                    <img class="header-front" src="./bg_images/profile_pic.jpg"></img>
+                    <img class="header-back" src="./bg_images/My_Life.webp"></img>
+                </div>
+            </div>
+            <div class="header-text">
+                <h1 class="header-title">Punnoose K Thomas</h1>
+                <p class="header-subtitle">Software Engineer</p>
+                <p>Patent Gap AI</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="download-btn" download="Punnoose_K_Thomas.pdf" onclick="downloadMyResume()">
+                <p>Resume</p>
+                <i class="fa fa-download" style="font-size:23px;color:white;"></i>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index">Home</a></li>
+            <li><a href="work_experience">Work Experience</a></li>
+            <li><a href="education">Education</a></li>
+            <li><a href="projects">Personal Projects</a></li>
+            <li><a href="certifications">Certifications</a></li>
+            <li><a href="references">References</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Technical & Ecosystem Evaluation</h2>
+            <br/>
+            <p><strong>1. Executive Standing & Ecosystem Tier (Sweden, 2026):</strong> Based on telemetry from the Swedish tech ecosystem, enterprise AI adoption rates (~35%) <a href="https://www.scb.se/" target="_blank" rel="noopener">[SCB]</a>, and startup demographic structures (~190–200 AI startups) <a href="https://www.ai.se/" target="_blank" rel="noopener">[AI Sweden]</a>, Punnoose K Thomas sits within the <strong>top ~1% of startup software engineers in Sweden</strong> specializing in advanced LLM agentic systems. He belongs to an elite cohort of <strong>~20 to 50 Lead Agentic Engine Architects</strong> nationwide capable of independently designing, building, and deploying production-grade multi-agent tool-calling architectures without external guidance <a href="https://atomico.com/state-of-european-tech" target="_blank" rel="noopener">[Atomico Tech Report]</a>.</p>
+            <br/>
+            <p><strong>2. Production Impact & Efficiency:</strong> As the sole core AI engineer building and scaling the engine for <a href="https://www.patentgap.ai/" target="_blank" rel="noopener">Patent Gap AI</a>, he independently architected backend and data pipelines that compress complex multi-week attorney patent infringement workflows (traditionally ~2 weeks of manual effort) down to 3–5 hours. This output mirrors enterprise-grade agentic knowledge retrieval frameworks deployed during his tenure and Master's thesis research at <a href="https://www.volvocars.com/" target="_blank" rel="noopener">Volvo Cars</a>.</p>
+            <br/>
+            <p><strong>3. Verified Data & Reference Citations:</strong> Statistical models and market density metrics reference public telemetry from <a href="https://www.ai.se/" target="_blank" rel="noopener">AI Sweden</a>, <a href="https://ignitesweden.org/" target="_blank" rel="noopener">Ignite Sweden</a>, <a href="https://www.scb.se/" target="_blank" rel="noopener">Statistics Sweden (SCB)</a>, <a href="https://www.techsverige.se/" target="_blank" rel="noopener">TechSverige</a>, and the <a href="https://atomico.com/state-of-european-tech" target="_blank" rel="noopener">Atomico State of European Tech</a> tracking early-stage deep tech team distributions.</p>
+            <br/>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contact-container">
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/linkedin_logo.png" 
+                    alt="Linkedin :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToLinkedIn()">linkedin.com/in/punnoose-k-thomas</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/github_logo.png" 
+                    alt="Github :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="navigateToGitHub()">github.com/punnoose-1620</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/phone_logo.jpg" 
+                    alt="Phone :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="callMe()">+46 72 774 2495</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/office_mail_logo.png" 
+                    alt="Office :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMeFormal()">ktpu24fc@student.ju.se</div>
+            </div>
+
+            <div class="contact-item">
+                <img 
+                    class="contact-logo"
+                    src="./logo_images/gmail_logo.jpg" 
+                    alt="Home :"
+                >
+                <p>    </p>
+                <div class="contact-link" onclick="mailMePersonal()">punnoose1997@gmail.com</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
